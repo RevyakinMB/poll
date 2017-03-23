@@ -1,0 +1,17 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: greet/greet.template.html:2
+msgid "Hello, {{$ctrl.name}}"
+msgstr ""
+
+#: 404.html:4
+msgid "Home"
+msgstr ""
+
+#: 404.html:2
+msgid "Page not found"
+msgstr ""

@@ -1,0 +1,50 @@
+{
+  "name": "poll",
+  "private": "true",
+  "version": "0.0.0",
+  "description": "Students polling",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RevyakinMB/poll.git"
+  },
+  "license": "ISC",
+  "author": "Revyakin M",
+  "scripts": {
+    "test": "CHROME_BIN=/usr/bin/chromium karma start",
+    "test-single-run": "CHROME_BIN=/usr/bin/chromium karma start --single-run",
+    "deploy": "NODE_ENV=production gulp build"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "browser-sync": "^2.18.8",
+    "del": "^2.2.2",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-angular": "^1.6.2",
+    "eslint-plugin-import": "^2.2.0",
+    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp-angular-gettext": "^2.2.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-eslint": "^3.0.1",
+    "gulp-if": "^2.0.2",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-uglify": "^2.0.1",
+    "jasmine-core": "^2.5.2",
+    "karma": "^1.5.0",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-firefox-launcher": "^1.0.1",
+    "karma-jasmine": "^1.1.0",
+    "stream-combiner2": "^1.1.1",
+    "through2": "^2.0.3"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.0",
+    "express": "^4.15.0",
+    "mongoose": "^4.9.1",
+    "morgan": "^1.8.1"
+  }
+}
