@@ -6,6 +6,9 @@ angular.module('pollApp')
 			.when('/greet', {
 				template: '<greet></greet>'
 			})
+			.when('/groups/:groupId', {
+				template: '<group-modify></group-modify>'
+			})
 			.otherwise({
 				templateUrl: '404.html'
 			});

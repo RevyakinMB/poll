@@ -1,0 +1,46 @@
+<div>
+    <p translate>
+        Group management
+    </p>
+    <div ng-show="$ctrl.groupNotFound">
+        <!--bootstrap Warning-->
+        <span translate>
+            Error: group not found!
+        </span>
+        <a ng-href="/groups" translate>Go back</a>
+    </div>
+    <div ng-hide="$ctrl.groupNotFound">
+        <form>
+            <label>Group name:
+                <input type="text" name="groupName" ng-model="$ctrl.group.groupName"
+                       placeholder="{{ 'Group name...' | translate }}">
+            </label>
+            <button ng-click="$ctrl.studentAdd()">
+                Add new student
+            </button>
+            <br>
+            <div ng-repeat="s in $ctrl.students">
+                <p>{{$index}}. {{s.firstName + s.lastName + s.patronymic}}</p>
+                <button ng-click="$ctrl.studentDelete(s)">Remove student</button>
+                <label>First name:
+                    <input type="text" name="firstName" ng-model="s.firstName"
+                           placeholder="{{ 'Ivanov' | translate }}">
+                </label>
+                <br>
+                <label>Last name:
+                    <input type="text" name="lastName" ng-model="s.lastName"
+                           placeholder="{{ 'Ivan' | translate }}">
+                </label>
+                <br>
+                <label>Patronymic:
+                    <input type="text" name="patronymic"  ng-model="s.patronymic"
+                           placeholder="{{ 'Ivanovich' | translate }}">
+                </label>
+                <br>
+            </div>
+        </form>
+        <button ng-click="$ctrl.changesSave()">
+            Save
+        </button>
+    </div>
+</div>

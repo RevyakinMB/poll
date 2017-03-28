@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
 	fs = require('fs'),
 	eslint = require('gulp-eslint'),
+	notify = require('gulp-notify'),
 	_if = require('gulp-if'),
 	combine = require('stream-combiner2').obj,
 	through2 = require('through2').obj,
@@ -39,6 +40,7 @@ task = function(options) {
 				lintResults['esConf'] !== rcMtime.toJSON();
 			gulp.src([
 				options.baseDir + '/**/*.js',
+				'!' + options.baseDir + '/**/*spec.js',
 				'!' + options.baseDir + '/app.js',
 				'!' + options.baseDir + '/bower_components/**',
 				'!' + options.baseDir + '/po/**'
@@ -76,6 +78,10 @@ task = function(options) {
 				)
 			))
 			.pipe(eslint.format())
+			.pipe(eslint.failAfterError())
+			.on('error', notify.onError({
+				title: 'Gulp: lint error'
+			}))
 			.pipe(through2(function(file, enc, cb) {
 					cb(undefined, cb);
 				}, function(cb) {

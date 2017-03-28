@@ -25,6 +25,7 @@ module.exports = {
 		"comma-dangle": 0,
 		"no-continue": 0,
 		"prefer-template": 0,
-		"strict": 0
+		"strict": 0,
+		"no-console": 0
 	}
 };

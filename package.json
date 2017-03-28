@@ -42,7 +42,7 @@
     "through2": "^2.0.3"
   },
   "dependencies": {
-    "body-parser": "^1.17.0",
+    "body-parser": "^1.17.1",
     "express": "^4.15.0",
     "mongoose": "^4.9.1",
     "morgan": "^1.8.1"
