@@ -5,8 +5,8 @@ angular.module('pollApp', [
 	'ngResource',
 	'gettext',
 
-	'core',
 	// TODO: group-management module
 	'groupModify',
+	'utils',
 	'greet'
 ]);

@@ -1,46 +1,76 @@
 <div>
-    <p translate>
-        Group management
-    </p>
-    <div ng-show="$ctrl.groupNotFound">
-        <!--bootstrap Warning-->
-        <span translate>
-            Error: group not found!
-        </span>
-        <a ng-href="/groups" translate>Go back</a>
+    <div class="row">
+        <h2 class="col-md-12" translate>
+            Group management
+        </h2>
     </div>
-    <div ng-hide="$ctrl.groupNotFound">
-        <form>
-            <label>Group name:
-                <input type="text" name="groupName" ng-model="$ctrl.group.groupName"
-                       placeholder="{{ 'Group name...' | translate }}">
-            </label>
-            <button ng-click="$ctrl.studentAdd()">
-                Add new student
-            </button>
-            <br>
-            <div ng-repeat="s in $ctrl.students">
-                <p>{{$index}}. {{s.firstName + s.lastName + s.patronymic}}</p>
-                <button ng-click="$ctrl.studentDelete(s)">Remove student</button>
-                <label>First name:
-                    <input type="text" name="firstName" ng-model="s.firstName"
-                           placeholder="{{ 'Ivanov' | translate }}">
-                </label>
-                <br>
-                <label>Last name:
-                    <input type="text" name="lastName" ng-model="s.lastName"
-                           placeholder="{{ 'Ivan' | translate }}">
-                </label>
-                <br>
-                <label>Patronymic:
-                    <input type="text" name="patronymic"  ng-model="s.patronymic"
-                           placeholder="{{ 'Ivanovich' | translate }}">
-                </label>
-                <br>
+    <div class="row">
+        <div class="col-md-12">
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-show="$ctrl.groupNotFound" class="has-error col-md-12">
+            <span translate class="control-label">
+                Error: group not found!
+            </span>
+        </div>
+        <div class="col-md-12">
+            <a ng-href="/greet" translate>Back to main page</a>
+        </div>
+    </div>
+    <div ng-hide="$ctrl.groupNotFound" class="group-info">
+        <div class="row">
+            <div class="col-md-4">
+                <label translate class="control-label text-left">Group name:</label>
+                <input type="text" name="groupName"
+                       ng-model="$ctrl.group.groupName"
+                       placeholder="{{ 'Group #14' | translate }}"
+                       class="form-control">
             </div>
-        </form>
-        <button ng-click="$ctrl.changesSave()">
-            Save
-        </button>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <label class="control-label" translate>
+                    Students total:
+                </label>
+                <span>{{$ctrl.group.students.length || 0}}</span>
+                <button ng-click="$ctrl.studentAdd()"
+                        class="btn btn-default btn-student-add"
+                        title="{{'Add new student' | translate}}">
+                    +
+                </button>
+            </div>
+        </div>
+
+        <div ng-repeat="s in $ctrl.group.students" class="row">
+            <div class="col-md-4 student-info-block">
+                <student-info student="s"
+                              index="{{$index + 1}}"
+                              on-delete="$ctrl.studentDelete(s)">
+                </student-info>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 bg-danger"
+                 ng-bind="$ctrl.errorMessage"
+                 ng-show="$ctrl.errorMessage">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 bg-success"
+                 ng-bind="$ctrl.successMessage"
+                 ng-show="$ctrl.successMessage">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-offset-2"></div>
+            <div class="col-md-2">
+                <button class="btn btn-default" translate
+                        ng-click="$ctrl.changesSave()">
+                    Save
+                </button>
+            </div>
+        </div>
     </div>
 </div>

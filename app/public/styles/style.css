@@ -1,0 +1,60 @@
+/*resets*/
+.form-group {
+    margin-bottom: 5px;
+}
+
+.btn {
+    padding: 2px 8px;
+}
+
+/*app*/
+.group-info .row {
+    margin-bottom: 5px;
+}
+
+.group-info .bg-danger,
+.group-info .bg-success {
+    padding: 15px 30px;
+    margin: 0 -15px;
+}
+
+.student-modify {
+    margin-left: 20px;
+}
+
+.student-info {
+    margin-top: -10px;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 6px 0;
+}
+
+.student-info-block {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.student-info:hover .btn {
+    display: inline;
+}
+
+.student-info .btn {
+    display: none;
+}
+
+.student-info.even {
+    background-color: #F9F9F9;
+}
+
+.student-info .index, .student-info .name {
+    display: inline-block;
+    line-height: 28px;
+}
+
+.student-info .index {
+    min-width: 30px;
+}
+
+
+/*.student-modify input.ng-invalid {*/
+
+/*}*/

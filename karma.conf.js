@@ -17,22 +17,23 @@ module.exports = function(config) {
     files: [
 	  'bower_components/angular/angular.js',
 	  'bower_components/angular-route/angular-route.js',
-	  //'bower_components/angular-gettext/angular-gettext.js',
+	  'bower_components/angular-resource/angular-resource.js',
 	  'bower_components/angular-mocks/angular-mocks.js',
+	  'bower_components/angular-gettext/dist/angular-gettext.js',
 	  'app.module.js',
+	  '**/*.module.js',
       '**/*.js'
     ],
 
 	plugins: [
 		'karma-jasmine',
-		'karma-chrome-launcher',
-		'karma-firefox-launcher'
+		'karma-chrome-launcher'
 	],
-
 
     // list of files to exclude
     exclude: [
-		'bower_components/**/!(angular|angular-route|angular-mocks).js'
+		'bower_components/**/!(angular|angular-route|angular-resource|angular-mocks|angular-gettext).js',
+		'app.js'
     ],
 
 
@@ -67,7 +68,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome', 'Firefox'],
+    browsers: ['Chrome'],
 
 
     // Continuous Integration mode

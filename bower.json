@@ -5,10 +5,11 @@
   "private": "true",
   "homepage": "https://github.com/RevyakinMB/poll",
   "dependencies": {
-    "angular": "^1.6.2",
-    "angular-route": "^1.6.2",
-    "angular-resource": "^1.6.2",
+    "angular": "1.6.2",
+    "angular-route": "1.6.2",
+    "angular-resource": "1.6.2",
     "angular-gettext": "^2.3.8",
-    "angular-mocks": "^1.6.2"
+    "angular-mocks": "1.6.2",
+    "bootstrap": "^3.3.7"
   }
 }

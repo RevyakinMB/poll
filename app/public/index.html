@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
     <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Test</title>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
@@ -10,8 +11,11 @@
     <script src="bower_components/angular-gettext/dist/angular-gettext.min.js"></script>
 
     <script src="app.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
 <body>
-	<div ng-view></div>
+	<div ng-view class="container-fluid"></div>
 </body>
 </html>

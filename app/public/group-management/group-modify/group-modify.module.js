@@ -1,1 +1,4 @@
-angular.module('groupModify', []);
+angular.module('groupModify', [
+	'core',
+	'gettext'
+]);

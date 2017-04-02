@@ -1,0 +1,81 @@
+<form class="student-modify form-horizontal" name="$ctrl.form" novalidate>
+    <!--TODO: directive to add has-error flag-->
+    <div class="form-group" ng-class="{ 'has-error':
+                $ctrl.hasError($ctrl.form.lastName)
+            }">
+        <div class="col-md-12">
+            <label class="control-label" translate>
+                Last name:
+            </label>
+            <input type="text" name="lastName"
+                   ng-model="$ctrl.student.lastName"
+                   class="form-control"
+                   required
+                   capitalization
+                   placeholder="{{ 'Ivanov' | translate }}">
+            <label class="control-label" translate
+                   ng-show="$ctrl.hasError($ctrl.form.lastName) &&
+                    $ctrl.form.lastName.$error.required">
+                Field is required.
+            </label>
+            <label class="control-label" translate
+                   ng-show="$ctrl.form.lastName.$error.capitalization">
+                Must be capitalized.
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error':
+                $ctrl.hasError($ctrl.form.firstName)
+            }">
+        <div class="col-md-12">
+            <label class="control-label" translate>
+                First name:
+            </label>
+            <input type="text" name="firstName"
+                   ng-model="$ctrl.student.firstName"
+                   class="form-control"
+                   required
+                   capitalization
+                   placeholder="{{ 'Ivan' | translate }}">
+            <label class="control-label" translate
+                   ng-show="$ctrl.hasError($ctrl.form.firstName) &&
+                    $ctrl.form.firstName.$error.required">
+                Field is required.
+            </label>
+            <label class="control-label" translate
+                   ng-show="$ctrl.form.firstName.$error.capitalization">
+                Must be capitalized.
+            </label>
+        </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-error':
+                $ctrl.hasError($ctrl.form.patronymic)
+            }">
+        <div class="col-md-12">
+            <label class="control-label" translate>
+                Patronymic:
+            </label>
+            <input type="text" name="patronymic"
+                   ng-model="$ctrl.student.patronymic"
+                   class="form-control"
+                   capitalization
+                   placeholder="{{ 'Ivanovich' | translate }}">
+            <label class="control-label" translate
+                   ng-show="$ctrl.form.patronymic.$error.capitalization">
+                Must be capitalized.
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.studentSave()">
+                Save
+            </button>
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.onClose()">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>

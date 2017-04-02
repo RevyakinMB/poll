@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 	paths = [
 		baseDir + '/**/*.module.js',
 		baseDir + '/**/*.js',
-		'!' + baseDir + '**/*.spec.js',
+		'!' + baseDir + '/**/*.spec.js',
 		'!' + baseDir + '/app.js',
 		'!' + baseDir + '/{bower_components, po}/**'
 	],
