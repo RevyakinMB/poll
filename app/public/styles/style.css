@@ -22,15 +22,15 @@
     margin-left: 20px;
 }
 
+.student-info-container {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
 .student-info {
     margin-top: -10px;
     border-bottom: 1px solid #EBEBEB;
     padding: 6px 0;
-}
-
-.student-info-block {
-    padding-left: 30px;
-    padding-right: 30px;
 }
 
 .student-info:hover .btn {
@@ -45,7 +45,8 @@
     background-color: #F9F9F9;
 }
 
-.student-info .index, .student-info .name {
+.student-info .index,
+.student-info .name {
     display: inline-block;
     line-height: 28px;
 }
@@ -54,7 +55,22 @@
     min-width: 30px;
 }
 
+ /*TODO: LESS/SAAS? mixins*/
 
-/*.student-modify input.ng-invalid {*/
+.group-list .index,
+.group-list .name {
+    display: inline-block;
+}
 
-/*}*/
+.group-row {
+    border-bottom: 1px solid #EBEBEB;
+    padding: 6px 0;
+}
+
+.group-row.even {
+    background-color: #F9F9F9;
+}
+
+.group-row .index {
+    min-width: 30px;
+}

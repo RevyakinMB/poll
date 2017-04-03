@@ -3,3 +3,4 @@ lintCache.json
 node_modules/
 app/public/bower_components/
 app/public/po/*.mo
+app/public/app.js

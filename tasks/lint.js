@@ -40,7 +40,7 @@ task = function(options) {
 				lintResults['esConf'] !== rcMtime.toJSON();
 			gulp.src([
 				options.baseDir + '/**/*.js',
-				'!' + options.baseDir + '/**/*spec.js',
+				'!' + options.baseDir + '/**/*.spec.js',
 				'!' + options.baseDir + '/app.js',
 				'!' + options.baseDir + '/bower_components/**',
 				'!' + options.baseDir + '/po/**'
@@ -49,9 +49,11 @@ task = function(options) {
 			})
 			.pipe(
 				_if(function(file) {
-					var mtime = lintResults[file.path] && lintResults[file.path].mtime;		
-					return !rcUpdated && 
-					   	mtime === file.stat.mtime.toJSON();
+					if (!lintResults[file.path]) {
+						return false;
+					}
+					return !rcUpdated &&
+					   	lintResults[file.path].mtime === file.stat.mtime.toJSON();
 				},
 				through2(function(file, enc, callback) {
 					file.eslint = lintResults[file.path].eslint;
@@ -83,7 +85,7 @@ task = function(options) {
 				title: 'Gulp: lint error'
 			}))
 			.pipe(through2(function(file, enc, cb) {
-					cb(undefined, cb);
+					cb(undefined, file);
 				}, function(cb) {
 					if (rcMtime) {
 						lintResults['esConf'] = rcMtime;
@@ -95,11 +97,13 @@ task = function(options) {
 							if (err) {
 								console.warn('Error while saving lintCache file:', err);
 							}
-							done();
 							cb();
 						}
 					);
-				}))
+				})
+			)
+			.resume()
+			.on('finish', done);
 		};
 	};
 };

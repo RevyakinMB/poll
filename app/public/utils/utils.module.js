@@ -1,1 +1,3 @@
-angular.module('utils', []);
+angular.module('utils', [
+	'gettext'
+]);

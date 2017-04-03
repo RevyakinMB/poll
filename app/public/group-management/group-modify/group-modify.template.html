@@ -16,12 +16,12 @@
             </span>
         </div>
         <div class="col-md-12">
-            <a ng-href="/greet" translate>Back to main page</a>
+            <a ng-href="/groups" translate>Back to group list</a>
         </div>
     </div>
     <div ng-hide="$ctrl.groupNotFound" class="group-info">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <label translate class="control-label text-left">Group name:</label>
                 <input type="text" name="groupName"
                        ng-model="$ctrl.group.groupName"
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-12">
                 <label class="control-label" translate>
                     Students total:
                 </label>
@@ -38,13 +38,13 @@
                 <button ng-click="$ctrl.studentAdd()"
                         class="btn btn-default btn-student-add"
                         title="{{'Add new student' | translate}}">
-                    +
+                    Add more
                 </button>
             </div>
         </div>
 
         <div ng-repeat="s in $ctrl.group.students" class="row">
-            <div class="col-md-4 student-info-block">
+            <div class="col-md-12 student-info-container">
                 <student-info student="s"
                               index="{{$index + 1}}"
                               on-delete="$ctrl.studentDelete(s)">
@@ -52,13 +52,13 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 bg-danger"
+            <div class="col-md-12 bg-danger"
                  ng-bind="$ctrl.errorMessage"
                  ng-show="$ctrl.errorMessage">
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4 bg-success"
+            <div class="col-md-12 bg-success"
                  ng-bind="$ctrl.successMessage"
                  ng-show="$ctrl.successMessage">
             </div>

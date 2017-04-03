@@ -1,0 +1,40 @@
+<div class="group-list">
+    <div class="group-row row">
+        <div class="col-md-6">
+            <span class="sortable" translate
+                  data-column="name">
+                Group name
+            </span>
+        </div>
+        <div class="col-md-3">
+            <span class="sortable" translate
+                  data-column="scheduled">
+                Scheduled for
+            </span>
+        </div>
+        <div class="col-md-3">
+            <span class="sortable" translate
+                  data-column="attendance">
+                Attendance
+            </span>
+        </div>
+    </div>
+    <div ng-repeat="g in $ctrl.groups" class="group-row row"
+            ng-class="{ 'even': $index % 2 === 0 }">
+        <div class="col-md-6">
+            <div class="index">
+                {{$index + '. '}}
+            </div>
+            <div class="name">
+                <a href="/groups/{{g._id}}">{{g.groupName}}</a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            {{g.scheduled | date | notApplicable}}
+        </div>
+        <div class="col-md-3">
+            <!--TODO: attendance -->
+            {{g.attendance | notApplicable}}
+        </div>
+    </div>
+</div>
