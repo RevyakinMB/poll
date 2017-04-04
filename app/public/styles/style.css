@@ -41,7 +41,7 @@
     display: none;
 }
 
-.student-info.even {
+.student-info.js-even {
     background-color: #F9F9F9;
 }
 
@@ -67,7 +67,7 @@
     padding: 6px 0;
 }
 
-.group-row.even {
+.group-row.js-even {
     background-color: #F9F9F9;
 }
 
