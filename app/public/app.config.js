@@ -3,6 +3,9 @@ angular.module('pollApp')
 		$locationProvider.html5Mode(true);
 
 		$routeProvider
+			.when('/', {
+				redirectTo: '/greet'
+			})
 			.when('/greet', {
 				template: '<greet></greet>'
 			})
@@ -17,7 +20,7 @@ angular.module('pollApp')
 			});
 	})
 	.run(function pollAppRun(gettextCatalog) {
-		// cookies & language auto-select
+		// TODO: cookies & language auto-select
 		gettextCatalog.setCurrentLanguage('ru');
 		gettextCatalog.loadRemote('po/ru.json');
 	});

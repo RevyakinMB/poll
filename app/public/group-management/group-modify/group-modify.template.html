@@ -1,14 +1,4 @@
-<div>
-    <div class="row">
-        <h2 class="col-md-12" translate>
-            Group management
-        </h2>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <hr>
-        </div>
-    </div>
+<div class="group-modify">
     <div class="row">
         <div ng-show="$ctrl.groupNotFound" class="has-error col-md-12">
             <span translate class="control-label">
@@ -19,8 +9,8 @@
             <a ng-href="/groups" translate>Back to group list</a>
         </div>
     </div>
-    <div ng-hide="$ctrl.groupNotFound" class="group-info">
-        <div class="row">
+    <div ng-hide="$ctrl.groupNotFound">
+        <div class="group-modify__row row">
             <div class="col-md-12">
                 <label translate class="control-label text-left">Group name:</label>
                 <input type="text" name="groupName"
@@ -29,7 +19,7 @@
                        class="form-control">
             </div>
         </div>
-        <div class="row">
+        <div class="group-modify__row row">
             <div class="col-md-12">
                 <label class="control-label" translate>
                     Students total:
@@ -43,7 +33,7 @@
             </div>
         </div>
 
-        <div ng-repeat="s in $ctrl.group.students" class="row">
+        <div ng-repeat="s in $ctrl.group.students" class="group-modify__row row">
             <div class="col-md-12 student-info-container">
                 <student-info student="s"
                               index="{{$index + 1}}"
@@ -51,25 +41,23 @@
                 </student-info>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 bg-danger"
-                 ng-bind="$ctrl.errorMessage"
-                 ng-show="$ctrl.errorMessage">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 bg-success"
-                 ng-bind="$ctrl.successMessage"
-                 ng-show="$ctrl.successMessage">
-            </div>
-        </div>
-        <div class="row">
+        <div class="group-modify__row row">
             <div class="col-md-offset-2"></div>
             <div class="col-md-2">
                 <button class="btn btn-default" translate
                         ng-click="$ctrl.changesSave()">
                     Save
                 </button>
+            </div>
+        </div>
+        <div class="group-modify__row row">
+            <div class="col-md-12 bg-danger group-modify__message group-modify__message_hidden"
+                 ng-class="{
+                    'group-modify__message_hidden': $ctrl.message.hidden,
+                    'group-modify__message_error': $ctrl.message.error,
+                    'group-modify__message_success': !$ctrl.message.error
+                 }"
+                 ng-bind="$ctrl.message.text">
             </div>
         </div>
     </div>

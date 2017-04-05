@@ -4,6 +4,7 @@ angular
 		templateUrl: 'group-management/group-modify/group-modify.template.html',
 		controller: function groupModifyController(
 			$routeParams, Group, gettextCatalog, $timeout) {
+			// initialize Group model
 			if ($routeParams.groupId === 'new') {
 				this.group = new Group();
 				this.group.students = [];
@@ -17,6 +18,13 @@ angular
 					this.groupNotFound = true;
 				}.bind(this));
 			}
+
+			// page interaction feedback
+			this.message = {
+				text: '',
+				error: false,
+				hidden: true
+			};
 
 			this.studentAdd = function() {
 				this.group.students.push({
@@ -34,18 +42,6 @@ angular
 
 			this.studentDelete = function(s) {
 				this.group.students.splice(this.group.students.indexOf(s), 1);
-			};
-
-			this.messageShow = function(options) {
-				if (options.isError) {
-					this.errorMessage = options.message;
-				} else {
-					this.successMessage = options.message;
-				}
-				$timeout(function() {
-					delete this.errorMessage;
-					delete this.successMessage;
-				}.bind(this), options.isError ? 5000 : 3000);
 			};
 
 			this.changesSave = function() {
@@ -82,6 +78,19 @@ angular
 						isError: true
 					});
 				}.bind(this));
+			};
+
+			this.messageShow = function(options) {
+				if (this.messageDelay) {
+					$timeout.cancel(this.messageDelay);
+				}
+				this.message.text = options.message;
+				this.message.hidden = false;
+				this.message.error = options.isError;
+
+				this.messageDelay = $timeout(function() {
+					this.message.hidden = true;
+				}.bind(this), options.isError ? 15000 : 3000);
 			};
 		}
 	});

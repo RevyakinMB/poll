@@ -1,4 +1,5 @@
-/*resets*/
+/* bootstrap resets */
+/*TODO: update & compile bootstrap-3 less files? */
 .form-group {
     margin-bottom: 5px;
 }
@@ -7,17 +8,30 @@
     padding: 2px 8px;
 }
 
-/*app*/
-.group-info .row {
+
+.group-modify__row {
     margin-bottom: 5px;
 }
 
-.group-info .bg-danger,
-.group-info .bg-success {
+.group-modify__message {
     padding: 15px 30px;
     margin: 0 -15px;
+    transition: opacity linear 0.5s;
 }
 
+.group-modify__message_hidden {
+    opacity: 0;
+}
+
+.group-modify__message_error {
+    background-color: #f2dede;
+}
+
+.group-modify__message_success {
+    background-color: #dff0d8;
+}
+
+/* app css */
 .student-modify {
     margin-left: 20px;
 }

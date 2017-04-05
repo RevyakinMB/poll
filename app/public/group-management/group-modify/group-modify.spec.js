@@ -123,8 +123,7 @@ describe('groupModify', function() {
 				afterEach(inject(function($timeout) {
 					$timeout.flush();
 
-					expect(ctrl.errorMessage).toBeUndefined();
-					expect(ctrl.successMessage).toBeUndefined();
+					expect(ctrl.message.hidden).toBe(true);
 
 					$httpBackend.verifyNoOutstandingExpectation();
 					$httpBackend.verifyNoOutstandingRequest();
@@ -133,7 +132,7 @@ describe('groupModify', function() {
 				it('error message on inconsistent student data save attempt', function() {
 					$httpBackend.flush();
 
-					expect(ctrl.errorMessage).toBeUndefined();
+					expect(ctrl.message.text).toBe('');
 					expect(ctrl.group.students).toEqual([]);
 
 					ctrl.group.students.push({
@@ -144,8 +143,9 @@ describe('groupModify', function() {
 
 					ctrl.changesSave();
 
-					expect(ctrl.errorMessage).toBeDefined();
-					expect(ctrl.successMessage).toBeUndefined();
+					expect(ctrl.message.text).not.toBe('');
+					expect(ctrl.message.hidden).toBe(false);
+					expect(ctrl.message.error).toBe(true);
 				});
 
 				it('success message on correct data save', function() {
@@ -168,8 +168,9 @@ describe('groupModify', function() {
 
 					$httpBackend.flush();
 
-					expect(ctrl.errorMessage).toBeUndefined();
-					expect(ctrl.successMessage).toBeDefined();
+					expect(ctrl.message.text).not.toBe('');
+					expect(ctrl.message.hidden).toBe(false);
+					expect(ctrl.message.error).toBe(false);
 				});
 			});
 		});
