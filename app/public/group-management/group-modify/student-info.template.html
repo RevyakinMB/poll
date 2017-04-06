@@ -1,10 +1,11 @@
 <div ng-class="{ 'student-info_even': ctrl.index % 2 === 0 }"
-     class="student-info row">
+     class="student-info row"
+     ng-click="ctrl.editorOpen()">
     <div class="col-md-10">
         <div class="student-info__index">
             {{ctrl.index + '.'}}
         </div>
-        <div class="student-info__name" ng-click="ctrl.editorOpen()">
+        <div class="student-info__name">
             {{ctrl.studentFullName()}}
         </div>
     </div>
