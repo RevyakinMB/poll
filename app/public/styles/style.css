@@ -8,9 +8,15 @@
     padding: 2px 8px;
 }
 
-
+/*app styles*/
 .group-modify__row {
     margin-bottom: 5px;
+}
+
+.group-modify__total {
+    display: inline-block;
+    min-width: 2em;
+    padding-left: 0.5em;
 }
 
 .group-modify__message {
@@ -23,68 +29,57 @@
     opacity: 0;
 }
 
-.group-modify__message_error {
-    background-color: #f2dede;
-}
-
-.group-modify__message_success {
-    background-color: #dff0d8;
-}
-
-/* app css */
-.student-modify {
-    margin-left: 20px;
-}
-
-.student-info-container {
-    padding-left: 30px;
-    padding-right: 30px;
-}
 
 .student-info {
-    margin-top: -10px;
+    margin: -5px 0 0;
     border-bottom: 1px solid #EBEBEB;
     padding: 6px 0;
 }
 
-.student-info:hover .btn {
-    display: inline;
-}
-
-.student-info .btn {
-    display: none;
-}
-
-.student-info.js-even {
+.student-info_even {
     background-color: #F9F9F9;
 }
 
-.student-info .index,
-.student-info .name {
+.student-info__btn {
+    display: none;
+}
+
+.student-info:hover .student-info__btn {
+    display: inline;
+}
+
+.student-info__index,
+.student-info__name {
     display: inline-block;
     line-height: 28px;
 }
 
-.student-info .index {
-    min-width: 30px;
+.student-info__index {
+    min-width: 40px;
+    padding-left: 10px;
 }
 
- /*TODO: LESS/SAAS? mixins*/
 
-.group-list .index,
-.group-list .name {
+.student-modify {
+    margin-bottom: 15px;
+}
+
+
+.group-list__index,
+.group-list__name {
     display: inline-block;
 }
 
-.group-row {
+.group-list__index {
+    min-width: 30px;
+}
+
+/*TODO: LESS/SAAS? mixins*/
+.group-list__row {
     border-bottom: 1px solid #EBEBEB;
     padding: 6px 0;
 }
 
-.group-row.js-even {
+.group-list_even {
     background-color: #F9F9F9;
-}
-
-.group-row .index {
-    min-width: 30px;
 }
