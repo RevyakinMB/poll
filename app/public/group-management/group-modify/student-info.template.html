@@ -10,17 +10,17 @@
         </div>
     </div>
     <div class="col-md-2">
-        <button class="btn btn-default student-info__btn"
-                ng-click="ctrl.editorOpen()"
-                title="{{ 'Edit student' | translate }}"
-                translate>
-            Edit
-        </button>
-        <button class="btn btn-default student-info__btn"
+        <button class="btn btn-default student-info__remove"
                 ng-click="ctrl.studentDelete()"
                 title="{{ 'Remove student' | translate }}"
                 translate>
             Remove
+        </button>
+        <button class="btn btn-default student-info__edit"
+                ng-click="ctrl.editorOpen()"
+                title="{{ 'Edit student' | translate }}"
+                translate>
+            Edit
         </button>
     </div>
 </div>

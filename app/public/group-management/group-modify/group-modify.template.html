@@ -1,58 +1,48 @@
 <div class="group-modify">
-    <div class="row">
-        <div ng-show="$ctrl.groupNotFound" class="has-error col-md-12">
+    <div>
+        <div ng-show="$ctrl.groupNotFound" class="has-error">
             <span translate class="control-label">
                 Error: group not found!
             </span>
         </div>
-        <div class="col-md-12">
-            <a ng-href="/groups" translate>Back to group list</a>
-        </div>
+        <a ng-href="/groups" translate>Back to group list</a>
     </div>
     <div ng-hide="$ctrl.groupNotFound">
-        <div class="group-modify__row row">
-            <div class="col-md-12">
-                <label translate class="control-label text-left">Group name:</label>
-                <input type="text" name="groupName"
-                       ng-model="$ctrl.group.groupName"
-                       placeholder="{{ 'Group #14' | translate }}"
-                       class="form-control">
-            </div>
+        <div class="group-modify__row">
+            <label translate class="control-label text-left">Group name:</label>
+            <input type="text" name="groupName"
+                   ng-model="$ctrl.group.groupName"
+                   placeholder="{{ 'Group #14' | translate }}"
+                   class="form-control">
         </div>
-        <div class="group-modify__row row">
-            <div class="col-md-12">
-                <label class="control-label" translate>
-                    Students total:
-                </label>
-                <div class="group-modify__total">
-                    {{$ctrl.group.students.length || 0}}
-                </div>
-                <button ng-click="$ctrl.studentAdd()"
-                        class="btn btn-default"
-                        title="{{'Add new student' | translate}}">
-                    Add more
-                </button>
+        <div class="group-modify__row">
+            <label class="control-label" translate>
+                Students total:
+            </label>
+            <div class="group-modify__total">
+                {{$ctrl.group.students.length || 0}}
             </div>
+            <button ng-click="$ctrl.studentAdd()"
+                    class="btn btn-default"
+                    title="{{'Add new student' | translate}}">
+                Add more
+            </button>
         </div>
 
-        <div ng-repeat="s in $ctrl.group.students" class="group-modify__row row">
-            <div class="col-md-12">
-                <student-info student="s"
-                              index="{{$index + 1}}"
-                              on-delete="$ctrl.studentDelete(s)">
-                </student-info>
-            </div>
+        <div ng-repeat="s in $ctrl.group.students" class="group-modify__row">
+            <student-info student="s"
+                          index="{{$index + 1}}"
+                          on-delete="$ctrl.studentDelete(s)">
+            </student-info>
         </div>
-        <div class="group-modify__row row">
-            <div class="col-md-12">
-                <button class="btn btn-default" translate
-                        ng-click="$ctrl.changesSave()">
-                    Save
-                </button>
-            </div>
+        <div class="group-modify__row">
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.changesSave()">
+                Save
+            </button>
         </div>
-        <div class="group-modify__row row">
-            <div class="col-md-12 group-modify__message group-modify__message_hidden"
+        <div class="group-modify__row">
+            <div class="group-modify__message group-modify__message_hidden"
                  ng-class="{
                     'group-modify__message_hidden': $ctrl.message.hidden,
                     'bg-danger': $ctrl.message.error,

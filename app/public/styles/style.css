@@ -41,12 +41,19 @@
     background-color: #F9F9F9;
 }
 
-.student-info__btn {
+.student-info__edit,
+.student-info__remove {
     display: none;
+    float: right;
 }
 
-.student-info:hover .student-info__btn {
+.student-info:hover .student-info__edit,
+.student-info:hover .student-info__remove {
     display: inline;
+}
+
+.student-info__remove {
+    margin-left: 10px;
 }
 
 .student-info__index,
@@ -81,6 +88,10 @@
     padding: 6px 0;
 }
 
-.group-list_even {
+.group-list__row_even {
     background-color: #F9F9F9;
+}
+
+.group-list__name-head {
+    cursor: pointer;
 }

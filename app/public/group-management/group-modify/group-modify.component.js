@@ -40,6 +40,7 @@ angular
 			//	this.group.students[idx] = $event.student;
 			// };
 
+			// TODO: let user to undo last delete
 			this.studentDelete = function(s) {
 				this.group.students.splice(this.group.students.indexOf(s), 1);
 			};
@@ -84,7 +85,6 @@ angular
 				if (this.messageDelay) {
 					$timeout.cancel(this.messageDelay);
 				}
-				console.log(arguments);
 				this.message.text = options.message;
 				this.message.hidden = false;
 				this.message.error = options.isError;
