@@ -1,40 +1,43 @@
 <div class="group-list">
-    <div class="group-list__row row">
-        <div class="col-md-6">
-            <span class="js-sortable" translate
-                  data-column="name">
-                Group name
-            </span>
-        </div>
-        <div class="col-md-3">
-            <span class="js-sortable" translate
-                  data-column="scheduled">
-                Scheduled for
-            </span>
-        </div>
-        <div class="col-md-3">
-            <span class="js-sortable" translate
-                  data-column="attendance">
-                Attendance
-            </span>
-        </div>
-    </div>
-    <div ng-repeat="g in $ctrl.groups" class="group-list__row row"
-            ng-class="{ 'group-list_even': $index % 2 === 0 }">
-        <div class="col-md-6">
-            <div class="group-list__index">
-                {{$index + '. '}}
-            </div>
-            <div class="group-list__name">
-                <a href="/groups/{{g._id}}">{{g.groupName}}</a>
-            </div>
-        </div>
-        <div class="col-md-3">
-            {{g.scheduled | date | notApplicable}}
-        </div>
-        <div class="col-md-3">
-            <!--TODO: attendance -->
-            {{g.attendance | notApplicable}}
-        </div>
-    </div>
+    <table class="table table-condensed table-hover table-striped">
+        <thead>
+            <tr>
+                <td translate>#</td>
+                <td>
+                    <span class="group-list__name-head">
+                        <span ng-click="$ctrl.sort('name')" translate>
+                            Group name
+                        </span>
+                        <span class="glyphicon"
+                              ng-class="{
+                                'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
+                                'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                              }"></span>
+                        </span>
+                </td>
+                <td translate>
+                    Scheduled for
+                </td>
+                <td translate>
+                    Attendance
+                </td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="g in $ctrl.groups">
+                <td>
+                    {{$index+1}}
+                </td>
+                <td>
+                    <a href="/groups/{{g._id}}">{{g.groupName}}</a>
+                </td>
+                <td>
+                    {{g.scheduled | date | notApplicable}}
+                </td>
+                <td>
+                    {{g.attendance | notApplicable}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
