@@ -9,6 +9,11 @@
 }
 
 /*app styles*/
+.content {
+    margin-top: 10px;
+}
+
+
 .group-modify__row {
     margin-bottom: 5px;
 }
@@ -28,6 +33,10 @@
 
 .group-modify__message_hidden {
     opacity: 0;
+}
+
+.group-modify__add {
+    float: right;
 }
 
 
@@ -92,6 +101,10 @@
     background-color: #F9F9F9;
 }
 
-.group-list__name-head {
+.group-list__name-thead {
     cursor: pointer;
+}
+
+.group-list__add {
+    float: right;
 }

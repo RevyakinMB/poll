@@ -23,9 +23,9 @@
                 {{$ctrl.group.students.length || 0}}
             </div>
             <button ng-click="$ctrl.studentAdd()"
-                    class="btn btn-default"
+                    class="btn btn-default group-modify__add"
                     title="{{'Add new student' | translate}}">
-                Add more
+                Add a student
             </button>
         </div>
 
@@ -38,7 +38,7 @@
         <div class="group-modify__row">
             <button class="btn btn-default" translate
                     ng-click="$ctrl.changesSave()">
-                Save
+                Save changes
             </button>
         </div>
         <div class="group-modify__row">

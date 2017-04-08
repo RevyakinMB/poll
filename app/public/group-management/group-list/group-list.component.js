@@ -2,8 +2,12 @@ angular
 	.module('groupList')
 	.component('groupList', {
 		templateUrl: 'group-management/group-list/group-list.template.html',
-		controller: function groupListController(Group) {
+		controller: function groupListController(Group, $location) {
 			this.groups = Group.query();
+
+			this.groupAdd = function() {
+				$location.path('/groups/new');
+			};
 
 			this.sortState = {
 				column: 'name',

@@ -1,10 +1,17 @@
 <div class="group-list">
-    <table class="table table-condensed table-hover table-striped">
+    <div>
+        <span translate>Group list:</span>
+        <button class="btn btn-default group-list__add" translate
+                ng-click="$ctrl.groupAdd()">
+            Create new
+        </button>
+    </div>
+    <table class="table table-hover table-striped">
         <thead>
             <tr>
                 <td translate>#</td>
                 <td>
-                    <span class="group-list__name-head">
+                    <span class="group-list__name-thead">
                         <span ng-click="$ctrl.sort('name')" translate>
                             Group name
                         </span>
@@ -29,7 +36,7 @@
                     {{$index+1}}
                 </td>
                 <td>
-                    <a href="/groups/{{g._id}}">{{g.groupName}}</a>
+                    <a href="/groups/{{g._id}}">{{g.groupName | notApplicable}}</a>
                 </td>
                 <td>
                     {{g.scheduled | date | notApplicable}}
