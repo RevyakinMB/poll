@@ -19,8 +19,7 @@ angular.module('pollApp')
 				templateUrl: '404.html'
 			});
 	})
-	.run(function pollAppRun(gettextCatalog) {
+	.run(function pollAppRun(langSwitcherService, currentLanguage) {
 		// TODO: cookies & language auto-select
-		gettextCatalog.setCurrentLanguage('ru');
-		gettextCatalog.loadRemote('po/ru.json');
+		langSwitcherService(currentLanguage.value);
 	});

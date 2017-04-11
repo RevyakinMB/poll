@@ -4,7 +4,7 @@ angular.module('pollApp', [
 	'ngRoute',
 	'ngResource',
 	'ngAnimate',
-	'gettext',
+	'core',
 
 	'groupManagement',
 	'utils',

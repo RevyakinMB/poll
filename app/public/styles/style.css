@@ -9,6 +9,92 @@
 }
 
 /*app styles*/
+.header {
+    background-color: #006666;
+    height: 70px;
+}
+
+
+.logo {
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: default;
+    display: inline-block;
+    font-size: 2em;
+    height: 70px;
+    padding: 17px 5px 0;
+}
+
+.header__logo {
+    float: left;
+    border-right: 1px dashed rgba(255, 255, 255, 0.6);
+}
+
+
+.log-in {
+    font-size: 2em;
+    padding: 17px;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.5s;
+}
+
+.log-in:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+
+.header__log-in {
+    float: right;
+}
+
+
+.lang-switcher {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.2em;
+    padding: 25px 10px;
+}
+
+.lang-switcher__item {
+    display: inline-block;
+    margin-left: 20px;
+    text-transform: uppercase;
+    transition: all 0.5s;
+    cursor: default;
+}
+
+.lang-switcher__item:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+.lang-switcher__item-current {
+    cursor: inherit;
+}
+
+
+.header__lang {
+    float: right;
+}
+
+
+@media all and (max-width: 780px) {
+    .header {
+        height: 56px;
+    }
+
+    .logo {
+        height: 56px;
+        padding-top: 10px;
+    }
+
+    .log-in {
+        padding-top: 10px;
+    }
+
+    .lang-switcher {
+        padding-top: 17px;
+    }
+}
+
 .content {
     margin-top: 10px;
 }

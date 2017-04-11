@@ -18,8 +18,17 @@
 </head>
 <body>
     <div class="header">
-        <!--TODO: menu, log in/out, breadcrumbs. language selector-->
+        <span class="logo header__logo">
+            LOGO
+        </span>
+        <div class="log-in header__log-in">
+            <!--TODO: log out icon if user is logged in earlier-->
+            <span class="glyphicon glyphicon-log-in"></span>
+        </div>
+        <lang-switcher></lang-switcher>
+        <!--TODO: menu, log in/out, breadcrumbs-->
     </div>
+    <!--<main-menu></main-menu>-->
 	<div ng-view class="container content"></div>
     <footer class="footer">
         <!--TODO: fork-me-on-github-->

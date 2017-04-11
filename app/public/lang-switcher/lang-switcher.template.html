@@ -1,0 +1,10 @@
+<ul class="lang-switcher header__lang">
+    <li ng-repeat="l in $ctrl.languages"
+        ng-click="$ctrl.switch(l)"
+        class="lang-switcher__item"
+        ng-class="{
+            'lang-switcher__item-current': $ctrl.current === l
+        }">
+        {{l}}
+    </li>
+</ul>

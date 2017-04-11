@@ -1,3 +1,3 @@
 angular.module('greet', [
-	'lang-selector'
+	'langSwitcher'
 ]);
