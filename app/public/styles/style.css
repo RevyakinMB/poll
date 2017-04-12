@@ -8,6 +8,10 @@
     padding: 2px 8px;
 }
 
+ul {
+    margin-bottom: 0;
+}
+
 /*app styles*/
 .header {
     background-color: #006666;
@@ -35,7 +39,7 @@
     font-size: 2em;
     padding: 17px;
     color: rgba(255, 255, 255, 0.8);
-    transition: all 0.5s;
+    transition: color 0.3s;
 }
 
 .log-in:hover {
@@ -51,15 +55,16 @@
 .lang-switcher {
     color: rgba(255, 255, 255, 0.6);
     font-size: 1.2em;
-    padding: 25px 10px;
+    padding: 25px 10px 0;
 }
 
 .lang-switcher__item {
     display: inline-block;
     margin-left: 20px;
     text-transform: uppercase;
-    transition: all 0.5s;
+    transition: color 0.3s;
     cursor: default;
+    letter-spacing: 0.3em;
 }
 
 .lang-switcher__item:hover {
@@ -75,6 +80,42 @@
     float: right;
 }
 
+
+.main-menu {
+    list-style: none;
+    border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+}
+
+.main-menu__item {
+    border-bottom: 1px rgba(0, 0, 0, 0) solid;
+    display: inline-block;
+    margin-bottom: -1px;
+    margin-right: 30px;
+    padding: 10px 3px 5px;
+    transition: all 0.3s;
+}
+
+.main-menu__item-current,
+.main-menu__item:hover {
+    border-bottom-color: black;
+}
+
+.main-menu__link,
+/*fix of bootstrap link issue*/
+.main-menu__link:link,
+.main-menu__link:visited,
+.main-menu__link:active
+{
+    color: rgba(0, 0, 0, 0.4);
+    transition: color 0.3s;
+    text-decoration: none;
+}
+
+/*:link is to increase rule specificity*/
+.main-menu__link-current:link,
+.main-menu__link:hover {
+    color: black;
+}
 
 @media all and (max-width: 780px) {
     .header {
@@ -92,6 +133,11 @@
 
     .lang-switcher {
         padding-top: 17px;
+    }
+
+    /*TODO: hide menu for narrow screen*/
+    .main-menu {
+        padding-left: 15px;
     }
 }
 

@@ -1,0 +1,13 @@
+<ul class="main-menu container">
+    <li class="main-menu__item" ng-repeat="i in $ctrl.items"
+        ng-class="{
+            'main-menu__item-current': $ctrl.isCurrent(i)
+        }">
+        <a class="main-menu__link" ng-href="{{i.path}}"
+           ng-class="{
+               'main-menu__link-current': $ctrl.isCurrent(i)
+           }">
+            {{i.name}}
+        </a>
+    </li>
+</ul>
