@@ -3,19 +3,19 @@ var mongoose = require('mongoose'),
 	QuestionSets,
 	Questions,
 	Answers;
-//require('./db');
 
 // QuestionSet document schema
 Answers = new mongoose.Schema({
-	// TODO: default: () => new ObjectId() ?
-	_id: mongoose.Schema.ObjectId,
-	text: { type: String, required: true },
-	weight: { type: Number, default: 0 }
+	text: { type: String, required: true }
 });
 
 Questions = new mongoose.Schema({
-	_id: mongoose.Schema.ObjectId,
 	text: { type: String, required: true },
+	qType: {
+		type: String,
+		enum: ['Single', 'Multiple', 'Sequence', 'Match'],
+		required: true
+	},
 	answers: {
 		type: [Answers],
 		required: true,
@@ -32,9 +32,9 @@ Questions = new mongoose.Schema({
 });
 
 QuestionSets = new mongoose.Schema({
+	name: { type: String, required: false },
 	questions: [Questions]
 });
-
 
 QuestionSetsModel = mongoose.model('QuestionSets', QuestionSets);
 

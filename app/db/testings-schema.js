@@ -3,7 +3,6 @@ var mongoose = require('mongoose'),
 	Testings,
 	TestingAttempts,
 	TestingResults;
-//require('./db');
 
 // Testing document schema
 TestingResults = new mongoose.Schema({
