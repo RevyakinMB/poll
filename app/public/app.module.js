@@ -8,6 +8,7 @@ angular.module('pollApp', [
 	'core',
 	'mainMenu',
 	'groupManagement',
+	'questionSetManagement',
 	'utils',
 	'greet'
 ]);

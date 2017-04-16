@@ -29,4 +29,19 @@ angular
 				isArray: true
 			}
 		});
+	})
+	.factory('QuestionSet', function($resource) {
+		return $resource('/api/question-sets/:questionSetId', {}, {
+			delete: {
+				method: 'POST',
+				params: {
+					action: 'delete'
+				}
+			},
+			query: {
+				method: 'GET',
+				params: { questionSetId: '' },
+				isArray: true
+			}
+		});
 	});

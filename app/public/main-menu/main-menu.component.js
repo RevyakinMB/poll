@@ -10,6 +10,9 @@ angular
 			}, {
 				name: gettextCatalog.getString('Greet page'),
 				path: '/greet'
+			}, {
+				name: gettextCatalog.getString('Question set list'),
+				path: '/question-sets'
 			}];
 
 			// temporary dummy menu items
