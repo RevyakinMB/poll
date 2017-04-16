@@ -8,7 +8,8 @@ var express = require('express'),
 	path = require('path'),
 	GroupsModel = require('./db/groups-schema'),
 	TestingsModel = require('./db/testings-schema'),
-	QuestionSetsModel = require('./db/question-sets-schema');
+	QuestionSetsModel = require('./db/question-sets-schema'),
+	serverErrorHandler;
 require('./db/db-connect');
 
 app.use(bodyParser.json());
@@ -18,53 +19,52 @@ app.use(logger('combined'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/groups', function(req, res) {
-	return GroupsModel.find(function(err, groups) {
-		if (err) {
-			res.statusCode = 500;
-			// TODO: enhance logging
-			console.error('Internal server error:', err.message);
-			return res.send({ error: 'Server error' });
-		}
-		return res.send(groups);
-	});
-});
+serverErrorHandler = function(err, res) {
+	res.statusCode = 500;
+	// TODO: enhance logging
+	console.error('Internal server error:', err.message);
+	return res.send({ error: 'Server error' });
+};
 
-app.get('/api/groups/:id', function(req, res) {
-	console.log('IN /api/groups GET middleware', req.params.id);
-	return GroupsModel.findOne({
-		_id: req.params.id
-	}, function(err, group) {
-		if (err) {
-			res.statusCode = 500;
-			// TODO: enhance logging
-			console.error('Internal server error:', err.message);
-			return res.send({ error: 'Server error' });
-		}
-		if (!group) {
-			res.statusCode = 404;
-			return res.send({ error: 'Group not found' });
-		}
-		res.statusCode = 200;
-		return res.send(group);
-	});
-});
+[{
+	path: '/api/groups/:id?',
+	model: GroupsModel
+}, {
+	path: '/api/question-sets/:id?',
+	model: QuestionSetsModel
+}]
+	.forEach(function(p) {
+		var path = p.path,
+			Model = p.model;
 
-app.post('/api/groups/:groupId?', function(req, res) {
-	var createOrUpdate = function(group) {
-		if (!group) {
-			res.statusCode = 201;
-			group = new GroupsModel({
-				groupName: req.body.groupName,
-				students: req.body.students
-			});
-		}
-
-		group.save(function(err) {
-			if (!err) {
-				return res.send(group);
+		app.get(path, function(req, res) {
+			console.log();
+			if (!req.params.id) {
+				return Model.find(function(err, data) {
+					if (err) {
+						return serverErrorHandler(err, res);
+					}
+					return res.send(data);
+				});
 			}
-			console.log(err);
+			return Model.findOne({
+				_id: req.params.id
+			}, function (err, data) {
+				if (err) {
+					return serverErrorHandler(err, res);
+				}
+				if (!data) {
+					res.statusCode = 404;
+					return res.send({ error: 'Not found' });
+				}
+				return res.send(data);
+			});
+		});
+});
+
+app.post('/api/groups/:id?', function(req, res) {
+	var onSaveError = function(err, res) {
+			console.log('Error:', err.message);
 			if (err.name === 'ValidationError') {
 				res.statusCode = 400;
 				res.send({
@@ -76,30 +76,41 @@ app.post('/api/groups/:groupId?', function(req, res) {
 					error: 'Server error'
 				});
 			}
-		});
-	};
+		},
+		createOrUpdate = function(document) {
+			if (!document) {
+				res.statusCode = 201;
+				document = new GroupsModel({
+					groupName: req.body.groupName,
+					students: req.body.students
+				});
+			}
+			document.save(function(err) {
+				if (!err) {
+					return res.send(document);
+				}
+				onSaveError(err, res);
+			});
+		};
 
 	console.log('REQUEST BODY:', req.body);
 
-	if (!req.params.groupId) {
-		// create new group
+	if (!req.params.id) {
+		// create new document
 		createOrUpdate();
 		return;
 	}
-	GroupsModel.findById(req.params.groupId, function(err, group) {
+	GroupsModel.findById(req.params.id, function(err, document) {
 		if (err) {
-			res.statusCode = 500;
-			return res.send({
-				error: 'Server error'
-			});
+			return serverErrorHandler(err, res);
 		}
-		if (!group) {
-			console.log('Warning: group', req.params.groupId, 'not found');
+		if (!document) {
+			console.log('Warning: document', req.params.id, 'not found');
 		} else {
-			group.groupName = req.body.groupName;
-			group.students = req.body.students;
+			document.groupName = req.body.groupName;
+			document.students = req.body.students;
 		}
-		createOrUpdate(group);
+		createOrUpdate(document);
 	});
 });
 
