@@ -9,7 +9,9 @@ var express = require('express'),
 	GroupsModel = require('./db/groups-schema'),
 	TestingsModel = require('./db/testings-schema'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
-	serverErrorHandler;
+
+	serverErrorHandler,
+	documentSaveErrorHandler;
 require('./db/db-connect');
 
 app.use(bodyParser.json());
@@ -24,6 +26,21 @@ serverErrorHandler = function(err, res) {
 	// TODO: enhance logging
 	console.error('Internal server error:', err.message);
 	return res.send({ error: 'Server error' });
+};
+
+documentSaveErrorHandler = function(err, res) {
+	console.log('Error:', err.message);
+	if (err.name === 'ValidationError') {
+		res.statusCode = 400;
+		return res.send({
+			error: 'Validation error'
+		});
+	} else {
+		res.statusCode = 500;
+		return res.send({
+			error: 'Server error'
+		});
+	}
 };
 
 [{
@@ -62,38 +79,59 @@ serverErrorHandler = function(err, res) {
 		});
 });
 
-app.post('/api/groups/:id?', function(req, res) {
-	var onSaveError = function(err, res) {
-			console.log('Error:', err.message);
-			if (err.name === 'ValidationError') {
-				res.statusCode = 400;
-				res.send({
-					error: 'Validation error'
-				});
-			} else {
-				res.statusCode = 500;
-				res.send({
-					error: 'Server error'
-				});
-			}
-		},
-		createOrUpdate = function(document) {
-			if (!document) {
-				res.statusCode = 201;
-				document = new GroupsModel({
-					groupName: req.body.groupName,
-					students: req.body.students
-				});
-			}
-			document.save(function(err) {
-				if (!err) {
-					return res.send(document);
-				}
-				onSaveError(err, res);
+app.post('/api/question-sets/:id?', function(req, res) {
+	var createOrUpdate = function(document) {
+		if (!document) {
+			res.statusCode = 201;
+			document = new QuestionSetsModel({
+				name: req.body.name,
+				questions: req.body.questions
 			});
-		};
+		}
+		document.save(function(err) {
+			if (!err) {
+				// TODO: execute another request to save answers' weights
+				return res.send(document);
+			}
+			return documentSaveErrorHandler(err, res);
+		});
+	};
 
-	console.log('REQUEST BODY:', req.body);
+	if (!req.params.id) {
+		createOrUpdate();
+		return;
+	}
+
+	QuestionSetsModel.findById(req.params.id, function(err, document) {
+		if (err) {
+			return serverErrorHandler(err, res);
+		}
+		if (!document) {
+			console.log('Warning: document', req.params.id, 'not found');
+		} else {
+			document.name = req.body.name;
+			document.questions = req.body.questions;
+		}
+		createOrUpdate(document);
+	});
+});
+
+app.post('/api/groups/:id?', function(req, res) {
+	var createOrUpdate = function(document) {
+		if (!document) {
+			res.statusCode = 201;
+			document = new GroupsModel({
+				groupName: req.body.groupName,
+				students: req.body.students
+			});
+		}
+		document.save(function(err) {
+			if (err) {
+				return documentSaveErrorHandler(err, res);
+			}
+			return res.send(document);
+		});
+	};
 
 	if (!req.params.id) {
 		// create new document
