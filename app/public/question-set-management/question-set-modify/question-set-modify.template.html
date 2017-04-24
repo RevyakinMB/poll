@@ -1,0 +1,79 @@
+<div class="q-set-modify">
+    <div ng-show="$ctrl.notFound" class="has-error">
+        <label translate class="control-label">
+            Question set not found
+        </label>
+    </div>
+    <div ng-hide="$ctrl.notFound">
+        <div class="q-set-modify__row">
+            <label class="control-label" translate>
+                Question set name
+            </label>
+            <input type="text" class="form-control"
+                   name="setName"
+                   placeholder="{{ 'Practice Test' | translate }}"
+                   ng-model="$ctrl.set.name">
+        </div>
+        <div class="q-set-modify__row">
+            <label translate>
+                Questions total:
+            </label>
+            <div class="q-set-modify__total">
+                {{ $ctrl.set.questions.length || 0 }}
+            </div>
+            <button class="btn btn-default q-set-modify__add" translate
+                    ng-click="$ctrl.questionAdd()">
+                Add a question
+            </button>
+        </div>
+        <div class="q-set-modify__row">
+            <div class="q-set-modify__q-index" translate>
+                #
+            </div>
+            <div class="q-set-modify__q-type" translate>
+                Type
+            </div>
+            <div class="q-set-modify__q-text" translate>
+                Question text
+            </div>
+        </div>
+        <div ng-repeat="q in $ctrl.set.questions" class="q-set-modify__question">
+            <div class="q-set-modify__q-index">
+                {{$index + 1 + '.'}}
+            </div>
+            <div class="q-set-modify__q-type">
+                {{q.qType }}
+            </div>
+            <div class="q-set-modify__q-text"
+                 ng-click="$ctrl.editorOpen($event, q)">
+                {{q.text || ('Question text is not entered' | translate) }}
+            </div>
+            <button class="btn btn-default q-set-modify__q-remove"
+                    ng-click="$ctrl.questionDelete(q)"
+                    translate>
+                Remove
+            </button>
+            <button class="btn btn-default q-set-modify__q-edit js-edit{{$index}}"
+                    ng-click="$ctrl.editorOpen($event, q)"
+                    translate>
+                Edit
+            </button>
+        </div>
+        <div class="q-set-modify__row">
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.changesSave()">
+                Save question set
+            </button>
+        </div>
+        <div class="q-set-modify__row">
+            <div ng-bind="$ctrl.message.text"
+                 class="message message_hidden"
+                 ng-class="{
+                    'message_hidden': $ctrl.message.hidden,
+                    'bg-danger': $ctrl.message.error,
+                    'bg-success': !$ctrl.message.error
+                 }">
+            </div>
+        </div>
+    </div>
+</div>
