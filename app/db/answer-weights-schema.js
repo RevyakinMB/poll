@@ -4,7 +4,14 @@ var mongoose = require('mongoose'),
 
 // not in QuestionSets document to leave correct answers undisclosed to a client
 AnswerWeights = mongoose.Schema({
-	idAnswer: { type: mongoose.Schema.ObjectId, required: true },
+	_id: {
+		type: mongoose.Schema.ObjectId,
+		required: true
+	},
+	idAnswer: {
+		type: mongoose.Schema.ObjectId,
+		required: true
+	},
 	// used when Question.qType === 'Match'
 	idCorrespondingAnswer: { type: mongoose.Schema.ObjectId },
 	weight: { type: Number, default: 0 }

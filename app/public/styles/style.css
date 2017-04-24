@@ -157,18 +157,19 @@ ul {
     line-height: 28px;
 }
 
-.group-modify__message {
-    padding: 15px 30px;
+.group-modify__add {
+    float: right;
+}
+
+
+.message {
+    padding: 15px;
     margin: 0 -15px;
     transition: opacity linear 0.5s;
 }
 
-.group-modify__message_hidden {
+.message_hidden {
     opacity: 0;
-}
-
-.group-modify__add {
-    float: right;
 }
 
 
@@ -223,7 +224,6 @@ ul {
     min-width: 30px;
 }
 
-/*TODO: LESS/SAAS? mixins*/
 .group-list__row {
     border-bottom: 1px solid #EBEBEB;
     padding: 6px 0;
@@ -239,4 +239,109 @@ ul {
 
 .group-list__add {
     float: right;
+}
+
+
+.question-set-list__new,
+.question-set-list__new:link,
+.question-set-list__new:visited,
+.question-set-list__new:active {
+    color: black;
+    text-decoration: none;
+}
+
+
+.q-set-modify__row {
+    margin-bottom: 5px;
+}
+
+.q-set-modify__total {
+    display: inline-block;
+    min-width: 4em;
+    padding-left: 0.5em;
+    line-height: 28px;
+}
+
+.q-set-modify__add {
+    float: right;
+}
+
+.q-set-modify__q-index,
+.q-set-modify__q-type,
+.q-set-modify__q-text {
+    display: inline-block;
+    line-height: 28px;
+}
+
+.q-set-modify__q-index {
+    min-width: 40px;
+    padding-left: 15px;
+}
+
+.q-set-modify__q-type {
+    min-width: 100px;
+}
+
+.q-set-modify__q-remove,
+.q-set-modify__q-edit {
+    float: right;
+    display: none;
+}
+
+.q-set-modify__q-remove {
+    margin: 0 10px;
+}
+
+.q-set-modify__question {
+    margin-top: -5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 6px 0;
+    clear: both;
+}
+
+.q-set-modify__question:hover {
+    background-color: #F5F5F5;
+}
+
+.q-set-modify__question:hover .q-set-modify__q-remove,
+.q-set-modify__question:hover .q-set-modify__q-edit {
+    display: inline;
+}
+
+
+.q-modify__row {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    clear: both;
+}
+
+.q-modify__total {
+    display: inline-block;
+    min-width: 4em;
+    padding-left: 0.5em;
+    line-height: 28px;
+}
+
+.q-modify__add {
+    float: right;
+}
+
+.q-modify__answer {
+    margin-top: 4px;
+    margin-left: 30px;
+    position: absolute;
+    top: 0;
+}
+
+.q-modify__remove {
+    position: absolute;
+    top: 8px;
+    right: -67px;
+}
+
+.q-modify__answer-block {
+    position: relative;
+    height: 40px;
+    margin-right: 64px;
 }

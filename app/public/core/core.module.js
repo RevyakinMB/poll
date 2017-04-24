@@ -1,4 +1,5 @@
 angular.module('core', [
 	'core.resources',
-	'langSwitcher'
+	'langSwitcher',
+	'gettext'
 ]);

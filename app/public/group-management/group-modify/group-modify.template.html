@@ -24,7 +24,7 @@
             </div>
             <button ng-click="$ctrl.studentAdd()"
                     class="btn btn-default group-modify__add"
-                    title="{{'Add new student' | translate}}">
+                    translate>
                 Add a student
             </button>
         </div>
@@ -42,9 +42,9 @@
             </button>
         </div>
         <div class="group-modify__row">
-            <div class="group-modify__message group-modify__message_hidden"
+            <div class="message message_hidden"
                  ng-class="{
-                    'group-modify__message_hidden': $ctrl.message.hidden,
+                    'message_hidden': $ctrl.message.hidden,
                     'bg-danger': $ctrl.message.error,
                     'bg-success': !$ctrl.message.error
                  }"

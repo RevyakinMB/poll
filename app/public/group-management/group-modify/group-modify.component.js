@@ -66,7 +66,7 @@ angular
 					});
 					this.groupId = this.group._id;
 				}.bind(this), function(err) {
-					console.warn('Error while saving group', err.stack);
+					console.warn('Error while saving group', err);
 					if (err.data.error === 'Validation error') {
 						this.messageShow({
 							message: gettextCatalog.getString('Error: form validation failed'),

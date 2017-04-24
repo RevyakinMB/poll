@@ -6,21 +6,33 @@ var mongoose = require('mongoose'),
 
 // QuestionSet document schema
 Answers = new mongoose.Schema({
-	text: { type: String, required: true }
+	_id: {
+		type: mongoose.Schema.ObjectId,
+		required: true
+	},
+	text: { type: String, required: true },
+	// used when Question.qType === 'Match'
+	matchPosition: {
+		type: String,
+		enum: ['left', 'right']
+	},
+	idWeight: {
+		type: mongoose.Schema.ObjectId,
+		required: false,
+		ref: 'AnswerWeights'
+	}
 });
 
 Questions = new mongoose.Schema({
 	text: { type: String, required: true },
 	qType: {
 		type: String,
-		enum: ['Single', 'Multiple', 'Sequence', 'Match'],
+		enum: ['Alternative', 'Multiple', 'Sequencing', 'Match'],
 		required: true
 	},
 	answers: {
 		type: [Answers],
 		required: true,
-		// TODO: es2015
-		// validate: (a) => a.length > 1;
 		validate: [
 			function(answers) {
 				return answers.length > 1;

@@ -35,6 +35,7 @@ angular
 						return;
 					}
 					this.editor[0].parentNode.removeChild(this.editor[0]);
+					// TODO: memory lick? Destroy dynamically created component
 					this.editor = undefined;
 					if (!studentNonEmpty(this.student)) {
 						this.onDelete();

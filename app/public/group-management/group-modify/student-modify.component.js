@@ -10,7 +10,7 @@ angular
 		controller: function studentModifyController() {
 			this.$onChanges = function(changes) {
 				if (changes.student) {
-					// make a copy of object to make it really one-way bind
+					// take a copy of object to make it really one-way bind
 					this.student = angular.copy(changes.student.currentValue);
 				}
 			};
