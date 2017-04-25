@@ -38,7 +38,7 @@
                 <a href="/question-sets/{{s._id}}">{{s.name | notApplicable}}</a>
             </td>
             <td>
-                {{s.questionsCount || 0}}
+                {{s.questions.length}}
             </td>
             <td>
                 {{s.passCount | notApplicable}}

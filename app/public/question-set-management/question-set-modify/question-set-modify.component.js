@@ -29,14 +29,10 @@ angular
 					theme: '',
 					answers: [{
 						text: '',
-						idWeight: {
-							weight: 0
-						}
+						weight: 0
 					}, {
 						text: '',
-						idWeight: {
-							weight: 0
-						}
+						weight: 0
 					}]
 				});
 				// editor is already created for a question
@@ -138,7 +134,7 @@ angular
 						return false;
 					}
 					answersValid = q.answers.every(function(a) {
-						weight |= a.idWeight.weight;
+						weight |= a.weight;
 						return a.text;
 					});
 					return answersValid && weight;

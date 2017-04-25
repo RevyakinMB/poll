@@ -10,7 +10,6 @@ var express = require('express'),
 	GroupsModel = require('./db/groups-schema'),
 	TestingsModel = require('./db/testings-schema'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
-	AnswerWeightsModel = require('./db/answer-weights-schema'),
 
 	execute = require('./lib/promise-executer'),
 
@@ -87,96 +86,44 @@ documentSaveErrorHandler = function(err, res) {
 		});
 });
 
-app.post('/api/question-sets/:id?', function(req, res) {
-	var weightsDataShapeAndQueriesGet = function() {
-		var weightInsertDocuments = [],
-			queries = [];
-		req.body.questions.forEach(function(question) {
-			question.answers.forEach(function(answer) {
-				var idWeight;
-				if (answer._id) {
-					// weight document is in database already, update it
-					queries.push(
-						AnswerWeightsModel.findByIdAndUpdate(
-							answer.idWeight._id,
-							{
-								weight: answer.idWeight.weight
-							},
-							{}
-						).exec());
-					// replace populated field before db update
-					answer.idWeight = answer.idWeight._id;
-					return;
-				}
-				// answer weight document is not in database
-				answer._id = mongoose.Types.ObjectId();
-				idWeight = mongoose.Types.ObjectId();
+[{
+	path: '/api/question-sets/:id?',
+	model: QuestionSetsModel,
+	data: ['name', 'questions']
+}, {
+	path: '/api/question-sets/:id?',
+	model: GroupsModel,
+	data: ['groupName', 'students']
+}]
+	.forEach(function(options) {
+		let path = options.path,
+			Model = options.model,
+			data = options.data;
 
-				weightInsertDocuments.push({
-					_id: idWeight,
-					idAnswer: answer._id,
-					weight: answer.idWeight.weight
-				});
-				answer.idWeight = idWeight;
-			});
+		app.post(path, function(req, res) {
+			execute(function* pGen() {
+				try {
+					let doc;
+					if (req.params.id) {
+						doc = yield Model.findById(req.params.id).exec();
+						if (!doc) {
+							console.log('Warning: document', req.params.id, 'not found');
+						}
+					}
+					if (!doc) {
+						res.statusCode = 201;
+						doc = new Model();
+					}
+					data.forEach(field => doc[field] = req.body[field]);
+
+					doc = yield doc.save();
+					return res.send(doc);
+				} catch (err) {
+					return documentSaveErrorHandler(err, res);
+				}
+			}());
 		});
-		if (weightInsertDocuments.length) {
-			queries.push(AnswerWeightsModel.insertMany(weightInsertDocuments));
-		}
-		return queries;
-	};
-
-	execute(function* pGen() {
-		try {
-			let doc;
-			if (req.params.id) {
-				doc = yield QuestionSetsModel.findById(req.params.id).exec();
-				if (!doc) {
-					console.log('Warning: document', req.params.id, 'not found');
-				}
-			}
-
-			yield Promise.all(weightsDataShapeAndQueriesGet());
-
-			if (!doc) {
-				res.statusCode = 201;
-				doc = new QuestionSetsModel();
-			}
-			doc.name = req.body.name;
-			doc.questions = req.body.questions;
-
-			doc = yield doc.save();
-			doc = yield AnswerWeightsModel.populate(doc, 'questions.answers.idWeight');
-			return res.send(doc);
-		} catch (err) {
-			return documentSaveErrorHandler(err, res);
-		}
-	}());
-});
-
-app.post('/api/groups/:id?', function(req, res) {
-	execute(function* pGen() {
-		try {
-			let doc;
-			if (req.param.id) {
-				doc = yield GroupsModel.findById(req.params.id).exec();
-				if (!doc) {
-					console.log('Warning: document', req.params.id, 'not found');
-				}
-			} else {
-				res.statusCode = 201;
-				doc = new GroupsModel();
-			}
-			doc.groupName = req.body.groupName;
-			doc.students = req.body.students;
-
-			doc = yield doc.save();
-			return res.send(doc);
-		} catch (err) {
-			return documentSaveErrorHandler(err, res);
-		}
-	}());
-});
+	});
 
 app.all('/*', function(req, res) {
 	res.sendFile('index.html', {

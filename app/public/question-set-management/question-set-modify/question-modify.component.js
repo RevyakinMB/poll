@@ -52,7 +52,7 @@ angular
 			// helpers
 			this.anyAnswerIsSelected = function() {
 				return this.question.answers.some(function(a) {
-					return a.idWeight.weight === 1;
+					return a.weight === 1;
 				}, this);
 			};
 

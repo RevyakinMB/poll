@@ -6,20 +6,21 @@ var mongoose = require('mongoose'),
 
 // QuestionSet document schema
 Answers = new mongoose.Schema({
-	_id: {
-		type: mongoose.Schema.ObjectId,
+	text: {
+		type: String,
 		required: true
 	},
-	text: { type: String, required: true },
+	weight: {
+		type: Number
+	},
 	// used when Question.qType === 'Match'
 	matchPosition: {
 		type: String,
 		enum: ['left', 'right']
 	},
-	idWeight: {
-		type: mongoose.Schema.ObjectId,
-		required: false,
-		ref: 'AnswerWeights'
+	// used when Question.qType === 'Match'
+	idCorrespondingAnswer: {
+		type: mongoose.Schema.ObjectId
 	}
 });
 
