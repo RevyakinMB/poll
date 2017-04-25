@@ -12,7 +12,7 @@ var express = require('express'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
 	AnswerWeightsModel = require('./db/answer-weights-schema'),
 
-	//Promise = require('promise'),
+	execute = require('./lib/promise-executer'),
 
 	serverErrorHandler,
 	documentSaveErrorHandler;
@@ -26,10 +26,9 @@ app.use(logger('combined'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 serverErrorHandler = function(err, res) {
-	res.statusCode = 500;
 	// TODO: enhance logging
-	console.error('Internal server error:', err.message);
-	//console.error(err.stack);
+	console.log('Error:', err);
+	res.statusCode = 500;
 	return res.send({ error: 'Server error' });
 };
 
@@ -62,44 +61,49 @@ documentSaveErrorHandler = function(err, res) {
 			populateDocument = p.populate;
 
 		app.get(path, function(req, res) {
-			var dbRequest;
-			if (!req.params.id) {
-				return Model.find(function(err, data) {
-					if (err) {
-						return serverErrorHandler(err, res);
+			execute(function*() {
+				try {
+					let dbRequest, doc;
+					if (!req.params.id) {
+						doc = yield Model.find().exec();
+						return res.send(doc);
 					}
-					return res.send(data);
-				});
-			}
 
-			dbRequest = Model.findOne({
-				_id: req.params.id
-			});
+					dbRequest = Model.findOne({ _id: req.params.id });
+					if (populateDocument) {
+						dbRequest.populate(populateDocument);
+					}
+					doc = yield dbRequest.exec();
 
-			// TODO: authorization required
-			if (populateDocument) {
-				dbRequest.populate(populateDocument);
-			}
-			return dbRequest.exec(function (err, data) {
-				if (err) {
+					if (!doc) {
+						res.statusCode = 404;
+						return res.send({ error: 'Not found' });
+					}
+					return res.send(doc);
+				} catch(err) {
 					return serverErrorHandler(err, res);
 				}
-				if (!data) {
-					res.statusCode = 404;
-					return res.send({ error: 'Not found' });
-				}
-				return res.send(data);
-			});
+			}());
 		});
 });
 
 app.post('/api/question-sets/:id?', function(req, res) {
-	var weightsInsert = function(req) {
-		var weightDocuments = [];
+	var weightsDataShapeAndQueriesGet = function() {
+		var weightInsertDocuments = [],
+			queries = [];
 		req.body.questions.forEach(function(question) {
 			question.answers.forEach(function(answer) {
 				var idWeight;
 				if (answer._id) {
+					// weight document is in database already, update it
+					queries.push(
+						AnswerWeightsModel.findByIdAndUpdate(
+							answer.idWeight._id,
+							{
+								weight: answer.idWeight.weight
+							},
+							{}
+						).exec());
 					// replace populated field before db update
 					answer.idWeight = answer.idWeight._id;
 					return;
@@ -108,7 +112,7 @@ app.post('/api/question-sets/:id?', function(req, res) {
 				answer._id = mongoose.Types.ObjectId();
 				idWeight = mongoose.Types.ObjectId();
 
-				weightDocuments.push({
+				weightInsertDocuments.push({
 					_id: idWeight,
 					idAnswer: answer._id,
 					weight: answer.idWeight.weight
@@ -116,117 +120,62 @@ app.post('/api/question-sets/:id?', function(req, res) {
 				answer.idWeight = idWeight;
 			});
 		});
-		if (weightDocuments.length) {
-			return AnswerWeightsModel.insertMany(weightDocuments);
+		if (weightInsertDocuments.length) {
+			queries.push(AnswerWeightsModel.insertMany(weightInsertDocuments));
 		}
-		return Promise.resolve();
-	},
-	createOrUpdate = function(document) {
-		weightsInsert(req)
-			.then(function() {
-				if (document) {
-					document.name = req.body.name;
-					document.questions = req.body.questions;
-					return document;
-				}
-				res.statusCode = 201;
-				return new QuestionSetsModel({
-					name: req.body.name,
-					questions: req.body.questions
-				});
-			})
-			.then(function(doc) {
-				return doc.save();
-			})
-			.then(function(doc) {
-				return AnswerWeightsModel.populate(doc, 'questions.answers.idWeight');
-			})
-			.then(function(doc) {
-				return res.send(doc);
-			})
-			.catch(function(err) {
-				return documentSaveErrorHandler(err, res);
-			});
+		return queries;
 	};
 
-	if (!req.params.id) {
-		createOrUpdate();
-		return;
-	}
-
-	var weightUpdateQueries = [];
-	req.body.questions.forEach(function(question) {
-		question.answers.forEach(function(answer) {
-			if (!answer.idWeight._id) {
-				return;
+	execute(function* pGen() {
+		try {
+			let doc;
+			if (req.params.id) {
+				doc = yield QuestionSetsModel.findById(req.params.id).exec();
+				if (!doc) {
+					console.log('Warning: document', req.params.id, 'not found');
+				}
 			}
-			// weight document is in database already, update it
-			weightUpdateQueries.push(
-				AnswerWeightsModel.findByIdAndUpdate(
-					answer.idWeight._id,
-					{
-						weight: answer.idWeight.weight
-					},
-					{}
-				).exec());
-		});
-	});
 
-	Promise.all(weightUpdateQueries)
-		.catch(function(err) {
-			console.log('Error occurred while answer',
-				answer.text, answer._id,
-				'update:',
-				err.message);
-		})
-		.then(function() {
-			return QuestionSetsModel.findById(req.params.id).exec();
-		})
-		.then(function(document) {
-			if (!document) {
-				console.log('Warning: document', req.params.id, 'not found');
+			yield Promise.all(weightsDataShapeAndQueriesGet());
+
+			if (!doc) {
+				res.statusCode = 201;
+				doc = new QuestionSetsModel();
 			}
-			createOrUpdate(document);
-		})
-		.catch(function(err) {
-			return serverErrorHandler(err, res);
-		});
+			doc.name = req.body.name;
+			doc.questions = req.body.questions;
+
+			doc = yield doc.save();
+			doc = yield AnswerWeightsModel.populate(doc, 'questions.answers.idWeight');
+			return res.send(doc);
+		} catch (err) {
+			return documentSaveErrorHandler(err, res);
+		}
+	}());
 });
 
 app.post('/api/groups/:id?', function(req, res) {
-	var createOrUpdate = function(document) {
-		if (!document) {
-			res.statusCode = 201;
-			document = new GroupsModel({
-				groupName: req.body.groupName,
-				students: req.body.students
-			});
-		}
-		document.save(function(err) {
-			if (err) {
-				return documentSaveErrorHandler(err, res);
+	execute(function* pGen() {
+		try {
+			let doc;
+			if (req.param.id) {
+				doc = yield GroupsModel.findById(req.params.id).exec();
+				if (!doc) {
+					console.log('Warning: document', req.params.id, 'not found');
+				}
+			} else {
+				res.statusCode = 201;
+				doc = new GroupsModel();
 			}
-			return res.send(document);
-		});
-	};
+			doc.groupName = req.body.groupName;
+			doc.students = req.body.students;
 
-	if (!req.params.id) {
-		// create new document
-		createOrUpdate();
-		return;
-	}
-	GroupsModel.findById(req.params.id, function(err, document) {
-		if (err) {
-			return serverErrorHandler(err, res);
+			doc = yield doc.save();
+			return res.send(doc);
+		} catch (err) {
+			return documentSaveErrorHandler(err, res);
 		}
-		if (!document) {
-			console.log('Warning: document', req.params.id, 'not found');
-		} else {
-			document.groupName = req.body.groupName;
-			document.students = req.body.students;
-		}
-		createOrUpdate(document);
-	});
+	}());
 });
 
 app.all('/*', function(req, res) {
