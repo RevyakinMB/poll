@@ -37,24 +37,28 @@
                 Question text
             </div>
         </div>
-        <div ng-repeat="q in $ctrl.set.questions" class="q-set-modify__question">
+        <div ng-repeat="q in $ctrl.set.questions"
+             class="q-set-modify__question js-edit{{$index}}"
+             ng-click="$ctrl.editorOpen($event, q)">
             <div class="q-set-modify__q-index">
                 {{$index + 1 + '.'}}
             </div>
             <div class="q-set-modify__q-type">
                 {{q.qType }}
             </div>
-            <div class="q-set-modify__q-text"
-                 ng-click="$ctrl.editorOpen($event, q)">
-                {{q.text || ('Question text is not entered' | translate) }}
+            <div class="q-set-modify__q-text has-error">
+                {{q.text}}
+                <span class="control-label" translate
+                       ng-show="$ctrl.haveDraft(q)">
+                    (draft)
+                </span>
             </div>
             <button class="btn btn-default q-set-modify__q-remove"
                     ng-click="$ctrl.questionDelete(q)"
                     translate>
                 Remove
             </button>
-            <button class="btn btn-default q-set-modify__q-edit js-edit{{$index}}"
-                    ng-click="$ctrl.editorOpen($event, q)"
+            <button class="btn btn-default q-set-modify__q-edit"
                     translate>
                 Edit
             </button>

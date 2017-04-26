@@ -4,7 +4,7 @@ angular
 		templateUrl: 'question-set-management/question-set-modify/question-set-modify.template.html',
 		controller: function questionSetModifyControler(
 			$routeParams, $compile, $scope, $document, $timeout,
-			gettextCatalog, QuestionSet) {
+			gettextCatalog, QuestionSet, appLocalStorage) {
 			if ($routeParams.questionSetId === 'new') {
 				this.set = new QuestionSet();
 				this.set.name = '';
@@ -33,7 +33,9 @@ angular
 					}, {
 						text: '',
 						weight: 0
-					}]
+					}],
+					// temporary "random" id
+					tempId: Math.random().toString(36).substr(2, 5)
 				});
 				// editor is already created for a question
 				if (this.editor) {
@@ -75,11 +77,17 @@ angular
 				);
 			};
 
+			this.haveDraft = function(q) {
+				return !!appLocalStorage.getItem(q._id || q.tempId);
+			};
+
 			this.editorOpen = function($event, q) {
-				var parent, scope;
-				if (this.editor) {
+				var scope, target;
+				if (this.editor && this.questionDirty === q) {
+					this.editorClose();
 					return;
 				}
+				this.editorClose();
 				this.questionDirty = q;
 
 				scope = $scope.$new(false);
@@ -92,8 +100,9 @@ angular
 				].join(''))(scope);
 				this.editor._scope = scope;
 
-				parent = $event.target.parentNode;
-				parent.parentNode.insertBefore(this.editor[0], parent.nextSibling);
+				target = $event.currentTarget || $event.target;
+				target.parentNode.insertBefore(
+					this.editor[0], target.nextSibling);
 			};
 
 			this.editorClose = function() {
@@ -128,34 +137,57 @@ angular
 			};
 
 			this.changesSave = function() {
-				var isValid = this.set.questions.every(function(q) {
-					var weight = false, answersValid;
-					if (!q.text) {
-						return false;
-					}
-					answersValid = q.answers.every(function(a) {
-						weight |= a.weight;
-						return a.text;
+				var draftsReplaceMap = {}, i,
+					isValid = this.set.questions.every(function(q) {
+						var weight = false, answersValid;
+						if (!q.text) {
+							return false;
+						}
+						answersValid = q.answers.every(function(a) {
+							weight |= a.weight;
+							return a.text;
+						});
+						return answersValid && weight;
 					});
-					return answersValid && weight;
-				});
 				if (!isValid) {
 					this.messageShow({
 						message: gettextCatalog.getString(
-							'Error: question/answer text is missing or correct answer is missing'),
+							'Error: question/answer text or correct answer is missing'),
 						isError: true
 					});
 					return;
 				}
+
+				// save drafts assigned to temporary question ids
+				for (i = 0; i < this.set.questions.length; ++i) {
+					(function(q, index) {
+						if (!q.tempId) {
+							return;
+						}
+						draftsReplaceMap[index] = q.tempId;
+					}(this.set.questions[i], i));
+				}
+
 				this.set.$save({
 					questionSetId: this.setId ? this.setId : ''
 				},
 				function() {
+					var draft, tempId;
 					this.messageShow({
 						message: gettextCatalog.getString('Question set successfully saved'),
 						isError: false
 					});
 					this.setId = this.set._id;
+
+					// replace drafts of newly created questions
+					for (i = 0; i < this.set.questions.length; ++i) {
+						tempId = draftsReplaceMap[i];
+						draft = tempId && appLocalStorage.getItem(tempId);
+						if (draft) {
+							appLocalStorage.setItem(this.set.questions[i]._id, draft);
+							appLocalStorage.removeItem(tempId);
+						}
+					}
 				}.bind(this), function(err) {
 					console.warn('Error while saving question set', err);
 					if (err.data.error === 'Validation error') {

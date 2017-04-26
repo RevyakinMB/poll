@@ -7,12 +7,40 @@ angular
 			onUpdate: '&',
 			onClose: '&'
 		},
-		controller: function questionModifyController(questionTypes) {
+		controller: function questionModifyController(questionTypes, appLocalStorage) {
 			this.$onChanges = function(changes) {
+				var _id, draft;
 				if (changes.question) {
 					this.question = angular.copy(changes.question.currentValue);
-					console.log(this.question);
+					this.questionInitial = angular.copy(changes.question.currentValue);
+
+					draft = appLocalStorage.getItem(
+						this.question._id || this.question.tempId);
+					if (!draft) {
+						return;
+					}
+					try {
+						_id = this.question._id;
+						this.question = JSON.parse(draft);
+						this.question._id = _id;
+					} catch (e) {
+						// no draft
+					}
 				}
+			};
+
+			this.$onDestroy = function() {
+				if (this.saved) {
+					appLocalStorage.removeItem(this.question._id || this.question.tempId);
+					return;
+				}
+				if (angular.equals(this.question, this.questionInitial)) {
+					return;
+				}
+				appLocalStorage.setItem(
+					this.question._id || this.question.tempId,
+					JSON.stringify(this.question)
+				);
 			};
 
 			this.qTypes = questionTypes;
@@ -46,6 +74,7 @@ angular
 						question: this.question
 					}
 				});
+				this.saved = true;
 				this.onClose();
 			};
 

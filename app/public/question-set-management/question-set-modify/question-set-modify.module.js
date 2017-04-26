@@ -1,6 +1,7 @@
 angular
 	.module('questionSetModify', [
-		'core'
+		'core',
+		'utils'
 	])
 	.config(function questionSetModifyConfig($routeProvider) {
 		$routeProvider
