@@ -49,7 +49,7 @@
             <div class="q-set-modify__q-text has-error">
                 {{q.text}}
                 <span class="control-label" translate
-                       ng-show="$ctrl.haveDraft(q)">
+                       ng-show="$ctrl.haveDraft(q) || !q.text">
                     (draft)
                 </span>
             </div>

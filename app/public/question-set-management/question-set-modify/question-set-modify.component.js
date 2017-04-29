@@ -158,6 +158,8 @@ angular
 					return;
 				}
 
+				this.editorClose();
+
 				// save drafts assigned to temporary question ids
 				for (i = 0; i < this.set.questions.length; ++i) {
 					(function(q, index) {

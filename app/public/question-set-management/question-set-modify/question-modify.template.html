@@ -36,60 +36,102 @@
         <div class="q-modify__total">
             {{$ctrl.question.answers.length || 0}}
         </div>
-        <button class="btn btn-default q-modify__add"
+        <button class="btn btn-default q-modify__answer-add"
                 ng-click="$ctrl.answerAdd()"
                 translate>
             Add answer
         </button>
     </div>
-    <div ng-show="$ctrl.question.answers.length > 1" class="q-modify__row">
+    <div ng-if="$ctrl.question.qType !== 'Sequencing'" class="q-modify__row">
         <span class="glyphicon glyphicon-info-sign"></span>
         <span translate>Select correct answer(s):</span>
     </div>
-    <!--<div ng-show="$ctrl.question.answers.length < 2" class="q-modify__row">-->
-        <!--<span class="glyphicon glyphicon-info-sign"></span>-->
-        <!--<span translate>Add two or more answers to the question:</span>-->
-    <!--</div>-->
-    <div ng-repeat="a in $ctrl.question.answers" class="q-modify__row"
-         ng-class="{
-            'has-error': $ctrl.hasError($ctrl.qForm['answerText' + $index])
-         }">
-        <div class="q-modify__answer-block">
-            <div class="checkbox-inline">
-                <label>
-                    <input type="checkbox" name="weight{{$index}}"
-                           ng-required="!$ctrl.anyAnswerIsSelected()"
-                           ng-model="a.weight"
-                           ng-true-value="1"
-                           ng-false-value="0">
-
+    <div ng-if="$ctrl.question.qType === 'Sequencing'" class="q-modify__row">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span translate>Specify correct order of answers:</span>
+    </div>
+    <div>
+        <div ng-repeat="a in $ctrl.question.answers" class="q-modify__row"
+             ng-class="{
+                'has-error': $ctrl.hasError($ctrl.qForm['answerText' + $index]) ||
+                    $ctrl.hasError($ctrl.qForm['answerPosition' + $index])
+             }">
+            <div class="q-modify__answer-block">
+                <span class="glyphicon glyphicon-arrow-up q-modify__position-btn-up"
+                      ng-click="$ctrl.answerMove(a, 'up')">
+                </span>
+                <span class="glyphicon glyphicon-arrow-down q-modify__position-btn-down"
+                      ng-click="$ctrl.answerMove(a, 'down')">
+                </span>
+                <div class="checkbox-inline q-modify__answer-check"
+                     ng-if="$ctrl.question.qType === 'Multiple'">
+                    <label>
+                        <input type="checkbox" name="weight{{$index}}"
+                               ng-required="!$ctrl.anyAnswerIsSelected()"
+                               ng-model="a.weight"
+                               ng-true-value="1"
+                               ng-false-value="0">
+                    </label>
+                </div>
+                <div class="radio-inline q-modify__answer-check"
+                     ng-if="$ctrl.question.qType === 'Alternative'">
+                    <label>
+                        <input type="radio" name="weight"
+                               ng-model="$ctrl.altAnswerSelected"
+                               ng-value="{{a.answerIndex}}">
+                    </label>
+                </div>
+                <div class="q-modify__position" ng-if="$ctrl.question.qType === 'Sequencing'">
+                    <input type="number" class="form-control q-modify__position-input"
+                           min="0" max="9999"
+                           name="answerPosition{{$index}}"
+                           ng-model="a.weight">
+                </div>
+                <input type="text" class="form-control q-modify__answer-text"
+                       ng-model="a.text"
+                       placeholder="{{ 'Answer text' | translate }}"
+                       name="answerText{{$index}}"
+                       required>
+                <span class="glyphicon glyphicon-remove q-modify__answer-remove"
+                      ng-click="$ctrl.answerRemove(a)"
+                      ng-class="{
+                          'q-modify__answer-remove_disabled': $ctrl.question.answers.length < 3
+                      }"
+                      title="{{'Remove answer' | translate}}"></span>
+            </div>
+            <div>
+                <label class="control-label" translate
+                       ng-show=" $ctrl.hasError($ctrl.qForm['answerText' + $index]) ">
+                    Field is required.
                 </label>
             </div>
-            <input type="text" class="form-control q-modify__answer"
-                   ng-model="a.text"
-                   placeholder="{{ 'Answer text' | translate }}"
-                   name="answerText{{$index}}"
-                   required>
-            <button class="btn btn-default q-modify__remove"
-                    ng-click="$ctrl.answerRemove(a)"
-                    ng-disabled="$ctrl.question.answers.length < 3"
-                    title="{{'Remove answer' | translate}}">
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>
-        </div>
-        <div>
-            <label class="control-label" translate
-                   ng-show=" $ctrl.hasError($ctrl.qForm['answerText' + $index]) ">
-                Field is required.
-            </label>
+            <div ng-if="$ctrl.question.qType === 'Sequencing'">
+                <label class="control-label" translate
+                       ng-show=" $ctrl.hasError($ctrl.qForm['answerPosition' + $index]) ">
+                    Position number is incorrect.
+                </label>
+            </div>
         </div>
     </div>
-    <div ng-class="{
-        'has-error': $ctrl.hasError($ctrl.qForm['weight0'])
-    }">
+    <div class="has-error">
+        <label class="control-label"
+               ng-show=" $ctrl.hasError($ctrl.qForm['weight0']) "
+               ng-if="$ctrl.question.qType === 'Multiple'">
+            <span translate>Correct answer is required.</span>
+        </label>
+        <label class="control-label"
+               ng-show="
+                   !$ctrl.anyAnswerIsSelected() &&
+                   $ctrl.qForm.weight.$touched"
+               ng-if="$ctrl.question.qType === 'Alternative'">
+            <span translate>Correct answer is required.</span>
+        </label>
         <label class="control-label" translate
-               ng-show=" $ctrl.hasError($ctrl.qForm['weight0']) ">
-            Correct answer is required.
+               ng-if="$ctrl.question.qType === 'Sequencing'"
+               ng-show="
+                   !$ctrl.positionNumbersAreUnique() &&
+                   $ctrl.qForm.answerPosition0.$touched">
+            Specify unique position number for each answer.
         </label>
     </div>
     <div class="q-modify__row">

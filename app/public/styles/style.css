@@ -323,25 +323,74 @@ ul {
     line-height: 28px;
 }
 
-.q-modify__add {
+.q-modify__answer-block {
+    position: relative;
+    height: 40px;
+    margin-right: 145px;
+}
+
+.q-modify__answer-add {
     float: right;
 }
 
-.q-modify__answer {
-    margin-top: 4px;
-    margin-left: 30px;
+.q-modify__answer-remove {
+    position: absolute;
+    top: 17px;
+    right: -143px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.q-modify__answer-remove:hover {
+    opacity: 1;
+}
+
+.q-modify__answer-remove_disabled,
+.q-modify__answer-remove_disabled:hover {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.q-modify__answer-text {
+    margin-top: 7px;
+    margin-left: 120px;
     position: absolute;
     top: 0;
 }
 
-.q-modify__remove {
-    position: absolute;
-    top: 8px;
-    right: -67px;
+.q-modify__answer-check {
+    margin-top: -25px;
+    padding-left: 35px;
 }
 
-.q-modify__answer-block {
-    position: relative;
-    height: 40px;
-    margin-right: 64px;
+.q-modify__position {
+    display: inline-block;
+}
+
+.q-modify__position-btn-up,
+.q-modify__position-btn-down {
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 6px 6px;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.q-modify__position-btn-up:hover,
+.q-modify__position-btn-down:hover {
+    opacity: 1;
+}
+
+.q-modify__row:first-child .q-modify__position-btn-up,
+.q-modify__row:first-child .q-modify__position-btn-up:hover,
+.q-modify__row:last-child .q-modify__position-btn-down,
+.q-modify__row:last-child .q-modify__position-btn-down:hover {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.q-modify__position-input {
+    width: 56px;
+    display: inline;
 }
