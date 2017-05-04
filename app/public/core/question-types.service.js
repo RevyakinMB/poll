@@ -11,8 +11,10 @@ angular
 			}, {
 				value: 'Sequencing',
 				name: gettextCatalog.getString('Sequencing')
-			}, {
-				value: 'Match',
-				name: gettextCatalog.getString('Match making')
-			}];
+			}
+			// , {
+			//	value: 'Match',
+			//	name: gettextCatalog.getString('Match making')
+			// }
+			];
 		});
