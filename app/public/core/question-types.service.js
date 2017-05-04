@@ -11,6 +11,9 @@ angular
 			}, {
 				value: 'Sequencing',
 				name: gettextCatalog.getString('Sequencing')
+			}, {
+				value: 'Cattell',
+				name: gettextCatalog.getString('Cattell')
 			}
 			// , {
 			//	value: 'Match',
