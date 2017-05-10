@@ -3,7 +3,7 @@ angular
 	.component('groupModify', {
 		templateUrl: 'group-management/group-modify/group-modify.template.html',
 		controller: function groupModifyController(
-			$routeParams, Group, gettextCatalog, $timeout) {
+			$routeParams, Group, gettextCatalog, messenger) {
 			// initialize Group model
 			if ($routeParams.groupId === 'new') {
 				this.group = new Group();
@@ -50,48 +50,34 @@ angular
 					return s.firstName && s.lastName;
 				});
 				if (!isValid) {
-					this.messageShow({
+					messenger({
 						message: gettextCatalog.getString('Error: name or surname is missing'),
 						isError: true
-					});
+					}, this.message);
 					return;
 				}
 				this.group.$save({
 					groupId: this.groupId ? this.groupId : ''
 				},
 				function() {
-					this.messageShow({
-						message: gettextCatalog.getString('Group successfully saved'),
-						isError: false
-					});
+					messenger({
+						message: gettextCatalog.getString('Group successfully saved')
+					}, this.message);
 					this.groupId = this.group._id;
 				}.bind(this), function(err) {
 					console.warn('Error while saving group', err);
 					if (err.data.error === 'Validation error') {
-						this.messageShow({
+						messenger({
 							message: gettextCatalog.getString('Error: form validation failed'),
 							isError: true
-						});
+						}, this.message);
 						return;
 					}
-					this.messageShow({
+					messenger({
 						message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
 						isError: true
-					});
+					}, this.message);
 				}.bind(this));
-			};
-
-			this.messageShow = function(options) {
-				if (this.messageDelay) {
-					$timeout.cancel(this.messageDelay);
-				}
-				this.message.text = options.message;
-				this.message.hidden = false;
-				this.message.error = options.isError;
-
-				this.messageDelay = $timeout(function() {
-					this.message.hidden = true;
-				}.bind(this), options.isError ? 15000 : 3000);
 			};
 		}
 	});

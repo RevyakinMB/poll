@@ -4,7 +4,7 @@ angular
 		templateUrl: 'question-set-management/question-set-modify/question-set-modify.template.html',
 		controller: function questionSetModifyControler(
 			$routeParams, $compile, $scope, $document, $timeout,
-			gettextCatalog, QuestionSet, appLocalStorage) {
+			gettextCatalog, QuestionSet, appLocalStorage, messenger) {
 			if ($routeParams.questionSetId === 'new') {
 				this.set = new QuestionSet();
 				this.set.name = '';
@@ -123,19 +123,6 @@ angular
 				hidden: true
 			};
 
-			this.messageShow = function(options) {
-				if (this.messageDelay) {
-					$timeout.cancel(this.messageDelay);
-				}
-				this.message.text = options.message;
-				this.message.hidden = false;
-				this.message.error = options.isError;
-
-				this.messageDelay = $timeout(function() {
-					this.message.hidden = true;
-				}.bind(this), options.isError ? 15000 : 3000);
-			};
-
 			this.changesSave = function() {
 				var draftsReplaceMap = {}, i,
 					isValid = this.set.questions.every(function(q) {
@@ -150,11 +137,11 @@ angular
 						return answersValid && weight;
 					});
 				if (!isValid) {
-					this.messageShow({
+					messenger({
 						message: gettextCatalog.getString(
 							'Error: question/answer text or correct answer is missing'),
 						isError: true
-					});
+					}, this.message);
 					return;
 				}
 
@@ -175,10 +162,9 @@ angular
 				},
 				function() {
 					var draft, tempId;
-					this.messageShow({
-						message: gettextCatalog.getString('Question set successfully saved'),
-						isError: false
-					});
+					messenger({
+						message: gettextCatalog.getString('Question set successfully saved')
+					}, this.message);
 					this.setId = this.set._id;
 
 					// replace drafts of newly created questions
@@ -193,16 +179,16 @@ angular
 				}.bind(this), function(err) {
 					console.warn('Error while saving question set', err);
 					if (err.data.error === 'Validation error') {
-						this.messageShow({
+						messenger({
 							message: gettextCatalog.getString('Error: form validation failed'),
 							isError: true
 						});
 						return;
 					}
-					this.messageShow({
+					messenger({
 						message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
 						isError: true
-					});
+					}, this.message);
 				}.bind(this));
 			};
 		}
