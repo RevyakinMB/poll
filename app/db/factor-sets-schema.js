@@ -1,7 +1,8 @@
 var mongoose = require('mongoose'),
-	FactorsModel,
+	FactorSetsModel,
 	Matches,
-	Factors;
+	Factors,
+	FactorSets;
 
 Matches = new mongoose.Schema({
 	sten: {
@@ -10,7 +11,6 @@ Matches = new mongoose.Schema({
 	},
 	rawSum: {
 		type: Number,
-		required: true,
 		validate: [
 			function(value) {
 				return value > -1
@@ -38,6 +38,18 @@ Factors = new mongoose.Schema({
 	}
 });
 
-FactorsModel = mongoose.model('Factors', Factors);
+FactorSets = new mongoose.Schema({
+	name: {
+		type: String,
+		required: true,
+		unique: true
+	},
+	factors: {
+		type: [Factors],
+		required: true
+	}
+});
 
-module.exports = FactorsModel;
+FactorSetsModel = mongoose.model('FactorSets', FactorSets);
+
+module.exports = FactorSetsModel;

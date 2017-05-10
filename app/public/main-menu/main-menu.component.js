@@ -13,12 +13,15 @@ angular
 			}, {
 				name: gettextCatalog.getString('Question set list'),
 				path: '/question-sets'
+			}, {
+				name: gettextCatalog.getString('Cattell factor set'),
+				path: '/cattell-factor-set'
 			}];
 
 			// temporary dummy menu items
-			for (i = 0; i < 7; ++i) {
+			for (i = 0; i < 6; ++i) {
 				this.items.push({
-					name: gettextCatalog.getString('Menu' + (i + 3)),
+					name: gettextCatalog.getString('Menu' + (i + 5)),
 					path: '/nonExistent'
 				});
 			}

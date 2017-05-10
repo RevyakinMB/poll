@@ -23,12 +23,18 @@
             Field is required.
         </label>
     </div>
-    <label class="control-label" translate>
-        Theme
-    </label>
-    <input type="text" class="form-control"
-           ng-model="$ctrl.question.theme"
-           name="qTheme">
+    <div ng-if="$ctrl.question.qType === 'Cattell' && $ctrl.factors">
+        <label class="control-label" translate>
+            Factor
+        </label>
+        <select ng-bind="$ctrl.question.idFactor"
+                class="form-control"
+                name="factor">
+            <option ng-repeat="f in $ctrl.factors" ng-value="f._id">
+                {{f.index}}
+            </option>
+        </select>
+    </div>
     <div class="q-modify__row">
         <label class="control-label" translate>
             Answers total:

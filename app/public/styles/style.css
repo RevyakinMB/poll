@@ -394,3 +394,37 @@ ul {
     width: 56px;
     display: inline;
 }
+
+
+.factor-set__row {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    clear: both;
+}
+
+.factor-set__total {
+    display: inline-block;
+    min-width: 4em;
+    padding-left: 0.5em;
+    line-height: 28px;
+}
+
+.factor-set__factor-add {
+    float: right;
+}
+
+.factor-set__td {
+    text-align: center;
+}
+
+.factor-set__sten-text {
+    cursor: help;
+}
+
+.factor-set__raw-sum {
+    width: 56px;
+}
+
+.factor-set__remove {
+    width: 100%;
+}

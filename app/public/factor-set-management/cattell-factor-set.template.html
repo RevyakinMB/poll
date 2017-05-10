@@ -1,0 +1,121 @@
+<div class="factor-set">
+    <div class="factor-set__row">
+        <label class="control-label" translate>
+            Factor set name
+        </label>
+        <input type="text" class="form-control"
+               ng-model="$ctrl.set.name"
+               disabled>
+    </div>
+    <div class="factor-set__row">
+        <label class="control-label" translate>
+            Factors total:
+        </label>
+        <div class="factor-set__total">
+            {{$ctrl.set.factors.length || 0}}
+        </div>
+        <button class="btn btn-default factor-set__factor-add"
+                ng-click="$ctrl.factorAdd()"
+                translate>
+            Add factor
+        </button>
+    </div>
+    <div>
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span translate>Click on factor row to edit or remove</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th rowspan="2" class="factor-set__td">
+                    Factor
+                </th>
+                <th title="Standardized TEN score" colspan="10"
+                    class="factor-set__td">
+                <span class="factor-set__sten-text">
+                    STEN
+                </span>
+                </th>
+            </tr>
+            <tr>
+                <th class="factor-set__td"
+                    ng-repeat="idx in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                    {{idx}}
+                </th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="f in $ctrl.set.factors">
+                <tr ng-click="$ctrl.factorEdit(f)">
+                    <td class="factor-set__td">{{f.index}}</td>
+                    <td class="factor-set__td" ng-repeat="m in f.matches">
+                        {{m.rawSum | resultRange: f.matches : $index}}
+                    </td>
+                </tr>
+                <tr ng-if="f.editing">
+                    <td class="factor-set__td">
+                        <button class="btn btn-default factor-set__remove"
+                                ng-click="$ctrl.factorRemove(f)">
+                            Remove
+                        </button>
+                        <div ng-class="{
+                            'has-error' : !f.index}">
+                            <label class="control-label" translate>
+                                Index:
+                            </label>
+                            <input type="text" ng-model="f.index"
+                                   required class="form-control">
+                        </div>
+                        <div ng-class="{
+                            'has-error' : !f.nameNegative}">
+                            <label class="control-label" translate>
+                                Factor (Negative) Name:
+                            </label>
+                            <input type="text" ng-model="f.nameNegative"
+                                   required class="form-control">
+                        </div>
+                        <label class="control-label" translate>
+                            Factor Positive Name:
+                        </label>
+                        <input type="text" ng-model="f.namePositive" class="form-control">
+                    </td>
+                    <td class="factor-set__td" ng-repeat="m in f.matches">
+                        <input type="number" ng-model="m.rawSum" min="0"
+                               class="factor-set__raw-sum form-control">
+                    </td>
+                </tr>
+                <tr class="has-error" ng-if="$ctrl.nonAscending(f)">
+                    <td colspan="11">
+                        <label class="control-label" translate>
+                            Sten corresponding values have to be ascending
+                        </label>
+                    </td>
+                </tr>
+                <tr class="has-error" ng-if="!f.nameNegative || !f.index">
+                    <td colspan="11">
+                        <label class="control-label" translate>
+                            Factor index and name are required
+                        </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="factor-set__row">
+        <button class="btn btn-default"
+                ng-click="$ctrl.changesSave()"
+                translate>
+            Save factor set
+        </button>
+    </div>
+    <div class="factor-set__row">
+        <div ng-bind="$ctrl.message.text"
+             class="message message_hidden"
+             ng-class="{
+                    'message_hidden': $ctrl.message.hidden,
+                    'bg-danger': $ctrl.message.error,
+                    'bg-success': !$ctrl.message.error
+                 }">
+        </div>
+    </div>
+</div>

@@ -43,7 +43,11 @@ Questions = new mongoose.Schema({
 			'Please specify at least two answers to question'
 		]
 	},
-	theme: String
+	idFactor: {
+		type: mongoose.Schema.ObjectId,
+		required: false,
+		ref: 'Factors'
+	}
 });
 
 QuestionSets = new mongoose.Schema({

@@ -10,6 +10,7 @@ var express = require('express'),
 	GroupsModel = require('./db/groups-schema'),
 	TestingsModel = require('./db/testings-schema'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
+	FactorSetsModel = require('./db/factor-sets-schema'),
 
 	execute = require('./lib/promise-executer'),
 
@@ -46,33 +47,34 @@ documentSaveErrorHandler = function(err, res) {
 	}
 };
 
+// GET
 [{
 	path: '/api/groups/:id?',
 	model: GroupsModel
 }, {
 	path: '/api/question-sets/:id?',
-	model: QuestionSetsModel,
-	populate: 'questions.answers.idWeight'
+	model: QuestionSetsModel
+}, {
+	path: '/api/factor-sets/:name?',
+	model: FactorSetsModel,
+	searchParam: 'name'
 }]
-	.forEach(function(p) {
-		var path = p.path,
-			Model = p.model,
-			populateDocument = p.populate;
+	.forEach(function(options) {
+		let path = options.path,
+			Model = options.model,
+			param = options.searchParam || 'id';
 
 		app.get(path, function(req, res) {
 			execute(function*() {
 				try {
-					let dbRequest, doc;
-					if (!req.params.id) {
+					let doc, searchBy = {};
+					if (!req.params[param]) {
 						doc = yield Model.find().exec();
 						return res.send(doc);
 					}
 
-					dbRequest = Model.findOne({ _id: req.params.id });
-					if (populateDocument) {
-						dbRequest.populate(populateDocument);
-					}
-					doc = yield dbRequest.exec();
+					searchBy[options.searchParam || '_id'] = req.params[param];
+					doc = yield Model.findOne(searchBy).exec();
 
 					if (!doc) {
 						res.statusCode = 404;
@@ -86,28 +88,36 @@ documentSaveErrorHandler = function(err, res) {
 		});
 });
 
+// POST
 [{
 	path: '/api/question-sets/:id?',
 	model: QuestionSetsModel,
 	data: ['name', 'questions']
 }, {
-	path: '/api/question-sets/:id?',
+	path: '/api/groups/:id?',
 	model: GroupsModel,
 	data: ['groupName', 'students']
+}, {
+	path: '/api/factor-sets/:name?',
+	model: FactorSetsModel,
+	data: ['name', 'factors'],
+	searchParam: 'name'
 }]
 	.forEach(function(options) {
 		let path = options.path,
 			Model = options.model,
-			data = options.data;
+			data = options.data,
+			param = options.searchParam || 'id';
 
 		app.post(path, function(req, res) {
 			execute(function* pGen() {
 				try {
-					let doc;
-					if (req.params.id) {
-						doc = yield Model.findById(req.params.id).exec();
+					let doc, searchBy = {};
+					if (req.params[param]) {
+						searchBy[options.searchParam || '_id'] = req.params[param];
+						doc = yield Model.findOne(searchBy).exec();
 						if (!doc) {
-							console.log('Warning: document', req.params.id, 'not found');
+							console.log('Warning: document', req.params[param], 'not found');
 						}
 					}
 					if (!doc) {
@@ -124,6 +134,11 @@ documentSaveErrorHandler = function(err, res) {
 			}());
 		});
 	});
+
+app.all('/api/*', function(req, res) {
+	res.statusCode = 404;
+	return res.send({ error: 'Not found' });
+});
 
 app.all('/*', function(req, res) {
 	res.sendFile('index.html', {

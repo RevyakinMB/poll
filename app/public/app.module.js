@@ -9,6 +9,7 @@ angular.module('pollApp', [
 	'mainMenu',
 	'groupManagement',
 	'questionSetManagement',
+	'cattellFactorSet',
 	'utils',
 	'greet'
 ]);

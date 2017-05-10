@@ -44,4 +44,19 @@ angular
 				isArray: true
 			}
 		});
+	})
+	.factory('FactorSet', function($resource) {
+		return $resource('/api/factor-sets/:factorSetName', {}, {
+			delete: {
+				method: 'POST',
+				params: {
+					action: 'delete'
+				}
+			},
+			query: {
+				method: 'GET',
+				params: { factorSetName: '' },
+				isArray: true
+			}
+		});
 	});
