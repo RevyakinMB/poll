@@ -47,48 +47,6 @@ documentSaveErrorHandler = function(err, res) {
 	}
 };
 
-// GET
-[{
-	path: '/api/groups/:id?',
-	model: GroupsModel
-}, {
-	path: '/api/question-sets/:id?',
-	model: QuestionSetsModel
-}, {
-	path: '/api/factor-sets/:name?',
-	model: FactorSetsModel,
-	searchParam: 'name'
-}]
-	.forEach(function(options) {
-		let path = options.path,
-			Model = options.model,
-			param = options.searchParam || 'id';
-
-		app.get(path, function(req, res) {
-			execute(function*() {
-				try {
-					let doc, searchBy = {};
-					if (!req.params[param]) {
-						doc = yield Model.find().exec();
-						return res.send(doc);
-					}
-
-					searchBy[options.searchParam || '_id'] = req.params[param];
-					doc = yield Model.findOne(searchBy).exec();
-
-					if (!doc) {
-						res.statusCode = 404;
-						return res.send({ error: 'Not found' });
-					}
-					return res.send(doc);
-				} catch(err) {
-					return serverErrorHandler(err, res);
-				}
-			}());
-		});
-});
-
-// POST
 [{
 	path: '/api/question-sets/:id?',
 	model: QuestionSetsModel,
@@ -130,6 +88,29 @@ documentSaveErrorHandler = function(err, res) {
 					return res.send(doc);
 				} catch (err) {
 					return documentSaveErrorHandler(err, res);
+				}
+			}());
+		});
+
+		app.get(path, function(req, res) {
+			execute(function*() {
+				try {
+					let doc, searchBy = {};
+					if (!req.params[param]) {
+						doc = yield Model.find().exec();
+						return res.send(doc);
+					}
+
+					searchBy[options.searchParam || '_id'] = req.params[param];
+					doc = yield Model.findOne(searchBy).exec();
+
+					if (!doc) {
+						res.statusCode = 404;
+						return res.send({ error: 'Not found' });
+					}
+					return res.send(doc);
+				} catch(err) {
+					return serverErrorHandler(err, res);
 				}
 			}());
 		});
