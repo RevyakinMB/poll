@@ -15,7 +15,7 @@ var express = require('express'),
 	execute = require('./lib/promise-executer'),
 
 	serverErrorHandler,
-	documentSaveErrorHandler;
+	documentUpdateErrorHandler;
 require('./db/db-connect');
 
 app.use(bodyParser.json());
@@ -32,7 +32,7 @@ serverErrorHandler = function(err, res) {
 	return res.send({ error: 'Server error' });
 };
 
-documentSaveErrorHandler = function(err, res) {
+documentUpdateErrorHandler = function(err, res) {
 	console.log('Error:', err);
 	if (err.name === 'ValidationError') {
 		res.statusCode = 400;
@@ -60,6 +60,10 @@ documentSaveErrorHandler = function(err, res) {
 	model: FactorSetsModel,
 	data: ['name', 'factors'],
 	searchParam: 'name'
+}, {
+	path: '/api/testings/:id?',
+	model: TestingsModel,
+	data: ['idQuestionSet', 'idGroup', 'scheduledFor', 'attempts']
 }]
 	.forEach(function(options) {
 		let path = options.path,
@@ -71,13 +75,20 @@ documentSaveErrorHandler = function(err, res) {
 			execute(function* pGen() {
 				try {
 					let doc, searchBy = {};
+					searchBy[options.searchParam || '_id'] = req.params[param];
+
+					if (req.query['action'] === 'delete') {
+						yield Model.remove(searchBy).exec();
+						return res.send();
+					}
+
 					if (req.params[param]) {
-						searchBy[options.searchParam || '_id'] = req.params[param];
 						doc = yield Model.findOne(searchBy).exec();
 						if (!doc) {
 							console.log('Warning: document', req.params[param], 'not found');
 						}
 					}
+
 					if (!doc) {
 						res.statusCode = 201;
 						doc = new Model();
@@ -87,7 +98,7 @@ documentSaveErrorHandler = function(err, res) {
 					doc = yield doc.save();
 					return res.send(doc);
 				} catch (err) {
-					return documentSaveErrorHandler(err, res);
+					return documentUpdateErrorHandler(err, res);
 				}
 			}());
 		});

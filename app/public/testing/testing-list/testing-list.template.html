@@ -1,0 +1,169 @@
+<div>
+    <div class="testing-list__row">
+        <button class="btn btn-default"
+                ng-click="$ctrl.testingRemove()"
+                ng-disabled="!$ctrl.testingSelectedCount()"
+                translate>
+            Remove
+        </button>
+        <button class="btn btn-default" translate
+                ng-click="$ctrl.testingAdd()">
+            Create
+        </button>
+        <button class="btn btn-default" translate
+                ng-disabled="$ctrl.testingSelectedCount() !== 1"
+                ng-click="$ctrl.testingEdit()">
+            Edit
+        </button>
+    </div>
+    <div class="testing-list__row">
+        <span>
+            Scheduled testings:
+        </span>
+        <label class="control-label">
+            {{$ctrl.testings.length}}
+        </label>
+    </div>
+    <table class="table" ng-if="$ctrl.testings.length !== 0">
+        <thead>
+        <tr>
+            <td class="testing-list__all-checkbox">
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="$ctrl.allSelected">&nbsp;
+                </div>
+            </td>
+            <td>
+                <span ng-click="$ctrl.sort('groupName')">
+                    <span translate>
+                        Group name
+                    </span>
+                    <span class="glyphicon"
+                          ng-class="{
+                              'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
+                              'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                          }">
+                    </span>
+                </span>
+            </td>
+            <td>
+                <span translate>
+                    Question set
+                </span>
+            </td>
+            <td>
+                <span ng-click="$ctrl.sort('timing')">
+                    <span translate>
+                        Scheduled for
+                    </span>
+                    <span class="glyphicon"
+                          ng-class="{
+                              'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
+                              'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                          }">
+                    </span>
+                </span>
+            </td>
+        </tr>
+        </thead>
+        <tbody ng-repeat="t in $ctrl.testings">
+        <tr ng-class="{
+                'bg-info': t.selected,
+                'bg-danger': t.invalid
+            }"
+            ng-click="$ctrl.testingSelect($event, t)">
+            <td>
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-click="$ctrl.testingSelect($event)"
+                           ng-model="t.selected">&nbsp;
+                </div>
+            </td>
+            <td>
+                <a href="/groups/{{t.idGroup}}" ng-if="t.idGroup">
+                    {{$ctrl.groupsMap[t.idGroup] | notApplicable}}
+                </a>
+                <span ng-if="!t.idGroup">
+                    {{'' | notApplicable}}
+                </span>
+            </td>
+            <td>
+                <a href="/question-sets/{{t.idQuestionSet}}" ng-if="t.idQuestionSet">
+                    {{$ctrl.questionSetsMap[t.idQuestionSet] | notApplicable}}
+                </a>
+                <span ng-if="!t.idQuestionSet">
+                    {{'' | notApplicable}}
+                </span>
+            </td>
+            <td>
+                {{t.scheduledFor | date: 'dd.MM.yyyy'}}
+            </td>
+        </tr>
+        <tr ng-if="t.editing">
+            <td colspan="4">
+                <label translate class="control-label">
+                    Group
+                </label>
+                <select ng-model="t.idGroup" class="form-control">
+                    <option ng-repeat="g in $ctrl.groups" ng-value="g._id">
+                        {{g.groupName | notApplicable}}
+                    </option>
+                </select>
+                <label translate class="control-label">
+                    Question set
+                </label>
+                <select ng-model="t.idQuestionSet" class="form-control">
+                    <option ng-repeat="s in $ctrl.questionSets" ng-value="s._id">
+                        {{s.name | notApplicable}}
+                    </option>
+                </select>
+                <label translate class="control-label">
+                    Scheduled for
+                </label>
+                <input type="text" date-picker ng-model="t.scheduledFor" class="form-control" options="{language:'ru'}">
+                <br>
+                <button class="btn btn-default" translate ng-click="$ctrl.editorClose(t)">
+                    Close
+                </button>
+            </td>
+        </tr>
+        <!--<tr>-->
+            <!--<td colspan="5" class="testing-list__passed-header">-->
+        <!-- -->
+            <!--</td>-->
+        <!--</tr>-->
+        </tbody>
+    </table>
+    <div ng-if="$ctrl.testings.length === 0" class="testing-list__row has-warning">
+        <label class="glyphicon glyphicon-info-sign control-label"></label>
+        <label translate class="control-label">
+            No testings scheduled. Click to `Create` to add new
+        </label>
+    </div>
+    <div class="testing-list__passed-header testing-list__row">
+        <span translate>Passed testings:</span>
+        <label class="control-label">
+            {{$ctrl.testingsPassed.length}}
+        </label>
+        <span ng-if="$ctrl.testingsPassed.length">
+            <span>( click to</span>
+            <span ng-if="!$ctrl.passedShow">show</span>
+            <span ng-if="$ctrl.passedShow">hide</span>
+            <span>)</span>
+        </span>
+    </div>
+    <div class="testing-list__row">
+        <button class="btn btn-default" translate
+                ng-click="$ctrl.changesSave()">
+            Save testings changes
+        </button>
+    </div>
+    <div class="testing-list__row">
+        <div ng-bind="$ctrl.message.text"
+             class="message message_hidden"
+             ng-class="{
+                    'message_hidden': $ctrl.message.hidden,
+                    'bg-danger': $ctrl.message.error,
+                    'bg-success': !$ctrl.message.error
+                 }">
+        </div>
+    </div>
+</div>

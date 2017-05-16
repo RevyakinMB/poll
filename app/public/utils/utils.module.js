@@ -1,3 +1,5 @@
 angular.module('utils', [
-	'gettext'
+	'gettext',
+	'moment',
+	'jquery'
 ]);

@@ -10,6 +10,7 @@ angular.module('pollApp', [
 	'groupManagement',
 	'questionSetManagement',
 	'cattellFactorSet',
+	'testing',
 	'utils',
 	'greet'
 ]);

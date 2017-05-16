@@ -428,3 +428,17 @@ ul {
 .factor-set__remove {
     width: 100%;
 }
+
+
+.testing-list__row {
+    margin-bottom: 10px;
+    clear: both;
+}
+
+.testing-list__passed-header {
+    cursor: pointer;
+}
+
+.testing-list__all-checkbox {
+    width: 30px;
+}

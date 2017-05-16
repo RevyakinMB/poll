@@ -59,4 +59,19 @@ angular
 				isArray: true
 			}
 		});
+	})
+	.factory('Testing', function($resource) {
+		return $resource('/api/testings/:testingId', {}, {
+			delete: {
+				method: 'POST',
+				params: {
+					action: 'delete'
+				}
+			},
+			query: {
+				method: 'GET',
+				params: { testingId: '' },
+				isArray: true
+			}
+		});
 	});

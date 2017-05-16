@@ -16,12 +16,15 @@ angular
 			}, {
 				name: gettextCatalog.getString('Cattell factor set'),
 				path: '/cattell-factor-set'
+			}, {
+				name: gettextCatalog.getString('Testing list'),
+				path: '/testings'
 			}];
 
 			// temporary dummy menu items
-			for (i = 0; i < 6; ++i) {
+			for (i = 0; i < 5; ++i) {
 				this.items.push({
-					name: gettextCatalog.getString('Menu' + (i + 5)),
+					name: gettextCatalog.getString('Menu' + (i + 6)),
 					path: '/nonExistent'
 				});
 			}

@@ -23,7 +23,7 @@ Testings = new mongoose.Schema({
 		required: true,
 		ref: 'QuestionSets'
 	},
-	scheduledAt: Date,
+	scheduledFor: Date,
 	idGroup: {
 		type: mongoose.Schema.ObjectId,
 		required: true,
