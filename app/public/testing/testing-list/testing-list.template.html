@@ -21,10 +21,10 @@
             Scheduled testings:
         </span>
         <label class="control-label">
-            {{$ctrl.testings.length}}
+            {{$ctrl.testingsScheduled.length}}
         </label>
     </div>
-    <table class="table" ng-if="$ctrl.testings.length !== 0">
+    <table class="table" ng-if="$ctrl.testingsScheduled.length !== 0">
         <thead>
         <tr>
             <td class="testing-list__all-checkbox">
@@ -33,14 +33,16 @@
                 </div>
             </td>
             <td>
-                <span ng-click="$ctrl.sort('groupName')">
+                <span ng-click="$ctrl.sortBy('idGroup')"
+                      class="testing-list__interactive-header">
                     <span translate>
                         Group name
                     </span>
                     <span class="glyphicon"
+                          ng-show="$ctrl.sortPropName === 'idGroup'"
                           ng-class="{
-                              'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
-                              'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                              'glyphicon-triangle-bottom': !$ctrl.sortReversed,
+                              'glyphicon-triangle-top': $ctrl.sortReversed
                           }">
                     </span>
                 </span>
@@ -51,21 +53,23 @@
                 </span>
             </td>
             <td>
-                <span ng-click="$ctrl.sort('timing')">
+                <span ng-click="$ctrl.sortBy('scheduledFor')"
+                      class="testing-list__interactive-header">
                     <span translate>
                         Scheduled for
                     </span>
                     <span class="glyphicon"
+                          ng-show="$ctrl.sortPropName === 'scheduledFor'"
                           ng-class="{
-                              'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
-                              'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                              'glyphicon-triangle-bottom': !$ctrl.sortReversed,
+                              'glyphicon-triangle-top': $ctrl.sortReversed
                           }">
                     </span>
                 </span>
             </td>
         </tr>
         </thead>
-        <tbody ng-repeat="t in $ctrl.testings">
+        <tbody ng-repeat="t in $ctrl.testingsScheduled">
         <tr ng-class="{
                 'bg-info': t.selected,
                 'bg-danger': t.invalid
@@ -132,13 +136,15 @@
         <!--</tr>-->
         </tbody>
     </table>
-    <div ng-if="$ctrl.testings.length === 0" class="testing-list__row has-warning">
+    <div ng-if="$ctrl.testingsScheduled.length === 0" class="testing-list__row has-warning">
         <label class="glyphicon glyphicon-info-sign control-label"></label>
         <label translate class="control-label">
             No testings scheduled. Click to `Create` to add new
         </label>
     </div>
-    <div class="testing-list__passed-header testing-list__row">
+    <div class="testing-list__interactive-header testing-list__row"
+         ng-click="$ctrl.passedHideShow()"
+         ng-if="$ctrl.testingsPassed.length !== 0">
         <span translate>Passed testings:</span>
         <label class="control-label">
             {{$ctrl.testingsPassed.length}}
@@ -150,6 +156,38 @@
             <span>)</span>
         </span>
     </div>
+    <table class="table"
+           ng-if="$ctrl.testingsPassed.length !== 0"
+           ng-show="$ctrl.passedShow">
+        <thead>
+        <tr>
+            <td><span translate>Group name</span></td>
+            <td><span translate>Question set</span></td>
+            <td><span translate>Scheduled for</span></td>
+        </tr>
+        </thead>
+        <tr ng-repeat="t in $ctrl.testingsPassed">
+            <td>
+                <a href="/groups/{{t.idGroup}}" ng-if="t.idGroup">
+                    {{$ctrl.groupsMap[t.idGroup] | notApplicable}}
+                </a>
+                <span ng-if="!t.idGroup">
+                    {{'' | notApplicable}}
+                </span>
+            </td>
+            <td>
+                <a href="/question-sets/{{t.idQuestionSet}}" ng-if="t.idQuestionSet">
+                    {{$ctrl.questionSetsMap[t.idQuestionSet] | notApplicable}}
+                </a>
+                <span ng-if="!t.idQuestionSet">
+                    {{'' | notApplicable}}
+                </span>
+            </td>
+            <td>
+                {{t.scheduledFor | date: 'dd.MM.yyyy'}}
+            </td>
+        </tr>
+    </table>
     <div class="testing-list__row">
         <button class="btn btn-default" translate
                 ng-click="$ctrl.changesSave()">

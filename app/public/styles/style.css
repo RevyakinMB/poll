@@ -435,10 +435,10 @@ ul {
     clear: both;
 }
 
-.testing-list__passed-header {
+.testing-list__interactive-header {
     cursor: pointer;
 }
 
 .testing-list__all-checkbox {
-    width: 30px;
+    width: 40px;
 }

@@ -3,18 +3,22 @@ angular
 	.component('testingList', {
 		templateUrl: 'testing/testing-list/testing-list.template.html',
 		controller: function testingListController(
+			$timeout, $filter,
+			moment,
 			Testing, Group, QuestionSet,
-			messenger, $timeout, gettextCatalog) {
+			messenger, gettextCatalog) {
+			var dateFixed;
+
 			this.testingsScheduled = [];
 			this.testingsPassed = [];
-			this.testings = Testing.query(
+			Testing.query(
 				function(ls) {
 					// TODO: ls.filter(t => t.attempts.length > 0)
 
 					var d = new Date();
-					d.setDate(d.getDate() + 1);
+					d.setDate(d.getDate() - 3);
 					ls.forEach(function(t) {
-						if (t.scheduledFor < d) {
+						if (new Date(t.scheduledFor) < d) {
 							this.testingsPassed.push(t);
 						} else {
 							this.testingsScheduled.push(t);
@@ -25,6 +29,19 @@ angular
 					console.log('Testings query error:', err);
 				}
 			);
+
+			dateFixed = function(input) {
+				var parts;
+				if (typeof input !== 'string') {
+					return new Date(input);
+				}
+
+				parts = input.split('.');
+				if (parts.length !== 3) {
+					throw new Error('An error occurred: non RU locale of air-datePicker used?');
+				}
+				return new Date(parts[2], parts[1] - 1, parts[0]);
+			};
 
 			// helper maps
 			this.groupsMap = [];
@@ -41,24 +58,72 @@ angular
 				}, this);
 			}.bind(this));
 
+			this.sortPropName = '';
+			this.sortReversed = false;
+			this.sortBy = function(property) {
+				this.sortReversed = this.sortPropName === property
+					? !this.sortReversed
+					: false;
+				this.sortPropName = property;
+
+				this.testingsScheduled = $filter('orderBy')(
+					this.testingsScheduled,
+					this.sortPropName,
+					this.sortReversed,
+					this.localeSensitiveComparator);
+			};
+			this.localeSensitiveComparator = (function(self) {
+				return function(v1, v2) {
+					var mapped1, mapped2, updated;
+
+					// if we don't get strings, just compare by index
+					if (v1.type !== 'string' || v2.type !== 'string') {
+						return (v1.index < v2.index) ? -1 : 1;
+					}
+
+					if (self.sortPropName === 'idGroup') {
+						mapped1 = self.groupsMap[v1.value] || v1.value;
+						mapped2 = self.groupsMap[v2.value] || v2.value;
+						// compare strings alphabetically, taking locale into account
+						return mapped1.localeCompare(mapped2);
+					} else if (self.sortPropName === 'scheduledFor') {
+						updated = [v1.value, v2.value].map(function(v) {
+							var fixed;
+							if (moment(v, moment.ISO_8601, true).isValid()) {
+								return v;
+							}
+							try {
+								fixed = dateFixed(v).toISOString();
+							} catch (err) {
+								return v;
+							}
+							return fixed;
+						});
+						v1.value = updated[0];
+						v2.value = updated[1];
+					}
+					return v1.value.localeCompare(v2.value);
+				};
+			}(this));
+
 			Object.defineProperty(this, 'allSelected', {
 				get: function() {
-					return this.testings.every(function(t) {
+					return this.testingsScheduled.every(function(t) {
 						return t.selected;
 					});
 				}.bind(this),
 				set: function(v) {
-					this.testings.forEach(function(t) {
+					this.testingsScheduled.forEach(function(t) {
 						t.selected = v;
 					});
 				}.bind(this)
 			});
 
 			this.testingAdd = function() {
-				this.testings.forEach(function(t) {
+				this.testingsScheduled.forEach(function(t) {
 					t.editing = false;
 				});
-				this.testings.push(new Testing({
+				this.testingsScheduled.push(new Testing({
 					idQuestionSet: undefined,
 					scheduledFor: new Date(),
 					idGroup: undefined,
@@ -68,7 +133,7 @@ angular
 			};
 
 			this.testingEdit = function() {
-				var selected = this.testings.filter(function(t) {
+				var selected = this.testingsScheduled.filter(function(t) {
 					t.editing = false;
 					return t.selected;
 				});
@@ -83,13 +148,14 @@ angular
 			};
 
 			this.testingRemove = function() {
-				var victims = this.testings.filter(function(t) {
+				var victims = this.testingsScheduled.filter(function(t) {
 					return t.selected;
 				});
 
 				victims.forEach(function(t) {
 					if (!t._id) {
-						this.testings.splice(this.testings.indexOf(t), 1);
+						this.testingsScheduled.splice(
+							this.testingsScheduled.indexOf(t), 1);
 						return;
 					}
 					delete t.selected;
@@ -98,9 +164,9 @@ angular
 						testingId: t._id
 					},
 						function() {
-							var idx = this.testings.indexOf(t);
+							var idx = this.testingsScheduled.indexOf(t);
 							if (idx !== -1) {
-								this.testings.splice(idx, 1);
+								this.testingsScheduled.splice(idx, 1);
 							}
 						}.bind(this),
 						function(err) {
@@ -122,9 +188,15 @@ angular
 			};
 
 			this.testingSelectedCount = function() {
-				return this.testings.reduce(function(count, t) {
+				return this.testingsScheduled.reduce(function(count, t) {
 					return count + (t.selected ? 1 : 0);
 				}, 0);
+			};
+
+			this.passedShow = false;
+
+			this.passedHideShow = function() {
+				this.passedShow = !this.passedShow;
 			};
 
 			this.message = {
@@ -134,25 +206,12 @@ angular
 			};
 
 			this.changesSave = function() {
-				// this.testingsScheduled. ...
 				var now = Date.now(),
 					invalidTestings,
-					isValid,
-					dateFixed = function(input) {
-						var parts;
-						if (typeof input !== 'string') {
-							return new Date(input);
-						}
-
-						parts = input.split('.');
-						if (parts.length !== 3) {
-							throw new Error('An error occurred: non RU locale of air-datePicker used?');
-						}
-						return new Date(parts[2], parts[1] - 1, parts[0]);
-					};
+					isValid;
 
 				try {
-					invalidTestings = this.testings.filter(function(t) {
+					invalidTestings = this.testingsScheduled.filter(function(t) {
 						return t.changed && (!t.idGroup || !t.idQuestionSet || dateFixed(t.scheduledFor) < now);
 					});
 				} catch (err) {
@@ -183,7 +242,7 @@ angular
 					return;
 				}
 
-				this.testings.forEach(function(t) {
+				this.testingsScheduled.forEach(function(t) {
 					if (!t.changed) {
 						return;
 					}
