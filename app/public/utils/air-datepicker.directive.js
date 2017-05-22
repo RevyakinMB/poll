@@ -1,34 +1,53 @@
 angular
 	.module('utils')
-	.directive('datePicker', function datePicker(moment, jquery) {
+	.directive('datePicker', function datePicker(jQuery, moment) {
 		return {
 			restrict: 'A',
 			require: 'ngModel',
 			scope: {
 				ngModel: '='
 			},
-			link: function datePickerLink(scope, element) {
-				var opt = {};
+			link: function datePickerLink(scope, element, attrs, ngModelCtrl) {
+				var opt = {
+						toggleSelected: false
+					}, listener;
 
-				opt.onSelect = function(formattedDate) {
-					scope.ngModel = formattedDate;
+				opt.onSelect = function(formattedDate, date) {
+					scope.ngModel = new Date(date).toISOString();
+					console.log('onSelect', new Date(date).toISOString());
 					scope.$applyAsync();
 				};
 
-				scope.$watch('ngModel', function(v) {
-					var value;
-					if (typeof v === 'string') {
-						value = moment(v, moment.ISO_8601, true).isValid()
-							? new Date(v)
-							: v;
-					} else {
-						value = v;
-					}
-
-					jquery(element).data('datepicker').selectDate(value);
+				listener = scope.$watch('ngModel', function(v) {
+					console.log('$watch', v);
+					jQuery(element).data('datepicker').selectDate(new Date(v));
+					listener();
 				});
 
-				jquery(element).datepicker(opt);
+				ngModelCtrl.$formatters.unshift(function(modelValue) {
+					console.log('$formatters', modelValue);
+					return moment(modelValue).format('DD.MM.YYYY');
+				});
+
+				ngModelCtrl.$parsers.unshift(function(viewValue) {
+					var isValid = moment(viewValue, 'DD.MM.YYYY', true).isValid(),
+						date;
+					console.log('$parsers', viewValue);
+
+					if (!isValid) {
+						return ngModelCtrl.$modelValue;
+					}
+
+					date = moment(viewValue, 'DD.MM.YYYY').toISOString();
+					jQuery(element).data('datepicker').selectDate(new Date(date));
+					return date;
+				});
+
+				element.on('$destroy', function() {
+					jQuery(element).data('datepicker').destroy();
+				});
+
+				jQuery(element).datepicker(opt);
 			}
 		};
 	});

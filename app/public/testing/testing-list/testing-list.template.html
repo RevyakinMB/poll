@@ -71,7 +71,6 @@
         </thead>
         <tbody ng-repeat="t in $ctrl.testingsScheduled">
         <tr ng-class="{
-                'bg-info': t.selected,
                 'bg-danger': t.invalid
             }"
             ng-click="$ctrl.testingSelect($event, t)">
@@ -122,18 +121,13 @@
                 <label translate class="control-label">
                     Scheduled for
                 </label>
-                <input type="text" date-picker ng-model="t.scheduledFor" class="form-control" options="{language:'ru'}">
+                <input type="text" date-picker ng-model="t.scheduledFor" class="form-control">
                 <br>
                 <button class="btn btn-default" translate ng-click="$ctrl.editorClose(t)">
                     Close
                 </button>
             </td>
         </tr>
-        <!--<tr>-->
-            <!--<td colspan="5" class="testing-list__passed-header">-->
-        <!-- -->
-            <!--</td>-->
-        <!--</tr>-->
         </tbody>
     </table>
     <div ng-if="$ctrl.testingsScheduled.length === 0" class="testing-list__row has-warning">

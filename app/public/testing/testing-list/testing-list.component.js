@@ -4,11 +4,8 @@ angular
 		templateUrl: 'testing/testing-list/testing-list.template.html',
 		controller: function testingListController(
 			$timeout, $filter,
-			moment,
 			Testing, Group, QuestionSet,
 			messenger, gettextCatalog) {
-			var dateFixed;
-
 			this.testingsScheduled = [];
 			this.testingsPassed = [];
 			Testing.query(
@@ -16,7 +13,7 @@ angular
 					// TODO: ls.filter(t => t.attempts.length > 0)
 
 					var d = new Date();
-					d.setDate(d.getDate() - 3);
+					d.setDate(d.getDate() - 5);
 					ls.forEach(function(t) {
 						if (new Date(t.scheduledFor) < d) {
 							this.testingsPassed.push(t);
@@ -29,19 +26,6 @@ angular
 					console.log('Testings query error:', err);
 				}
 			);
-
-			dateFixed = function(input) {
-				var parts;
-				if (typeof input !== 'string') {
-					return new Date(input);
-				}
-
-				parts = input.split('.');
-				if (parts.length !== 3) {
-					throw new Error('An error occurred: non RU locale of air-datePicker used?');
-				}
-				return new Date(parts[2], parts[1] - 1, parts[0]);
-			};
 
 			// helper maps
 			this.groupsMap = [];
@@ -74,7 +58,7 @@ angular
 			};
 			this.localeSensitiveComparator = (function(self) {
 				return function(v1, v2) {
-					var mapped1, mapped2, updated;
+					var mapped1, mapped2;
 
 					// if we don't get strings, just compare by index
 					if (v1.type !== 'string' || v2.type !== 'string') {
@@ -86,21 +70,6 @@ angular
 						mapped2 = self.groupsMap[v2.value] || v2.value;
 						// compare strings alphabetically, taking locale into account
 						return mapped1.localeCompare(mapped2);
-					} else if (self.sortPropName === 'scheduledFor') {
-						updated = [v1.value, v2.value].map(function(v) {
-							var fixed;
-							if (moment(v, moment.ISO_8601, true).isValid()) {
-								return v;
-							}
-							try {
-								fixed = dateFixed(v).toISOString();
-							} catch (err) {
-								return v;
-							}
-							return fixed;
-						});
-						v1.value = updated[0];
-						v2.value = updated[1];
 					}
 					return v1.value.localeCompare(v2.value);
 				};
@@ -206,13 +175,13 @@ angular
 			};
 
 			this.changesSave = function() {
-				var now = Date.now(),
+				var now = new Date(),
 					invalidTestings,
 					isValid;
 
 				try {
 					invalidTestings = this.testingsScheduled.filter(function(t) {
-						return t.changed && (!t.idGroup || !t.idQuestionSet || dateFixed(t.scheduledFor) < now);
+						return t.changed && (!t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < now);
 					});
 				} catch (err) {
 					console.error(err.message);
@@ -244,15 +213,8 @@ angular
 
 				this.testingsScheduled.forEach(function(t) {
 					if (!t.changed) {
-						return;
-					}
-					try {
-						t.scheduledFor = dateFixed(t.scheduledFor);
-					} catch (err) {
-						console.error(err.message);
 						messenger({
-							message: gettextCatalog.getString('An error occurred'),
-							isError: true
+							message: gettextCatalog.getString('No testings changed')
 						}, this.message);
 						return;
 					}

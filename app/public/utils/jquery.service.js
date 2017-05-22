@@ -1,5 +1,5 @@
 angular
 	.module('jquery', [])
-	.factory('jquery', function($window) {
+	.factory('jQuery', function($window) {
 		return $window.jQuery;
 	});
