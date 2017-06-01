@@ -26,7 +26,7 @@ angular
 
 				ngModelCtrl.$formatters.unshift(function(modelValue) {
 					console.log('$formatters', modelValue);
-					return moment(modelValue).format('DD.MM.YYYY');
+					return moment(new Date(modelValue)).format('DD.MM.YYYY');
 				});
 
 				ngModelCtrl.$parsers.unshift(function(viewValue) {

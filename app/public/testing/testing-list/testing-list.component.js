@@ -137,6 +137,9 @@ angular
 							if (idx !== -1) {
 								this.testingsScheduled.splice(idx, 1);
 							}
+							messenger({
+								message: gettextCatalog.getString('Testing(s) successfully removed')
+							}, this.message);
 						}.bind(this),
 						function(err) {
 							console.log(err.message);
@@ -176,23 +179,13 @@ angular
 
 			this.changesSave = function() {
 				var now = new Date(),
-					invalidTestings,
-					isValid;
-
-				try {
-					invalidTestings = this.testingsScheduled.filter(function(t) {
-						return t.changed && (!t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < now);
-					});
-				} catch (err) {
-					console.error(err.message);
-					messenger({
-						message: gettextCatalog.getString('An error occurred'),
-						isError: true
-					}, this.message);
-					return;
-				}
-
-				isValid = invalidTestings.length === 0;
+					changedTestings = this.testingsScheduled.filter(function(t) {
+						return t.changed;
+					}),
+					invalidTestings = changedTestings.filter(function(t) {
+						return !t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < now;
+					}),
+					isValid = invalidTestings.length === 0;
 
 				if (!isValid) {
 					messenger({
@@ -205,20 +198,20 @@ angular
 							$timeout.cancel(t.invalidTimeout);
 						}
 						t.invalidTimeout = $timeout(function() {
-							t.invalid = false;
+							delete t.invalid;
 						}, 3000);
 					});
 					return;
 				}
 
-				this.testingsScheduled.forEach(function(t) {
-					if (!t.changed) {
-						messenger({
-							message: gettextCatalog.getString('No testings changed')
-						}, this.message);
-						return;
-					}
+				if (!changedTestings.length) {
+					messenger({
+						message: gettextCatalog.getString('No testings changed')
+					}, this.message);
+					return;
+				}
 
+				changedTestings.forEach(function(t) {
 					t.$save({
 						testingId: t._id
 					},
