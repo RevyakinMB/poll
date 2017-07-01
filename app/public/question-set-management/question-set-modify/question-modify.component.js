@@ -5,7 +5,8 @@ angular
 		bindings: {
 			question: '<',
 			onUpdate: '&',
-			onClose: '&'
+			onClose: '&',
+			factors: '<'
 		},
 		controller: function questionModifyController(
 			questionTypes, appLocalStorage,

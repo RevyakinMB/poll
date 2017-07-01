@@ -4,7 +4,9 @@ angular
 		templateUrl: 'question-set-management/question-set-modify/question-set-modify.template.html',
 		controller: function questionSetModifyControler(
 			$routeParams, $compile, $scope, $document, $timeout,
-			gettextCatalog, QuestionSet, appLocalStorage, messenger) {
+			gettextCatalog, QuestionSet, appLocalStorage, messenger,
+			FactorSet
+		) {
 			if ($routeParams.questionSetId === 'new') {
 				this.set = new QuestionSet();
 				this.set.name = '';
@@ -20,6 +22,23 @@ angular
 					}
 				}.bind(this));
 			}
+
+			this.factors = [];
+			FactorSet.get({
+				factorSetName: 'Cattell'
+			},
+				function(factorSet) {
+					this.factors = factorSet.factors;
+				}.bind(this),
+				function(err) {
+					console.log('Error while factor set loading:', err);
+					messenger({
+						message: gettextCatalog.getString(
+							'Error: Cattell factor set was not loaded'),
+						isError: true
+					}, this.message);
+				}.bind(this)
+			);
 
 			this.questionAdd = function() {
 				var cleanup;
@@ -63,9 +82,10 @@ angular
 			};
 
 			this.questionUpdate = function($event) {
-				['text', 'theme', 'qType', 'answers'].forEach(function(field) {
-					this.questionDirty[field] = $event.question[field];
-				}, this);
+				['text', 'idFactor', 'qType', 'answers']
+					.forEach(function(field) {
+						this.questionDirty[field] = $event.question[field];
+					}, this);
 			};
 
 			this.questionDelete = function(q) {
@@ -93,6 +113,7 @@ angular
 				scope = $scope.$new(false);
 				this.editor = $compile([
 					'<question-modify',
+					' factors=$ctrl.factors',
 					' question=$ctrl.questionDirty',
 					' on-update=$ctrl.questionUpdate($event)',
 					' on-close=$ctrl.editorClose()',

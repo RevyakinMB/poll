@@ -23,11 +23,11 @@
             Field is required.
         </label>
     </div>
-    <div ng-if="$ctrl.question.qType === 'Cattell' && $ctrl.factors">
+    <div ng-if="$ctrl.question.qType === 'Cattell'">
         <label class="control-label" translate>
             Factor
         </label>
-        <select ng-bind="$ctrl.question.idFactor"
+        <select ng-model="$ctrl.question.idFactor"
                 class="form-control"
                 name="factor">
             <option ng-repeat="f in $ctrl.factors" ng-value="f._id">
