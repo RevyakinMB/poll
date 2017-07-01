@@ -442,3 +442,41 @@ ul {
 .testing-list__all-checkbox {
     width: 40px;
 }
+
+
+.test-passing__student {
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: all 0.3s;
+}
+
+.test-passing__student:hover {
+    border-color: black;
+}
+
+.test-passing__row {
+    margin-bottom: 10px;
+}
+
+.test-passing__position-btn-up,
+.test-passing__position-btn-down {
+    cursor: pointer;
+    padding: 6px 6px 6px 0;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+}
+
+.test-passing__position-btn-up:hover,
+.test-passing__position-btn-down:hover {
+    opacity: 1;
+}
+
+.test-passing__row:first-child .test-passing__position-btn-up,
+.test-passing__row:first-child .test-passing__position-btn-up:hover,
+.test-passing__row:last-child .test-passing__position-btn-down,
+.test-passing__row:last-child .test-passing__position-btn-down:hover {
+    opacity: 0.2;
+    cursor: not-allowed;
+}

@@ -1,0 +1,127 @@
+<div class="test-passing__row">
+    <span translate>Testing name:</span>
+    <span class="test-passing__name">
+        {{$ctrl.questionSet.name}}
+    </span>
+</div>
+
+<div ng-if="!$ctrl.session.student">
+    <div class="test-passing__row">
+        <label class="glyphicon glyphicon-info-sign control-label"></label>
+        <span translate>Select your name from the list:</span>
+    </div>
+
+    <div ng-repeat="s in $ctrl.group.students |
+            orderBy: ['lastName', 'firstName', 'patronymic']: false: $ctrl.localeSensitiveComparator">
+        <div class="test-passing__student" ng-click="$ctrl.studentSelect(s)">
+            {{ s.lastName + ' ' + s.firstName + ' ' + s.patronymic }}
+        </div>
+    </div>
+</div>
+
+<div ng-if="$ctrl.session.student">
+    <div class="test-passing__row">
+        <span translate>Testee:</span>
+        <span>
+            {{ $ctrl.session.student.lastName + ' ' +
+                $ctrl.session.student.firstName + ' ' +
+                $ctrl.session.student.patronymic
+            }}
+        </span>
+    </div>
+    <div class="test-passing__row">
+        <span translate>Time elapsed:</span>
+
+        <span ng-if="$ctrl.session.timeElapsed.days > 0">
+            {{ $ctrl.session.timeElapsed.days }}
+            <span translate translate-n="$ctrl.session.timeElapsed.days"
+                  translate-plural="days">
+                day
+            </span>
+        </span>
+
+        <span ng-if="$ctrl.session.timeElapsed.hours > 0">
+            {{ $ctrl.session.timeElapsed.hours }}
+            <span translate translate-n="$ctrl.session.timeElapsed.hours"
+                  translate-plural="hours">
+                hour
+            </span>
+        </span>
+
+        <span>
+            {{ $ctrl.session.timeElapsed.minutes }}
+            <span translate translate-n="$ctrl.session.timeElapsed.minutes"
+                  translate-plural="minutes">
+                minute
+            </span>
+        </span>
+    </div>
+
+    <div class="test-passing__row"
+         ng-if="$ctrl.session.currentQuestion">
+        <div><span translate>Progress:</span>
+            {{ $ctrl.questionSet.questions.length - $ctrl.session.questionList.length }}
+            /
+            {{ $ctrl.questionSet.questions.length }}
+        </div>
+    </div>
+</div>
+
+<div class="test-passing__row">
+    {{$ctrl.session.currentQuestion.text}}
+</div>
+
+<div ng-if="$ctrl.session.currentQuestion">
+    <div ng-repeat="a in $ctrl.session.currentQuestion.answers"
+         class="test-passing__row">
+        <div class="checkbox-inline"
+             ng-if="$ctrl.session.currentQuestion.qType === 'Multiple'">
+            <label>
+                <input type="checkbox" ng-model="a.weight"
+                       ng-true-value="1" ng-false-value="0">
+                {{a.text}}
+            </label>
+        </div>
+        <div class="radio-inline"
+             ng-if="
+                $ctrl.session.currentQuestion.qType === 'Alternative' ||
+                $ctrl.session.currentQuestion.qType === 'Cattell'">
+            <label>
+                <input type="radio" ng-model="$ctrl.session.answerSelected"
+                       name="answer" ng-value="{{$index}}">
+                {{a.text}}
+            </label>
+        </div>
+        <div ng-if="$ctrl.session.currentQuestion.qType === 'Sequencing'">
+            <span class="glyphicon glyphicon-arrow-up test-passing__position-btn-up"
+                  ng-click="$ctrl.answerMove(a, 'up')">
+            </span>
+            <span class="glyphicon glyphicon-arrow-down test-passing__position-btn-down"
+                  ng-click="$ctrl.answerMove(a, 'down')">
+            </span>
+            {{a.text}}
+        </div>
+    </div>
+</div>
+
+<div ng-if="$ctrl.session.currentQuestion"
+     class="test-passing__row">
+    <button class="btn btn-default" ng-click="$ctrl.next()">
+        Next
+    </button>
+</div>
+
+<div ng-if="$ctrl.session.attempt.finishedAt">
+    <span translate>Test passed!</span>
+</div>
+
+<div class="test-passing__row">
+    <div ng-bind="$ctrl.message.text"
+         class="message message_hidden"
+         ng-class="{
+                    'message_hidden': $ctrl.message.hidden,
+                    'bg-danger': $ctrl.message.error,
+                    'bg-success': !$ctrl.message.error
+                 }">
+    </div>
+</div>

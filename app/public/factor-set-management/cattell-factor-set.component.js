@@ -123,7 +123,8 @@ angular
 			this.nonAscending = function(f) {
 				var value = -1;
 				return !f.matches.every(function(next) {
-					if (next.rawSum === undefined) {
+					if (next.rawSum === undefined ||
+						next.rawSum === null) {
 						return true;
 					}
 					if (next.rawSum <= value) {

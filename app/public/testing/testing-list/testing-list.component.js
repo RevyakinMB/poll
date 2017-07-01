@@ -13,7 +13,7 @@ angular
 					// TODO: ls.filter(t => t.attempts.length > 0)
 
 					var d = new Date();
-					d.setDate(d.getDate() - 5);
+					d.setDate(d.getDate() - 100);
 					ls.forEach(function(t) {
 						if (new Date(t.scheduledFor) < d) {
 							this.testingsPassed.push(t);

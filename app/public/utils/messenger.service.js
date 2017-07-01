@@ -5,6 +5,12 @@ angular
 			if (message.messageDelay) {
 				$timeout.cancel(message.messageDelay);
 			}
+
+			if (!options) {
+				message.hidden = true;
+				return;
+			}
+
 			message.text = options.message;
 			message.hidden = false;
 			message.error = options.isError;

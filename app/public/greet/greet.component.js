@@ -1,8 +1,7 @@
 angular.module('greet')
 	.component('greet', {
-		controller: function greetController(Group) {
-			this.name = 'World';
-			this.groups = Group.query();
+		controller: function greetController(Testing) {
+			this.testings = Testing.query();
 		},
 		templateUrl: 'greet/greet.template.html'
 	});

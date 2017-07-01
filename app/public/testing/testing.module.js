@@ -1,3 +1,4 @@
 angular.module('testing', [
-	'testingList'
+	'testingList',
+	'testPassing'
 ]);

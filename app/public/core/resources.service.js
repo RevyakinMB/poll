@@ -15,6 +15,7 @@ angular
 			}
 		});
 	})
+	// TODO: remove useless Student service?
 	.factory('Student', function($resource) {
 		return $resource('/api/groups/:groupId/students/:studentId', {}, {
 			delete: {

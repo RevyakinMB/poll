@@ -1,14 +1,10 @@
-<div translate>
-    Hello, {{$ctrl.name}}
-</div>
 <div>
-    <p translate>
-        Groups list
+    <p>
+        Testings list
     </p>
-    <p ng-repeat="group in $ctrl.groups">
-        <a ng-href="/groups/{{group._id}}">
-            {{group.groupName}}
+    <p ng-repeat="testing in $ctrl.testings">
+        <a ng-href="/testPassing/{{testing._id}}">
+            {{testing.scheduledFor | date}}
         </a>
     </p>
-    <a ng-href="/groups/new">Add new group</a>
 </div>

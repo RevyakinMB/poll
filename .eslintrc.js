@@ -29,6 +29,8 @@ module.exports = {
 		"strict": 0,
 		"no-console": 0,
 		"no-underscore-dangle": 0,
-		"no-bitwise": 0
+		"no-bitwise": 0,
+		"object-shorthand": 0,
+		"padded-blocks": 0
 	}
 };

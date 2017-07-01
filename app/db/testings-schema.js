@@ -7,14 +7,20 @@ var mongoose = require('mongoose'),
 // Testing document schema
 TestingResults = new mongoose.Schema({
 	idQuestion: mongoose.Schema.ObjectId,
-	idAnswer: mongoose.Schema.ObjectId
+	answers: [{
+		type: mongoose.Schema.ObjectId
+	}]
 });
 
 TestingAttempts = new mongoose.Schema({
 	idStudent: { type: mongoose.Schema.ObjectId, required: true },
 	startedAt: { type: Date, default: Date.now },
 	finishedAt: Date,
-	results: [TestingResults]
+	results: [TestingResults],
+	session: {
+		type: String,
+		required: true
+	}
 });
 
 Testings = new mongoose.Schema({
