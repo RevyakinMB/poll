@@ -10,21 +10,21 @@ angular
 			this.testingsPassed = [];
 			Testing.query(
 				function(ls) {
-					// TODO: ls.filter(t => t.attempts.length > 0)
-
-					var d = new Date();
-					d.setDate(d.getDate() - 100);
 					ls.forEach(function(t) {
-						if (new Date(t.scheduledFor) < d) {
+						if (t.attempts.length > 0) {
 							this.testingsPassed.push(t);
 						} else {
 							this.testingsScheduled.push(t);
 						}
 					}, this);
 				}.bind(this),
-				function testingsQueryError(err) {
+				function(err) {
+					messenger({
+						message: gettextCatalog.getString('An error occurred while testings loading'),
+						isError: true
+					}, this.message);
 					console.log('Testings query error:', err);
-				}
+				}.bind(this)
 			);
 
 			// helper maps
@@ -42,36 +42,66 @@ angular
 				}, this);
 			}.bind(this));
 
-			this.sortPropName = '';
-			this.sortReversed = false;
-			this.sortBy = function(property) {
-				this.sortReversed = this.sortPropName === property
-					? !this.sortReversed
-					: false;
-				this.sortPropName = property;
-
-				this.testingsScheduled = $filter('orderBy')(
-					this.testingsScheduled,
-					this.sortPropName,
-					this.sortReversed,
-					this.localeSensitiveComparator);
+			this.sortOpts = {
+				scheduled: {
+					property: '',
+					reversed: false
+				},
+				passed: {
+					property: '',
+					reversed: false
+				}
 			};
+
+			this.sortBy = function(property, passedTestingsSort) {
+				var opts = !passedTestingsSort
+					? this.sortOpts.scheduled
+					: this.sortOpts.passed,
+					expression;
+
+				opts.reversed = opts.property === property
+					? !opts.reversed
+					: false;
+				opts.property = property;
+
+				if (!passedTestingsSort) {
+					this.testingsScheduled = $filter('orderBy')(
+						this.testingsScheduled,
+						opts.property,
+						opts.reversed,
+						this.localeSensitiveComparator(opts.property));
+				} else {
+					expression = opts.property !== 'passedAt'
+						? opts.property
+						: function(value) {
+							return value.attempts[0].startedAt;
+						};
+					this.testingsPassed = $filter('orderBy')(
+						this.testingsPassed,
+						expression,
+						opts.reversed,
+						this.localeSensitiveComparator(opts.property));
+				}
+			};
+
 			this.localeSensitiveComparator = (function(self) {
-				return function(v1, v2) {
-					var mapped1, mapped2;
+				return function(property) {
+					return function(v1, v2) {
+						var mapped1, mapped2;
 
-					// if we don't get strings, just compare by index
-					if (v1.type !== 'string' || v2.type !== 'string') {
-						return (v1.index < v2.index) ? -1 : 1;
-					}
+						// if we don't get strings, just compare by index
+						if (v1.type !== 'string' || v2.type !== 'string') {
+							return (v1.index < v2.index) ? -1 : 1;
+						}
 
-					if (self.sortPropName === 'idGroup') {
-						mapped1 = self.groupsMap[v1.value] || v1.value;
-						mapped2 = self.groupsMap[v2.value] || v2.value;
-						// compare strings alphabetically, taking locale into account
-						return mapped1.localeCompare(mapped2);
-					}
-					return v1.value.localeCompare(v2.value);
+						if (property === 'idGroup') {
+							mapped1 = self.groupsMap[v1.value] || v1.value;
+							mapped2 = self.groupsMap[v2.value] || v2.value;
+							return mapped1.localeCompare(mapped2);
+						}
+
+						return v1.value.localeCompare(v2.value);
+					};
 				};
 			}(this));
 

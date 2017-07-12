@@ -39,10 +39,10 @@
                         Group name
                     </span>
                     <span class="glyphicon"
-                          ng-show="$ctrl.sortPropName === 'idGroup'"
+                          ng-show="$ctrl.sortOpts.scheduled.property === 'idGroup'"
                           ng-class="{
-                              'glyphicon-triangle-bottom': !$ctrl.sortReversed,
-                              'glyphicon-triangle-top': $ctrl.sortReversed
+                              'glyphicon-triangle-bottom': !$ctrl.sortOpts.scheduled.reversed,
+                              'glyphicon-triangle-top': $ctrl.sortOpts.scheduled.reversed
                           }">
                     </span>
                 </span>
@@ -59,10 +59,10 @@
                         Scheduled for
                     </span>
                     <span class="glyphicon"
-                          ng-show="$ctrl.sortPropName === 'scheduledFor'"
+                          ng-show="$ctrl.sortOpts.scheduled.property === 'scheduledFor'"
                           ng-class="{
-                              'glyphicon-triangle-bottom': !$ctrl.sortReversed,
-                              'glyphicon-triangle-top': $ctrl.sortReversed
+                              'glyphicon-triangle-bottom': !$ctrl.sortOpts.scheduled.reversed,
+                              'glyphicon-triangle-top': $ctrl.sortOpts.scheduled.reversed
                           }">
                     </span>
                 </span>
@@ -155,9 +155,37 @@
            ng-show="$ctrl.passedShow">
         <thead>
         <tr>
-            <td><span translate>Group name</span></td>
+            <td>
+                <span ng-click="$ctrl.sortBy('idGroup', true)"
+                      class="testing-list__interactive-header">
+                    <span translate>
+                        Group name
+                    </span>
+                    <span class="glyphicon"
+                          ng-show="$ctrl.sortOpts.passed.property === 'idGroup'"
+                          ng-class="{
+                              'glyphicon-triangle-bottom': !$ctrl.sortOpts.passed.reversed,
+                              'glyphicon-triangle-top': $ctrl.sortOpts.passed.reversed
+                          }">
+                    </span>
+                </span>
+            </td>
             <td><span translate>Question set</span></td>
-            <td><span translate>Scheduled for</span></td>
+            <td>
+                <span ng-click="$ctrl.sortBy('passedAt', true)"
+                      class="testing-list__interactive-header">
+                    <span translate>
+                        Passed at
+                    </span>
+                    <span class="glyphicon"
+                          ng-show="$ctrl.sortOpts.passed.property === 'passedAt'"
+                          ng-class="{
+                              'glyphicon-triangle-bottom': !$ctrl.sortOpts.passed.reversed,
+                              'glyphicon-triangle-top': $ctrl.sortOpts.passed.reversed
+                          }">
+                    </span>
+                </span>
+            </td>
         </tr>
         </thead>
         <tr ng-repeat="t in $ctrl.testingsPassed">
@@ -178,7 +206,7 @@
                 </span>
             </td>
             <td>
-                {{t.scheduledFor | date: 'dd.MM.yyyy'}}
+                {{t.attempts[0].startedAt | date: 'dd.MM.yyyy'}}
             </td>
         </tr>
     </table>
