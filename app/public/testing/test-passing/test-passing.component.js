@@ -104,15 +104,22 @@ angular
 						// TODO: disable page controls for a moment
 						messenger({
 							message: s.lastName + ' ' + s.firstName + ' ' + s.patronymic + ' ' +
-								gettextCatalog.getString('is selected already. ' +
+								gettextCatalog.getString('started testing earlier. ' +
 									'Are you sure you want to proceed? ' +
-									'Click on a name again or call your supervisor.'),
+									'Please click on a name again or call your supervisor.'),
 							isError: true
 						}, this.message);
 
 						this.session.restartConfirmed = true;
 					} else if (err.data.error === 'Session changed error') {
 						this.session = {};
+
+					} else if (err.data.error === 'Test passed already error') {
+						messenger({
+							message: gettextCatalog.getString('Selected user have passed test already'),
+							isError: true
+						}, this.message);
+
 					} else {
 						messenger({
 							// message: gettextCatalog.getString('Error'),

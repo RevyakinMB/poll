@@ -42,16 +42,22 @@ documentUpdateErrorHandler = function(err, res) {
 			error: 'Validation error'
 		});
 
-	} else if (err.message == 'SessionChanged') {
+	} else if (err.message === 'SessionChanged') {
 		res.statusCode = 400;
 		return res.send({
 			error: 'Session changed error'
 		});
 
-	} else if (err.message == 'SessionExists') {
+	} else if (err.message === 'SessionExists') {
 		res.statusCode = 400;
 		return res.send({
 			error: 'Session exists error'
+		});
+
+	} else if (err.message === 'TestPassedAlready') {
+		res.statusCode = 400;
+		return res.send({
+			error: 'Test passed already error'
 		});
 
 	} else {
@@ -152,7 +158,6 @@ testPassingProcess = function(doc, query) {
 	});
 
 	if (attempts.length === 0) {
-		console.log('New attempt creation for ', query.idStudent);
 		// create attempt for a new student
 		doc.attempts.push({
 			idStudent: query.idStudent,
@@ -183,8 +188,12 @@ testPassingProcess = function(doc, query) {
 		throw new Error('SessionExists');
 
 	} else if (!query.session && query.restartConfirmed) {
-		attempt.session = crypto.randomBytes(16).toString('hex');
-		// TODO: save answer to results
+		if (attempt.results.length === doc.idQuestionSet.questions.length) {
+			throw new Error('TestPassedAlready');
+
+		} else {
+			attempt.session = crypto.randomBytes(16).toString('hex');
+		}
 
 	} else if (query.session !== attempt.session) {
 		throw new Error('SessionChanged');
@@ -206,7 +215,7 @@ app.post('/api/testings/:id?', function(req, res) {
 
 			if (req.params.id) {
 				let q = TestingsModel.findById(req.params.id);
-				if (req.query.session) {
+				if (req.query.idStudent) {
 					// testing is in progress
 					q = q.populate('idQuestionSet');
 				}
