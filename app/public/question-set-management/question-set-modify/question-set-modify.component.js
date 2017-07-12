@@ -45,7 +45,7 @@ angular
 				this.set.questions.push({
 					text: '',
 					qType: 'Alternative',
-					theme: '',
+					idFactor: undefined,
 					answers: [{
 						text: '',
 						weight: 0
@@ -53,7 +53,7 @@ angular
 						text: '',
 						weight: 0
 					}],
-					// temporary "random" id
+					// tempId intended for question draft reference
 					tempId: Math.random().toString(36).substr(2, 5)
 				});
 				// editor is already created for a question
