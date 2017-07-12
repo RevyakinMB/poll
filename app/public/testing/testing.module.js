@@ -1,4 +1,5 @@
 angular.module('testing', [
 	'testingList',
-	'testPassing'
+	'testPassing',
+	'testResults'
 ]);

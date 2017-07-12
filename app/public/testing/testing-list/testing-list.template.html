@@ -186,6 +186,7 @@
                     </span>
                 </span>
             </td>
+            <td><span translate>Results</span></td>
         </tr>
         </thead>
         <tr ng-repeat="t in $ctrl.testingsPassed">
@@ -207,6 +208,11 @@
             </td>
             <td>
                 {{t.attempts[0].startedAt | date: 'dd.MM.yyyy'}}
+            </td>
+            <td>
+                <a ng-href="/testResults/{{t._id}}" translate>
+                    Click to open
+                </a>
             </td>
         </tr>
     </table>
