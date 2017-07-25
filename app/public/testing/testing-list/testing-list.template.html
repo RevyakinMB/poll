@@ -137,22 +137,14 @@
         </label>
     </div>
     <div class="testing-list__interactive-header testing-list__row"
-         ng-click="$ctrl.passedHideShow()"
          ng-if="$ctrl.testingsPassed.length !== 0">
         <span translate>Passed testings:</span>
         <label class="control-label">
             {{$ctrl.testingsPassed.length}}
         </label>
-        <span ng-if="$ctrl.testingsPassed.length">
-            <span>( click to</span>
-            <span ng-if="!$ctrl.passedShow">show</span>
-            <span ng-if="$ctrl.passedShow">hide</span>
-            <span>)</span>
-        </span>
     </div>
     <table class="table"
-           ng-if="$ctrl.testingsPassed.length !== 0"
-           ng-show="$ctrl.passedShow">
+           ng-if="$ctrl.testingsPassed.length !== 0">
         <thead>
         <tr>
             <td>

@@ -155,6 +155,9 @@ angular
 					if (!t._id) {
 						this.testingsScheduled.splice(
 							this.testingsScheduled.indexOf(t), 1);
+						messenger({
+							message: gettextCatalog.getString('Testing(s) successfully removed')
+						}, this.message);
 						return;
 					}
 					delete t.selected;
@@ -195,12 +198,6 @@ angular
 				}, 0);
 			};
 
-			this.passedShow = false;
-
-			this.passedHideShow = function() {
-				this.passedShow = !this.passedShow;
-			};
-
 			this.message = {
 				text: '',
 				error: false,
@@ -208,14 +205,22 @@ angular
 			};
 
 			this.changesSave = function() {
-				var now = new Date(),
-					changedTestings = this.testingsScheduled.filter(function(t) {
+				var changedTestings = this.testingsScheduled.filter(function(t) {
 						return t.changed;
 					}),
-					invalidTestings = changedTestings.filter(function(t) {
-						return !t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < now;
-					}),
-					isValid = invalidTestings.length === 0;
+					invalidTestings,
+					isValid,
+					yesterday = new Date();
+
+				messenger(undefined, this.message);
+
+				yesterday.setDate(yesterday.getDate() - 1);
+
+				invalidTestings = changedTestings.filter(function(t) {
+					return !t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < yesterday;
+				});
+
+				isValid = invalidTestings.length === 0;
 
 				if (!isValid) {
 					messenger({
