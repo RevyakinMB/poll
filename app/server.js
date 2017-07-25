@@ -94,7 +94,7 @@ documentUpdateErrorHandler = function(err, res) {
 					let doc, searchBy = {};
 					searchBy[options.searchParam || '_id'] = req.params[param];
 
-					if (req.query['action'] === 'delete') {
+					if (req.query.action === 'delete') {
 						yield Model.remove(searchBy).exec();
 						return res.send();
 					}
@@ -263,12 +263,15 @@ app.get('/api/testings/:id?', function(req, res) {
 				return res.send({ error: 'Not found' });
 			}
 
-			// replace correct answer information
-			doc.idQuestionSet.questions.forEach(q => {
-				q.answers.forEach(a => {
-					a.weight = -1;
+			// TODO: check authorization?
+			if (!req.query.weightsLoad) {
+				// replace correct answer information
+				doc.idQuestionSet.questions.forEach(q => {
+					q.answers.forEach(a => {
+						a.weight = -1;
+					});
 				});
-			});
+			}
 
 			return res.send(doc);
 		} catch(err) {

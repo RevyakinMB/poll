@@ -486,3 +486,31 @@ ul {
     opacity: 0.2;
     cursor: not-allowed;
 }
+
+
+.test-results__table {
+    border-collapse: collapse;
+}
+
+.test-results__table td {
+    padding: 5px 14px;
+}
+
+.test-results__table tbody td {
+    border-top: 1px solid #ddd;
+}
+
+.test-results__table-head2 {
+    vertical-align: middle;
+    border-bottom: 1px solid #ddd;
+}
+
+.test-results__table-head1,
+.test-results__table-head2 {
+    text-align: center;
+}
+
+/*TODO: single .row class */
+.test-results__row {
+    margin-bottom: 10px;
+}
