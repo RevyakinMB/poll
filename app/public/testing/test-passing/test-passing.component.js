@@ -79,11 +79,22 @@ angular
 
 			timeElapsedCalc = function(attempt) {
 				var finish = attempt.finishedAt ? new Date(attempt.finishedAt) : new Date(),
-					diff = new Date(finish - new Date(attempt.startedAt));
+					start = new Date(attempt.startedAt),
+					diff = finish - start,
+					d, h, m;
+
+				d = Math.floor(diff / 1000 / 60 / 60 / 24);
+				diff -= d * 1000 * 60 * 60 * 24;
+
+				h = Math.floor(diff / 1000 / 60 / 60);
+				diff -= h * 1000 * 60 * 60;
+
+				m = Math.floor(diff / 1000 / 60);
+
 				return {
-					days: diff.getUTCDate(),
-					hours: diff.getUTCHours(),
-					minutes: diff.getUTCMinutes()
+					days: d,
+					hours: h,
+					minutes: m
 				};
 			};
 
@@ -199,7 +210,7 @@ angular
 					session: that.session.attempt.session,
 					testingId: $routeParams.testingId
 				}, function() {
-					that.session.answerSelected = -1;
+					that.session.answerSelected = undefined;
 					that.session.currentQuestion = that.session.questionList.shift();
 					that.session.attempt = testingAttemptRetrieve(
 						that.testing, that.session.student._id, that.message);
