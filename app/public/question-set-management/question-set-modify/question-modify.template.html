@@ -126,7 +126,12 @@
                 $ctrl.question.qType === 'Cattell'">
                 <label class="control-label" translate
                        ng-show=" $ctrl.hasError($ctrl.qForm['answerPosition' + $index]) ">
-                    Position number is incorrect.
+                    <span ng-if="$ctrl.question.qType === 'Sequencing'">
+                        Position number is incorrect.
+                    </span>
+                    <span ng-if="$ctrl.question.qType === 'Cattell'">
+                        Answer value is incorrect.
+                    </span>
                 </label>
             </div>
         </div>
