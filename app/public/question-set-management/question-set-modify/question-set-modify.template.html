@@ -15,6 +15,10 @@
                    ng-model="$ctrl.set.name">
         </div>
         <div class="q-set-modify__row">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span translate>Click on question row to edit or remove</span>
+        </div>
+        <div class="q-set-modify__row">
             <label translate>
                 Questions total:
             </label>
@@ -53,15 +57,16 @@
                     (draft)
                 </span>
             </div>
-            <button class="btn btn-default q-set-modify__q-remove"
-                    ng-click="$ctrl.questionDelete(q)"
-                    translate>
-                Remove
-            </button>
-            <button class="btn btn-default q-set-modify__q-edit"
-                    translate>
-                Edit
-            </button>
+            <div class="q-set-modify__q-action-block">
+                <button class="btn btn-default" translate>
+                    Edit
+                </button>
+                <button class="btn btn-default"
+                        ng-click="$ctrl.questionDelete(q)"
+                        translate>
+                    Remove
+                </button>
+            </div>
         </div>
         <div class="q-set-modify__row">
             <button class="btn btn-default" translate
