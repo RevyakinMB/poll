@@ -1,12 +1,16 @@
 <div class="group-list">
     <div>
-        <span translate>Group list:</span>
-        <button class="btn btn-default group-list__add" translate
+        <button class="btn btn-default" translate
                 ng-click="$ctrl.groupAdd()">
             Create new
         </button>
     </div>
-    <table class="table table-hover table-striped">
+    <div class="group-list__row">
+        <span translate>Search a testee:</span>
+        <input type="text" ng-model="$ctrl.qs"
+               class="form-control group-list__search-input">
+    </div>
+    <table class="table table-hover">
         <thead>
             <tr>
                 <td translate>#</td>
@@ -23,15 +27,12 @@
                         </span>
                 </td>
                 <td translate>
-                    Scheduled for
-                </td>
-                <td translate>
-                    Attendance
+                    Testees count
                 </td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="g in $ctrl.groups">
+            <tr ng-repeat="g in $ctrl.groups | filter: $ctrl.qs: $ctrl.studentsFilter">
                 <td>
                     {{$index+1}}
                 </td>
@@ -39,10 +40,7 @@
                     <a href="/groups/{{g._id}}">{{g.groupName | notApplicable}}</a>
                 </td>
                 <td>
-                    {{g.scheduled | date | notApplicable}}
-                </td>
-                <td>
-                    {{g.attendance | notApplicable}}
+                    {{ g.students.length }}
                 </td>
             </tr>
         </tbody>

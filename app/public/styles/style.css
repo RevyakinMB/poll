@@ -246,8 +246,8 @@ ul {
     cursor: pointer;
 }
 
-.group-list__add {
-    float: right;
+.group-list__search-input {
+    width: 250px;
 }
 
 
