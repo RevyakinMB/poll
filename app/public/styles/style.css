@@ -13,6 +13,15 @@ ul {
 }
 
 /*app styles*/
+
+@media print {
+    @page { margin: 0.5cm; }
+    a[href]:after { content: ""; }
+
+    .hide-on-print { display: none !important; }
+    .print-only { display: block !important; }
+}
+
 .header {
     background-color: #006666;
     height: 70px;
@@ -490,6 +499,7 @@ ul {
 
 .test-results__table {
     border-collapse: collapse;
+    width: 100%;
 }
 
 .test-results__table td {
