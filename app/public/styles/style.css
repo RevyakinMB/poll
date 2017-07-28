@@ -524,3 +524,7 @@ ul {
 .test-results__row {
     margin-bottom: 10px;
 }
+
+.test-results__search-input {
+    width: 250px;
+}

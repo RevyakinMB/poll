@@ -14,7 +14,12 @@
         {{ $ctrl.testing.attempts[0].startedAt | date }}
     </span>
 </div>
-<div ng-repeat="r in $ctrl.results">
+<div class="test-results__row hide-on-print">
+    <span translate>Search:</span>
+    <input type="text" ng-model="$ctrl.qs"
+           class="form-control test-results__search-input">
+</div>
+<div ng-repeat="r in $ctrl.results | filter: { name: $ctrl.qs }">
     <div class="test-results__row">
         <span translate>
             Name:
