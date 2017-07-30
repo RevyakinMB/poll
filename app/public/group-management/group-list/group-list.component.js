@@ -2,11 +2,68 @@ angular
 	.module('groupList')
 	.component('groupList', {
 		templateUrl: 'group-management/group-list/group-list.template.html',
-		controller: function groupListController(Group, $location) {
+		controller: function groupListController(Group, $location, gettextCatalog, messenger) {
 			this.groups = Group.query();
 
 			this.groupAdd = function() {
 				$location.path('/groups/new');
+			};
+
+			this.groupDelete = function() {
+				var victims = this.groups.filter(function(g) {
+					return g.checked;
+				});
+
+				victims.forEach(function(v) {
+					delete v.checked;
+
+					v.$delete({
+						groupId: v._id
+					},
+					function() {
+						var idx = this.groups.indexOf(v);
+						this.groups.splice(idx, 1);
+						messenger({
+							message: gettextCatalog.getString('Group(s) successfully removed')
+						}, this.message);
+
+					}.bind(this),
+					function(err) {
+						console.log(err.message);
+						messenger({
+							message: gettextCatalog.getString('Error: a group was not deleted'),
+							isError: true
+						}, this.message);
+
+					}.bind(this));
+				}, this);
+			};
+
+			this.groupCheck = function(event, g) {
+				if (g) {
+					g.checked = !g.checked;
+				}
+
+				event.stopPropagation();
+			};
+
+			Object.defineProperty(this, 'allChecked', {
+				get: function() {
+					return this.groups.every(function(g) {
+						return g.checked;
+					});
+				}.bind(this),
+				set: function(v) {
+					this.groups.forEach(function(g) {
+						g.checked = v;
+					});
+				}.bind(this)
+			});
+
+			this.groupSelectedCount = function() {
+				return this.groups.filter(function(g) {
+					return g.checked;
+				}).length;
 			};
 
 			this.sortState = {
@@ -65,6 +122,16 @@ angular
 					}
 					return true;
 				});
+			};
+
+			this.stopPropagation = function($event) {
+				$event.stopPropagation();
+			};
+
+			this.message = {
+				text: '',
+				error: false,
+				hidden: true
 			};
 		}
 	});

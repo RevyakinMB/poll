@@ -250,6 +250,10 @@ ul {
     width: 250px;
 }
 
+.group-list__all-checkbox {
+    width: 40px;
+}
+
 
 .question-set-list__new,
 .question-set-list__new:link,

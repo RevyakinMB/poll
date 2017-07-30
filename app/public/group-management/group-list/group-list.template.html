@@ -4,6 +4,11 @@
                 ng-click="$ctrl.groupAdd()">
             Create new
         </button>
+        <button class="btn btn-default" translate
+                ng-click="$ctrl.groupDelete()"
+                ng-disabled="!$ctrl.groupSelectedCount()">
+            Delete
+        </button>
     </div>
     <div class="group-list__row">
         <span translate>Search a testee:</span>
@@ -13,6 +18,11 @@
     <table class="table table-hover">
         <thead>
             <tr>
+                <td class="group-list__all-checkbox">
+                    <div class="checkbox-inline">
+                        <input type="checkbox" ng-model="$ctrl.allChecked">&nbsp;
+                    </div>
+                </td>
                 <td translate>#</td>
                 <td>
                     <span class="group-list__name-thead">
@@ -32,12 +42,22 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="g in $ctrl.groups | filter: $ctrl.qs: $ctrl.studentsFilter">
+            <tr ng-repeat="g in $ctrl.groups | filter: $ctrl.qs: $ctrl.studentsFilter"
+                ng-click="$ctrl.groupCheck($event, g)">
+                <td>
+                    <div class="checkbox-inline">
+                        <input type="checkbox" ng-model="g.checked"
+                               ng-click="$ctrl.groupCheck($event)">&nbsp;
+                    </div>
+                </td>
                 <td>
                     {{$index+1}}
                 </td>
                 <td>
-                    <a href="/groups/{{g._id}}">{{g.groupName | notApplicable}}</a>
+                    <a href="/groups/{{g._id}}"
+                       ng-click="$ctrl.stopPropagation($event)">
+                        {{g.groupName | notApplicable}}
+                    </a>
                 </td>
                 <td>
                     {{ g.students.length }}
@@ -45,4 +65,13 @@
             </tr>
         </tbody>
     </table>
+
+    <div ng-bind="$ctrl.message.text"
+         class="message message_hidden"
+         ng-class="{
+            'message_hidden': $ctrl.message.hidden,
+            'bg-danger': $ctrl.message.error,
+            'bg-success': !$ctrl.message.error
+         }">
+    </div>
 </div>
