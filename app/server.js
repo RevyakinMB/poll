@@ -13,6 +13,8 @@ var express = require('express'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
 	FactorSetsModel = require('./db/factor-sets-schema'),
 
+	UsersModel = require('./db/users-schema'),
+
 	execute = require('./lib/promise-executer'),
 
 	serverErrorHandler,
