@@ -1,0 +1,46 @@
+<div>
+    <span translate>
+        Available backups:
+    </span>
+</div>
+<div>
+    <button class="btn btn-default" ng-click="$ctrl.restore()"
+            ng-disabled="$ctrl.checkedCount() !== 1">
+        Restore
+    </button>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <td></td>
+            <td translate>
+                Backup creation date
+            </td>
+            <td translate>
+                Size
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="b in $ctrl.backups"
+            ng-click="$ctrl.backupCheck($event, b)">
+            <td class="backup-ls__checkbox-cell">
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="b.checked"
+                           ng-click="$ctrl.backupCheck($event)">&nbsp;
+                </div>
+            </td>
+            <td>
+                {{ b.date }}
+            </td>
+            <td>
+                {{ b.size }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div>
+    <button class="btn btn-default" ng-click="$ctrl.createNewBackup()">
+        Create new backup
+    </button>
+</div>

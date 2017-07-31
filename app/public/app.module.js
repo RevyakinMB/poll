@@ -11,6 +11,8 @@ angular.module('pollApp', [
 	'questionSetManagement',
 	'cattellFactorSet',
 	'testing',
+
+	'backupList',
 	'utils',
 	'greet'
 ]);

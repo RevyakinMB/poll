@@ -532,3 +532,8 @@ ul {
 .test-results__search-input {
     width: 250px;
 }
+
+
+.backup-ls__checkbox-cell {
+    width: 40px;
+}

@@ -13,13 +13,16 @@ var express = require('express'),
 	QuestionSetsModel = require('./db/question-sets-schema'),
 	FactorSetsModel = require('./db/factor-sets-schema'),
 
-	UsersModel = require('./db/users-schema'),
+	//UsersModel = require('./db/users-schema'),
 
 	execute = require('./lib/promise-executer'),
+
+	backupRoutingProvide = require('./db/db-backup-api'),
 
 	serverErrorHandler,
 	documentUpdateErrorHandler,
 	testPassingProcess;
+
 require('./db/db-connect');
 
 app.use(bodyParser.json());
@@ -69,6 +72,8 @@ documentUpdateErrorHandler = function(err, res) {
 		});
 	}
 };
+
+backupRoutingProvide(app);
 
 [{
 	path: '/api/question-sets/:id?',
@@ -294,6 +299,7 @@ app.all('/*', function(req, res) {
 });
 
 app.listen(8080, function()  {
+	// TODO: port to app config
 	console.log('Server is listening on port 8080');
 });
 

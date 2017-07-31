@@ -19,12 +19,15 @@ angular
 			}, {
 				name: gettextCatalog.getString('Testing list'),
 				path: '/testings'
+			}, {
+				name: gettextCatalog.getString('Database backup'),
+				path: '/backup-list'
 			}];
 
 			// temporary dummy menu items
-			for (i = 0; i < 5; ++i) {
+			for (i = 0; i < 3; ++i) {
 				this.items.push({
-					name: gettextCatalog.getString('Menu' + (i + 6)),
+					name: gettextCatalog.getString('Menu' + (i + 7)),
 					path: '/nonExistent'
 				});
 			}
