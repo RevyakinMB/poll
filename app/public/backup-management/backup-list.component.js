@@ -2,7 +2,9 @@ angular
 	.module('backupList')
 	.component('backupList', {
 		templateUrl: 'backup-management/backup-list.template.html',
-		controller: function backupListController($http) {
+		controller: function backupListController(
+			$http, gettextCatalog, messenger
+		) {
 			this.backups = [];
 			$http.get('/api/backups').then(
 				function(response) {
@@ -10,8 +12,12 @@ angular
 				}.bind(this),
 				function(err) {
 					console.log(err);
-					// show error
-				}
+					messenger({
+						message: gettextCatalog.getString(
+							'Error: an error occurred while backup list loading'),
+						isError: true
+					}, this.message);
+				}.bind(this)
 			);
 
 			this.checkedCount = function() {
@@ -40,26 +46,45 @@ angular
 				$http.post('/api/backups', {
 					date: checked[0].date
 				}).then(
-					function(response) {
-						console.log(response);
-						// TODO: success message
-					}, function(err) {
-						console.log(err);
-						// msg
-					});
-			};
-
-			this.createNewBackup = function() {
-				$http.post('/api/backups', {}).then(
-					function(response) {
-						console.log(response);
-						// TODO: success message
-					},
+					function() {
+						messenger({
+							message: gettextCatalog.getString(
+								'Backup successfully restored')
+						}, this.message);
+					}.bind(this),
 					function(err) {
 						console.log(err);
-						// msg
-					}
+						messenger({
+							message: gettextCatalog.getString(
+								'Error: an error occurred while backup restoration'),
+							isError: true
+						}, this.message);
+					}.bind(this));
+			};
+
+			this.newBackupCreate = function() {
+				$http.post('/api/backups', {}).then(
+					function() {
+						messenger({
+							message: gettextCatalog.getString(
+								'Backup successfully created')
+						}, this.message);
+					}.bind(this),
+					function(err) {
+						console.log(err);
+						messenger({
+							message: gettextCatalog.getString(
+								'Error: an error occurred while backup creation'),
+							isError: true
+						}, this.message);
+					}.bind(this)
 				);
+			};
+
+			this.message = {
+				text: '',
+				error: false,
+				hidden: true
 			};
 		}
 	});

@@ -537,3 +537,7 @@ ul {
 .backup-ls__checkbox-cell {
     width: 40px;
 }
+
+.backup-ls__row {
+    margin-bottom: 10px;
+}
