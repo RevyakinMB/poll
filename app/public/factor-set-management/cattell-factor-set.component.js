@@ -22,16 +22,7 @@ angular
 	.component('cattellFactorSet', {
 		templateUrl: 'factor-set-management/cattell-factor-set.template.html',
 		controller: function cattellFactorSetController(
-			FactorSet, dummyCattellFactorSet, messenger, gettextCatalog) {
-			var defaultSetCreate = function defaultSetCreate() {
-				this.set.name = dummyCattellFactorSet.name;
-				this.set.factors = dummyCattellFactorSet.factors;
-				this.set.$save(
-					function saveSuccess() {},
-					function saveError(err) {
-						console.log('Error while Cattell factor set creating', err);
-					});
-			}.bind(this);
+			FactorSet, messenger, gettextCatalog) {
 			this.set = FactorSet.get({
 				factorSetName: 'Cattell'
 			},
@@ -39,11 +30,7 @@ angular
 					// ok
 				},
 				function getError(err) {
-					if (err.status !== 404) {
-						console.log('Error:', err.statusText);
-						return;
-					}
-					defaultSetCreate();
+					console.log('Error:', err.statusText);
 				}
 			);
 

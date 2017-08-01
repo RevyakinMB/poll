@@ -17,7 +17,8 @@ Matches = new mongoose.Schema({
 			},
 			'Please specify positive sum value'
 		]
-	}
+	},
+	_id : false
 });
 
 Factors = new mongoose.Schema({
@@ -35,7 +36,8 @@ Factors = new mongoose.Schema({
 	matches: {
 		type: [Matches],
 		required: true
-	}
+	},
+	_id : false
 });
 
 FactorSets = new mongoose.Schema({
