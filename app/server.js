@@ -104,6 +104,20 @@ backupRoutingProvide(app);
 					searchBy[options.searchParam || '_id'] = req.params[param];
 
 					if (req.query.action === 'delete') {
+						if (Model === GroupsModel) {
+							let docs = yield TestingsModel.find({
+								idGroup: req.params[param]
+							}).exec();
+
+							console.log('Number of testings with group', docs.length);
+
+							if (docs.length > 0) {
+								res.statusCode = 400;
+								return res.send({
+									error: 'A testing with specified group exists'
+								});
+							}
+						}
 						yield Model.remove(searchBy).exec();
 						return res.send();
 					}
@@ -132,16 +146,15 @@ backupRoutingProvide(app);
 		app.get(path, function(req, res) {
 			execute(function*() {
 				try {
-					let doc, query, searchBy = {};
+					let doc, searchBy = {};
 					if (!req.params[param]) {
 						doc = yield Model.find().exec();
 						return res.send(doc);
 					}
 
 					searchBy[options.searchParam || '_id'] = req.params[param];
-					query = Model.findOne(searchBy);
 
-					doc = yield query.exec();
+					doc = yield Model.findOne(searchBy).exec();
 
 					if (!doc) {
 						res.statusCode = 404;

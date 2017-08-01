@@ -29,7 +29,15 @@ angular
 
 					}.bind(this),
 					function(err) {
-						console.log(err.message);
+						console.log(err);
+						if (err.data.error === 'A testing with specified group exists') {
+							messenger({
+								message: gettextCatalog.getString(
+									'Error: a testing with specified group exists'),
+								isError: true
+							}, this.message);
+							return;
+						}
 						messenger({
 							message: gettextCatalog.getString('Error: a group was not deleted'),
 							isError: true
