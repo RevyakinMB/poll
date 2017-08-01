@@ -2,17 +2,37 @@ let spawn = require('child_process').spawn,
 	glob = require('glob'),
 
 	execute = require('../lib/promise-executer'),
+	dbBackup = require('../lib/db-backup-create'),
 
 	serverErrorHandler = function(err, res) {
 		res.statusCode = 500;
 		return res.send({ error: 'Server error' });
 	},
 
-	restore,
-	dump,
-	dumpMkdir,
-	dumpProcess,
-	expandNumber,
+	dbRestore = function(req, res) {
+		let args = ['dump/testing-' + req.body.date],
+			mongorestore = spawn('mongorestore', args);
+
+		console.log('Restoring', args[0], 'dump...');
+
+		mongorestore.stdout.on('data', function(data) {
+			console.log(data.toString('utf8'));
+		});
+
+		mongorestore.stderr.on('data', function(data) {
+			console.error('stderr:', data.toString('utf8'));
+		});
+
+		mongorestore.on('exit', function(code) {
+			if (code) {
+				return serverErrorHandler(
+					new Error('`mongorestore` exit code: ' + code, res)
+				);
+			}
+
+			res.send({ 'status': 'OK' });
+		});
+	},
 
 	backupRoutingProvide = function(app) {
 		app.get('/api/backups', function(req, res) {
@@ -55,106 +75,19 @@ let spawn = require('child_process').spawn,
 
 		app.post('/api/backups', function(req, res) {
 			if (req.body.date !== undefined) {
-				restore(req, res);
+				dbRestore(req, res);
 				return;
 			}
-			dump(req, res);
+			dbBackup().then(
+				function() {
+					res.send({ 'status': 'OK' });
+				},
+				function(err) {
+					console.log(err);
+					serverErrorHandler(err, res);
+				}
+			);
 		});
 	};
-
-restore = function(req, res) {
-	let args = ['dump/testing-' + req.body.date],
-		mongorestore = spawn('mongorestore', args);
-
-	console.log('Restoring', args[0], 'dump...');
-
-	mongorestore.stdout.on('data', function(data) {
-		console.log(data.toString('utf8'));
-	});
-
-	mongorestore.stderr.on('data', function(data) {
-		console.error('stderr:', data.toString('utf8'));
-	});
-
-	mongorestore.on('exit', function(code) {
-		if (code) {
-			return serverErrorHandler(
-				new Error('`mongorestore` exit code: ' + code, res)
-			);
-		}
-
-		res.send({ 'status': 'OK' });
-	});
-};
-
-dump = function(req, res) {
-	let now = new Date(),
-		dumpPath = [
-			'dump/testing-',
-			now.getFullYear(),
-			'-',
-			expandNumber(now.getMonth()+1),
-			'-',
-			expandNumber(now.getDate()),
-			'.',
-			expandNumber(now.getHours()),
-			'.',
-			expandNumber(now.getMinutes()),
-			'.',
-			expandNumber(now.getSeconds())
-		].join('');
-
-	console.log('Creating new dump at:', dumpPath + '...');
-
-	execute(function* () {
-		try {
-			yield dumpMkdir(dumpPath);
-			yield dumpProcess(dumpPath);
-
-			res.send({ 'status': 'OK' });
-		} catch (err) {
-			return serverErrorHandler(err, res);
-		}
-	}());
-};
-
-dumpMkdir = function(dumpPath) {
-	return new Promise(function(resolve, reject) {
-		let mkdirArgs = ['-p', dumpPath],
-			mkdir = spawn('mkdir', mkdirArgs);
-		mkdir.on('exit', function(code) {
-			if (code) {
-				reject(new Error('`mkdir` exit code:' + code));
-			}
-			resolve();
-		});
-	});
-};
-
-dumpProcess = function(dumpPath) {
-	return new Promise(function(resolve, reject) {
-		let dumpArgs = ['--db', 'studentsTesting', '--out', dumpPath],
-		mongodump = spawn('mongodump', dumpArgs);
-
-		mongodump.stdout.on('data', function(data) {
-			console.log(data.toString('utf8'));
-		});
-
-		mongodump.stderr.on('data', function(data) {
-			console.log('stderr:', data.toString('utf8'));
-		});
-
-		mongodump.on('exit', function(code) {
-			if (code) {
-				reject(new Error('`mongodump` exit code:' + code));
-			}
-			resolve();
-		});
-	});
-};
-
-expandNumber = function(number) {
-	return (number / 10 < 1 ? '0' : '') + number;
-};
 
 module.exports = backupRoutingProvide;
