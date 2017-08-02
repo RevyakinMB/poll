@@ -6,7 +6,9 @@ var express = require('express'),
 	app = express(),
 	logger = require('morgan'),
 	bodyParser = require('body-parser'),
-	path = require('path');
+	path = require('path'),
+
+	HttpError = require('./error').HttpError;
 
 require('./db/db-connect');
 
@@ -22,6 +24,31 @@ require('./api')(app);
 app.all('/*', function(req, res) {
 	res.sendFile('index.html', {
 		root: path.join(__dirname, 'public')
+	});
+});
+
+app.use(function(err, req, res, next) {
+	if (typeof err === 'number') {
+		err = new HttpError(err);
+	}
+	console.error(err);
+
+	if (err instanceof HttpError) {
+		res.statusCode = err.status;
+		res.send({
+			error: err.message
+		});
+		return;
+	}
+
+	if (app.get('env') === 'development') {
+		express.errorHandler()(err, req, res, next);
+		return;
+	}
+
+	res.statusCode = 500;
+	res.send({
+		error: 'Internal server error'
 	});
 });
 

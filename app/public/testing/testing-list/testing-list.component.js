@@ -175,7 +175,7 @@ angular
 							}, this.message);
 						}.bind(this),
 						function(err) {
-							console.log(err.message);
+							console.log(err);
 							messenger({
 								message: gettextCatalog.getString('Error: a testing was not deleted'),
 								isError: true

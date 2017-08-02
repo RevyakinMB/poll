@@ -173,6 +173,7 @@ angular
 			answerPost = function(that) {
 				var q = that.session.currentQuestion,
 					answers = [];
+				messenger(undefined, that.message);
 
 				if (q.qType === 'Alternative' || q.qType === 'Cattell') {
 					if (that.session.answerSelected !== undefined) {

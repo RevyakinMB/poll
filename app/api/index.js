@@ -7,52 +7,9 @@ module.exports = function(app) {
 		crypto = require('crypto'),
 
 		execute = require('../lib/promise-executer'),
+		HttpError = require('../error').HttpError,
 
-		serverErrorHandler,
-		documentUpdateErrorHandler,
 		testPassingProcess;
-
-
-	serverErrorHandler = function(err, res) {
-		// TODO: enhance logging
-		console.log('Error:', err);
-		res.statusCode = 500;
-		return res.send({ error: 'Server error' });
-	};
-
-	documentUpdateErrorHandler = function(err, res) {
-		console.log('Error:', err);
-		if (err.name === 'ValidationError') {
-			res.statusCode = 400;
-			return res.send({
-				error: 'Validation error'
-			});
-
-		} else if (err.message === 'SessionChanged') {
-			res.statusCode = 400;
-			return res.send({
-				error: 'Session changed error'
-			});
-
-		} else if (err.message === 'SessionExists') {
-			res.statusCode = 400;
-			return res.send({
-				error: 'Session exists error'
-			});
-
-		} else if (err.message === 'TestPassedAlready') {
-			res.statusCode = 400;
-			return res.send({
-				error: 'Test passed already error'
-			});
-
-		} else {
-			res.statusCode = 500;
-			return res.send({
-				error: 'Server error'
-			});
-		}
-	};
 
 	require('./db-backup-api')(app);
 
@@ -76,28 +33,15 @@ module.exports = function(app) {
 				data = options.data,
 				param = options.searchParam || 'id';
 
-			app.post(path, function(req, res) {
+			app.post(path, function(req, res, next) {
+				if (req.query.action === 'delete') {
+					next();
+					return;
+				}
 				execute(function* pGen() {
 					try {
 						let doc, searchBy = {};
 						searchBy[options.searchParam || '_id'] = req.params[param];
-
-						if (req.query.action === 'delete') {
-							if (Model === GroupsModel) {
-								let docs = yield TestingsModel.find({
-									idGroup: req.params[param]
-								}).exec();
-
-								if (docs.length > 0) {
-									res.statusCode = 400;
-									return res.send({
-										error: 'A testing with specified group exists'
-									});
-								}
-							}
-							yield Model.remove(searchBy).exec();
-							return res.send();
-						}
 
 						if (req.params[param]) {
 							doc = yield Model.findOne(searchBy).exec();
@@ -115,12 +59,39 @@ module.exports = function(app) {
 						doc = yield doc.save();
 						return res.send(doc);
 					} catch (err) {
-						return documentUpdateErrorHandler(err, res);
+						next(err);
 					}
 				}());
 			});
 
-			app.get(path, function(req, res) {
+			app.post(path, function(req, res, next) {
+				if (Model === GroupsModel) {
+					TestingsModel.find({
+						idGroup: req.params[param]
+					}).exec()
+						.then(function(docs) {
+							if (docs.length > 0) {
+								next(new HttpError(400, 'A testing with specified group exists'));
+							} else {
+								next();
+							}
+						})
+						.catch(err => next(err));
+				} else {
+					next();
+				}
+			});
+
+			app.post(path, function(req, res, next) {
+				let searchBy = {};
+				searchBy[options.searchParam || '_id'] = req.params[param];
+
+				Model.remove(searchBy).exec()
+					.then(() => res.send())
+					.catch(err => next(err));
+			});
+
+			app.get(path, function(req, res, next) {
 				execute(function*() {
 					try {
 						let doc, searchBy = {};
@@ -140,17 +111,17 @@ module.exports = function(app) {
 
 						return res.send(doc);
 					} catch(err) {
-						return serverErrorHandler(err, res);
+						next(err);
 					}
 				}());
 			});
 		});
 
-	testPassingProcess = function(doc, query) {
+	testPassingProcess = function(doc, query, next) {
 		let attempt, attempts;
 		if (!query.idStudent) {
 			// not a test passing, just testing creation/update
-			return;
+			return false;
 		}
 		attempts = doc.attempts.filter(function(a) {
 			return a.idStudent.toString() === query.idStudent;
@@ -164,13 +135,14 @@ module.exports = function(app) {
 				results: [],
 				session: crypto.randomBytes(16).toString('hex')
 			});
-			return;
+			return false;
 		}
 
 		attempt = attempts[0];
 		if (!attempt.session) {
 			console.error('Error: empty student session in db');
-			throw new Error('server error');
+			next(500);
+			return true;
 		}
 
 		if (attempt.session === query.session) {
@@ -182,35 +154,33 @@ module.exports = function(app) {
 			if (attempt.results.length === doc.idQuestionSet.questions.length) {
 				attempt.finishedAt = new Date();
 			}
+			return false;
+
+		} else if (attempt.finishedAt) {
+			next(new HttpError(400, 'Test passed already error'));
 
 		} else if (!query.session && !query.restartConfirmed) {
-			throw new Error('SessionExists');
+			next(new HttpError(400, 'Session exists error'));
 
 		} else if (!query.session && query.restartConfirmed) {
-			if (attempt.results.length === doc.idQuestionSet.questions.length) {
-				throw new Error('TestPassedAlready');
-
-			} else {
-				attempt.session = crypto.randomBytes(16).toString('hex');
-			}
+			attempt.session = crypto.randomBytes(16).toString('hex');
+			return false;
 
 		} else if (query.session !== attempt.session) {
-			throw new Error('SessionChanged');
+			next(new HttpError(400, 'Session changed error'));
 		}
+		return true;
 	};
 
 	// testing queries
-	app.post('/api/testings/:id?', function(req, res) {
+	app.post('/api/testings/:id?', function(req, res, next) {
+		if (req.query.action === 'delete') {
+			next('route');
+			return;
+		}
 		execute(function*() {
 			try {
 				let doc;
-
-				if (req.query.action === 'delete') {
-					yield TestingsModel.remove({
-						_id: req.params.id
-					}).exec();
-					return res.send();
-				}
 
 				if (req.params.id) {
 					let q = TestingsModel.findById(req.params.id);
@@ -229,7 +199,9 @@ module.exports = function(app) {
 					doc = new TestingsModel();
 				}
 
-				testPassingProcess(doc, req.query);
+				if (testPassingProcess(doc, req.query, next)) {
+					return;
+				}
 
 				['idQuestionSet', 'idGroup', 'scheduledFor']
 					.forEach(field => doc[field] = req.body[field]);
@@ -237,12 +209,20 @@ module.exports = function(app) {
 				doc = yield doc.save();
 				return res.send(doc);
 			} catch (err) {
-				return documentUpdateErrorHandler(err, res);
+				next(err);
 			}
 		}());
 	});
 
-	app.get('/api/testings/:id?', function(req, res) {
+	app.post('/api/testings/:id', function(req, res, next) {
+		TestingsModel.remove({
+			_id: req.params.id
+		}).exec()
+			.then(() => res.send())
+			.catch(err => next(500));
+	});
+
+	app.get('/api/testings/:id?', function(req, res, next) {
 		execute(function*() {
 			try {
 				let doc;
@@ -274,7 +254,7 @@ module.exports = function(app) {
 
 				return res.send(doc);
 			} catch(err) {
-				return serverErrorHandler(err, res);
+				next(err);
 			}
 		}());
 	});
