@@ -1,0 +1,121 @@
+module.exports = function(app) {
+	let GroupsModel = require('../db/model/groups-schema'),
+		TestingsModel = require('../db/model/testings-schema'),
+		QuestionSetsModel = require('../db/model/question-sets-schema'),
+		FactorSetsModel = require('../db/model/factor-sets-schema'),
+
+		execute = require('../lib/promise-executer'),
+		HttpError = require('../error').HttpError,
+		routes = [{
+			path: '/api/question-sets/:id?',
+			model: QuestionSetsModel,
+			data: ['name', 'questions']
+		}, {
+			path: '/api/groups/:id?',
+			model: GroupsModel,
+			data: ['groupName', 'students']
+		}, {
+			path: '/api/factor-sets/:name?',
+			model: FactorSetsModel,
+			data: ['name', 'factors'],
+			searchParam: 'name'
+		}];
+
+	routes.forEach(
+	function (options) {
+		let path = options.path,
+			Model = options.model,
+			data = options.data,
+			param = options.searchParam || 'id',
+
+			postActionSequence = function*(req, res) {
+				let doc, searchBy = {};
+				searchBy[options.searchParam || '_id'] = req.params[param];
+
+				if (req.params[param]) {
+					doc = yield Model.findOne(searchBy).exec();
+					if (!doc) {
+						console.log('Warning: document', req.params[param], 'not found');
+					}
+				}
+
+				if (!doc) {
+					res.statusCode = 201;
+					doc = new Model();
+				}
+				data.forEach(field => doc[field] = req.body[field]);
+
+				doc = yield doc.save();
+				return res.send(doc);
+			},
+			getActionSequence = function*(req, res) {
+				let doc, searchBy = {};
+				if (!req.params[param]) {
+					doc = yield Model.find().exec();
+					return res.send(doc);
+				}
+
+				searchBy[options.searchParam || '_id'] = req.params[param];
+
+				doc = yield Model.findOne(searchBy).exec();
+
+				if (!doc) {
+					res.statusCode = 404;
+					return res.send({ error: 'Not found' });
+				}
+
+				return res.send(doc);
+			};
+
+		app.post(path, function (req, res, next) {
+			if (req.query.action === 'delete') {
+				next();
+				return;
+			}
+			execute(function* pGen() {
+				try {
+					yield* postActionSequence(req, res);
+				} catch (err) {
+					next(err);
+				}
+			}());
+		});
+
+		app.post(path, function (req, res, next) {
+			if (Model === GroupsModel) {
+				TestingsModel.find({
+					idGroup: req.params[param]
+				}).exec()
+					.then(function (docs) {
+						if (docs.length > 0) {
+							next(new HttpError(400, 'A testing with specified group exists'));
+						} else {
+							next();
+						}
+					})
+					.catch(err => next(err));
+			} else {
+				next();
+			}
+		});
+
+		app.post(path, function (req, res, next) {
+			let searchBy = {};
+			searchBy[options.searchParam || '_id'] = req.params[param];
+
+			Model.remove(searchBy).exec()
+				.then(() => res.send())
+				.catch(err => next(err));
+		});
+
+		app.get(path, function (req, res, next) {
+			execute(function*() {
+				try {
+					yield* getActionSequence(req, res);
+				} catch (err) {
+					next(err);
+				}
+			}());
+		});
+	});
+};

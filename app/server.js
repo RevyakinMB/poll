@@ -41,11 +41,6 @@ app.use(function(err, req, res, next) {
 		return;
 	}
 
-	if (app.get('env') === 'development') {
-		express.errorHandler()(err, req, res, next);
-		return;
-	}
-
 	res.statusCode = 500;
 	res.send({
 		error: 'Internal server error'
