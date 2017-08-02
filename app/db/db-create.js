@@ -24,8 +24,8 @@ let execute = require('../lib/promise-executer'),
 	},
 
 	modelsRequire = function() {
-		require('./users-schema');
-		require('./factor-sets-schema');
+		require('./model/users-schema');
+		require('./model/factor-sets-schema');
 
 		return Promise.all(
 			Object.keys(mongoose.models).map(model => {
@@ -35,7 +35,7 @@ let execute = require('../lib/promise-executer'),
 	},
 
 	userCreate = function() {
-		let Users = require('./users-schema'),
+		let Users = require('./model/users-schema'),
 			user = new Users({
 				login: 'Admin',
 				password: 'admin'
