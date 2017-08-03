@@ -1,5 +1,6 @@
 angular.module('core', [
 	'core.resources',
 	'langSwitcher',
-	'gettext'
+	'gettext',
+	'ngCookies'
 ]);

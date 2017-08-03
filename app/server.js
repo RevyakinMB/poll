@@ -6,13 +6,30 @@ var express = require('express'),
 	app = express(),
 	logger = require('morgan'),
 	bodyParser = require('body-parser'),
+	session = require('express-session'),
 	path = require('path'),
+	mongoose = require('mongoose'),
+
+	MongoStore = require('connect-mongo')(session),
 
 	HttpError = require('./error').HttpError;
 
 require('./db/db-connect');
 
 app.use(bodyParser.json());
+
+app.use(session({
+	secret: 'sEcreTT0kEn',
+	key: 'sid',
+	cookie: {
+		path: '/',
+		httpOnly: true,
+		maxAge: 20000
+	},
+	resave: true,
+	saveUninitialized: true,
+	store: new MongoStore({ mongooseConnection: mongoose.connection})
+}));
 
 // log requests to console
 app.use(logger('dev'));

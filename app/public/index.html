@@ -9,6 +9,7 @@
     <script src="bower_components/angular-resource/angular-resource.min.js"></script>
     <script src="bower_components/angular-route/angular-route.min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
     <script src="bower_components/angular-gettext/dist/angular-gettext.js"></script>
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -29,7 +30,9 @@
         </span>
         <div class="log-in header__log-in">
             <!--TODO: log out icon if user is logged in earlier-->
-            <span class="glyphicon glyphicon-log-in"></span>
+            <a href="/login" class="log-in__link">
+                <span class="glyphicon glyphicon-log-in"></span>
+            </a>
         </div>
         <lang-switcher></lang-switcher>
         <!--TODO: log in/out, breadcrumbs-->

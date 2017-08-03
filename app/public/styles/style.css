@@ -47,11 +47,19 @@ ul {
 .log-in {
     font-size: 2em;
     padding: 17px;
-    color: rgba(255, 255, 255, 0.8);
-    transition: color 0.3s;
 }
 
-.log-in:hover {
+.log-in__link,
+.log-in__link:link,
+.log-in__link:visited,
+.log-in__link:active {
+    color: rgba(255, 255, 255, 0.8);
+    transition: color 0.3s;
+    text-decoration: none;
+    cursor: default;
+}
+
+.log-in__link:hover {
     color: rgba(255, 255, 255, 1);
 }
 
@@ -539,5 +547,15 @@ ul {
 }
 
 .backup-ls__row {
+    margin-bottom: 10px;
+}
+
+
+.login__input,
+.login__label {
+    font-weight: normal;
+}
+
+.login__row {
     margin-bottom: 10px;
 }

@@ -1,0 +1,28 @@
+<div class="login__row">
+    <label class="control-label login__label">
+        <span translate>Login:</span>
+        <input type="text" ng-model="$ctrl.login"
+               class="form-control login__input">
+    </label>
+</div>
+<div class="login__row">
+    <label class="control-label login__label">
+        <span translate>Password:</span>
+        <input type="password" ng-model="$ctrl.password"
+               class="form-control login__input">
+    </label>
+</div>
+<div class="login__row">
+    <button class="btn btn-default" ng-click="$ctrl.userLogin()">
+        Login
+    </button>
+</div>
+
+<div ng-bind="$ctrl.message.text"
+     class="message message_hidden"
+     ng-class="{
+            'message_hidden': $ctrl.message.hidden,
+            'bg-danger': $ctrl.message.error,
+            'bg-success': !$ctrl.message.error
+         }">
+</div>

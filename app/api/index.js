@@ -1,4 +1,5 @@
 module.exports = function(app) {
+	require('./login')(app);
 	require('./basic-api')(app);
 	require('./testings-api')(app);
 	require('./db-backup-api')(app);

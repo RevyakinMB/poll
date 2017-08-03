@@ -1,7 +1,8 @@
 let mongoose = require('mongoose'),
 	crypto = require('crypto'),
 	Users,
-	UsersModel;
+	UsersModel,
+	AuthError;
 
 Users = new mongoose.Schema({
 	login: {
@@ -38,7 +39,30 @@ Users.methods.encryptPassword = function(password) {
 };
 
 Users.methods.checkPassword = function(password) {
-	return this.encyptPasswprd(password) === this.hashedPassword;
+	return this.encryptPassword(password) === this.hashedPassword;
+};
+
+Users.options.toJSON = {
+	transform: function(doc, ret) {
+		delete ret.hashedPassword;
+		delete ret.salt;
+		delete ret._id;
+		delete ret.rights;
+		delete ret.created;
+		return ret;
+	}
+};
+
+Users.statics.authorize = function(login, password) {
+	return this
+		.findOne({ login: login })
+		.exec()
+		.then(function(user) {
+			if (!user || !user.checkPassword(password)) {
+				throw new AuthError('Wrong login or password');
+			}
+			return user;
+		});
 };
 
 Users.virtual('password')
@@ -53,4 +77,16 @@ Users.virtual('password')
 
 UsersModel = mongoose.model('Users', Users);
 
-module.exports = UsersModel;
+module.exports.UsersModel = UsersModel;
+
+
+AuthError = function(message) {
+	Error.call(this, arguments);
+	Error.captureStackTrace(this, AuthError);
+	this.message = message;
+};
+
+AuthError.prototype = Object.create(Error.prototype);
+AuthError.prototype.constructor = AuthError;
+
+module.exports.AuthError = AuthError;

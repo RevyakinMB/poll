@@ -6,6 +6,7 @@ angular.module('pollApp', [
 	'ngAnimate',
 
 	'core',
+	'login',
 	'mainMenu',
 	'groupManagement',
 	'questionSetManagement',
