@@ -5,12 +5,7 @@ let spawn = require('child_process').spawn,
 	authCheck = require('../middleware/authCheck');
 
 module.exports = function(app) {
-	let serverErrorHandler = function(err, res) {
-		res.statusCode = 500;
-		return res.send({ error: 'Server error' });
-	},
-
-	dbRestore = function(req, res) {
+	dbRestore = function(req, res, next) {
 		let args = ['dump/testing-' + req.body.date],
 			mongorestore = spawn('mongorestore', args);
 
@@ -26,20 +21,19 @@ module.exports = function(app) {
 
 		mongorestore.on('exit', function(code) {
 			if (code) {
-				return serverErrorHandler(
-					new Error('`mongorestore` exit code: ' + code, res)
-				);
+				console.log('`mongorestore` exit code: ' + code);
+				return next(500);
 			}
 
 			res.send({ 'status': 'OK' });
 		});
 	};
 
-	app.get('/api/backups', authCheck, function(req, res) {
+	app.get('/api/backups', authCheck, function(req, res, next) {
 		glob('dump/testing-*', function(err, dirs) {
 			let args, du, backups = [];
 			if (err) {
-				return serverErrorHandler(err, res);
+				return next(err);
 			}
 			args = ['-sh'].concat(dirs);
 			du = spawn('du', args);
@@ -65,17 +59,17 @@ module.exports = function(app) {
 
 			du.on('exit', function (code) {
 				if (code) {
-					return serverErrorHandler(
-						new Error('`du` exit code: ' + code), res);
+					console.log('`du` exit code: ' + code);
+					return next(500);
 				}
 				res.send(backups);
 			});
 		});
 	});
 
-	app.post('/api/backups', authCheck, function(req, res) {
+	app.post('/api/backups', authCheck, function(req, res, next) {
 		if (req.body.date !== undefined) {
-			dbRestore(req, res);
+			dbRestore(req, res, next);
 			return;
 		}
 		dbBackup().then(
@@ -83,8 +77,7 @@ module.exports = function(app) {
 				res.send({ 'status': 'OK' });
 			},
 			function(err) {
-				console.log(err);
-				serverErrorHandler(err, res);
+				next(err);
 			}
 		);
 	});

@@ -56,7 +56,7 @@ angular
 						console.log(err);
 						messenger({
 							message: gettextCatalog.getString(
-								'Error: an error occurred while backup restoration'),
+								'An error occurred while backup restoration'),
 							isError: true
 						}, this.message);
 					}.bind(this));
@@ -74,7 +74,7 @@ angular
 						console.log(err);
 						messenger({
 							message: gettextCatalog.getString(
-								'Error: an error occurred while backup creation'),
+								'An error occurred while backup creation'),
 							isError: true
 						}, this.message);
 					}.bind(this)
