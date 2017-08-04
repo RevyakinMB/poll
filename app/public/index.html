@@ -23,21 +23,21 @@
     <link href="bower_components/air-datepicker/dist/css/datepicker.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
-<body>
+<body ng-controller="IndexCtrl as $ctrl">
     <div class="header hide-on-print">
         <span class="logo header__logo">
-            LOGO
+            <a href="/" class="logo__link">LOGO</a>
         </span>
         <div class="log-in header__log-in">
-            <!--TODO: log out icon if user is logged in earlier-->
             <a href="/login" class="log-in__link">
-                <span class="glyphicon glyphicon-log-in"></span>
+                <span class="glyphicon glyphicon-log-in" ng-if="!$ctrl.loginCheck()"></span>
+                <span class="glyphicon glyphicon-log-out" ng-if="$ctrl.loginCheck()"></span>
             </a>
         </div>
         <lang-switcher></lang-switcher>
         <!--TODO: log in/out, breadcrumbs-->
     </div>
-    <main-menu></main-menu>
+    <main-menu ng-if="$ctrl.loginCheck()"></main-menu>
 	<div ng-view class="container content"></div>
     <footer class="footer">
         <!--TODO: fork-me-on-github-->
