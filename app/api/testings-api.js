@@ -1,12 +1,12 @@
+let TestingsModel = require('../db/model/testings-schema'),
+
+	crypto = require('crypto'),
+
+	execute = require('../lib/promise-executer'),
+	HttpError = require('../error').HttpError;
+
 module.exports = function(app) {
-	let TestingsModel = require('../db/model/testings-schema'),
-
-		crypto = require('crypto'),
-
-		execute = require('../lib/promise-executer'),
-		HttpError = require('../error').HttpError;
-
-		testPassingProcess = function(doc, query, next) {
+	let testPassingProcess = function(doc, query, next) {
 		let attempt, attempts;
 		if (!query.idStudent) {
 			// not a test passing, just testing creation/update

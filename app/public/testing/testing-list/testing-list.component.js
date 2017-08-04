@@ -33,14 +33,18 @@ angular
 				groups.forEach(function(g) {
 					this.groupsMap[g._id] = g.groupName;
 				}, this);
-			}.bind(this));
+			}.bind(this), function(err) {
+				console.log(err);
+			});
 
 			this.questionSetsMap = [];
 			this.questionSets = QuestionSet.query(function qSetsLoaded(qSets) {
 				qSets.forEach(function(q) {
 					this.questionSetsMap[q._id] = q.name;
 				}, this);
-			}.bind(this));
+			}.bind(this), function(err) {
+				console.log(err);
+			});
 
 			this.sortOpts = {
 				scheduled: {

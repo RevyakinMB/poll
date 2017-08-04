@@ -3,7 +3,11 @@ angular
 	.factory('userPersistenceService', function userPersistenceService($cookies) {
 		return {
 			setCookieData: function(key, value) {
-				$cookies.put(key, value);
+				var expires = new Date();
+				expires.setDate(expires.getDate() + 1);
+				$cookies.put(key, value, {
+					expires: expires
+				});
 			},
 
 			getCookieData: function(key) {

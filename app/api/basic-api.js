@@ -1,27 +1,27 @@
+let GroupsModel = require('../db/model/groups-schema'),
+	TestingsModel = require('../db/model/testings-schema'),
+	QuestionSetsModel = require('../db/model/question-sets-schema'),
+	FactorSetsModel = require('../db/model/factor-sets-schema'),
+
+	execute = require('../lib/promise-executer'),
+	HttpError = require('../error').HttpError,
+	authCheck = require('../middleware/authCheck');
+
 module.exports = function(app) {
-	let GroupsModel = require('../db/model/groups-schema'),
-		TestingsModel = require('../db/model/testings-schema'),
-		QuestionSetsModel = require('../db/model/question-sets-schema'),
-		FactorSetsModel = require('../db/model/factor-sets-schema'),
-
-		execute = require('../lib/promise-executer'),
-		HttpError = require('../error').HttpError,
-		routes = [{
-			path: '/api/question-sets/:id?',
-			model: QuestionSetsModel,
-			data: ['name', 'questions']
-		}, {
-			path: '/api/groups/:id?',
-			model: GroupsModel,
-			data: ['groupName', 'students']
-		}, {
-			path: '/api/factor-sets/:name?',
-			model: FactorSetsModel,
-			data: ['name', 'factors'],
-			searchParam: 'name'
-		}];
-
-	routes.forEach(
+	[{
+		path: '/api/question-sets/:id?',
+		model: QuestionSetsModel,
+		data: ['name', 'questions']
+	}, {
+		path: '/api/groups/:id?',
+		model: GroupsModel,
+		data: ['groupName', 'students']
+	}, {
+		path: '/api/factor-sets/:name?',
+		model: FactorSetsModel,
+		data: ['name', 'factors'],
+		searchParam: 'name'
+	}].forEach(
 	function (options) {
 		let path = options.path,
 			Model = options.model,
@@ -67,7 +67,7 @@ module.exports = function(app) {
 				return res.send(doc);
 			};
 
-		app.post(path, function (req, res, next) {
+		app.post(path, authCheck, function (req, res, next) {
 			if (req.query.action === 'delete') {
 				next();
 				return;
@@ -108,7 +108,7 @@ module.exports = function(app) {
 				.catch(err => next(err));
 		});
 
-		app.get(path, function (req, res, next) {
+		app.get(path, authCheck, function (req, res, next) {
 			execute(function*() {
 				try {
 					yield* getActionSequence(req, res);

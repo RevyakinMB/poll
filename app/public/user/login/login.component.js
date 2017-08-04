@@ -19,6 +19,10 @@ angular
 					}.bind(this));
 			};
 
+			authorizeService.userLogout().catch(function(err) {
+				console.log(err);
+			});
+
 			this.message = {
 				text: '',
 				error: false,

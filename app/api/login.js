@@ -17,8 +17,12 @@ module.exports = function(app) {
 			});
 	});
 
-	app.post('/api/logout', function(req, res) {
-		delete req.session.user;
-		res.send({});
+	app.post('/api/logout', function(req, res, next) {
+		req.session.destroy(err => {
+			if (err) {
+				return next(err);
+			}
+			res.send({});
+		});
 	});
 };

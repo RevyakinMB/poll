@@ -1,5 +1,7 @@
 angular.module('pollApp')
-	.config(function pollAppConfig($routeProvider, $locationProvider) {
+	.config(function pollAppConfig(
+		$routeProvider, $locationProvider, $httpProvider
+	) {
 		$locationProvider.html5Mode(true);
 
 		$routeProvider
@@ -18,8 +20,41 @@ angular.module('pollApp')
 			.otherwise({
 				templateUrl: '404.html'
 			});
+
+		$httpProvider.interceptors.push(function($q, $location) {
+			return {
+				responseError: function(response) {
+					if (response && response.status === 401) {
+						$location.path('/login');
+					}
+					return $q.reject(response);
+				}
+			};
+		});
 	})
-	.run(function pollAppRun(langSwitcherService, currentLanguage) {
+	.run(function pollAppRun(
+		langSwitcherService, currentLanguage,
+		$rootScope, $location,
+		authorizeService
+	) {
+		var routesWithoutAuth = ['/greet', '/testPassing', '/login'];
+
+		$rootScope.$on('$routeChangeStart', function() {
+			if ($location.url() === '/') {
+				return;
+			}
+			if (authorizeService.isLoggedIn()) {
+				return;
+			}
+			if (routesWithoutAuth.some(function(route) {
+				return $location.url().indexOf(route) !== -1;
+			})) {
+				return;
+			}
+			$location.url('/login');
+			console.log($location.url());
+		});
+
 		// TODO: cookies & language auto-select
 		langSwitcherService(currentLanguage.value);
 	});

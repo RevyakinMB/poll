@@ -3,7 +3,11 @@ angular
 	.component('groupList', {
 		templateUrl: 'group-management/group-list/group-list.template.html',
 		controller: function groupListController(Group, $location, gettextCatalog, messenger) {
-			this.groups = Group.query();
+			this.groups = Group.query(
+				function() {},
+				function(err) {
+					console.log(err);
+				});
 
 			this.groupAdd = function() {
 				$location.path('/groups/new');
