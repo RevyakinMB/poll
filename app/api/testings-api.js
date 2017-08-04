@@ -3,7 +3,8 @@ let TestingsModel = require('../db/model/testings-schema'),
 	crypto = require('crypto'),
 
 	execute = require('../lib/promise-executer'),
-	HttpError = require('../error').HttpError;
+	HttpError = require('../error').HttpError,
+	authCheck = require('../middleware/authCheck');
 
 module.exports = function(app) {
 	let testPassingProcess = function(doc, query, next) {
@@ -59,6 +60,12 @@ module.exports = function(app) {
 			next(new HttpError(400, 'Session changed error'));
 		}
 		return true;
+	},
+	testingFindById = function(id) {
+		return TestingsModel
+			.findById(id)
+			.populate('idQuestionSet idGroup')
+			.exec();
 	};
 
 	// testing queries
@@ -121,28 +128,35 @@ module.exports = function(app) {
 					return res.send(doc);
 				}
 
-				doc = yield TestingsModel
-					.findById(req.params['id'])
-					.populate('idQuestionSet idGroup')
-					.exec();
+				if (req.query.weightsLoad) {
+					return next();
+				}
 
+				doc = yield testingFindById(req.params['id']);
 				if (!doc) {
-					res.statusCode = 404;
-					return res.send({ error: 'Not found' });
+					return next(new HttpError(404));
 				}
-
-				// TODO: check authorization?
-				if (!req.query.weightsLoad) {
-					// replace correct answer information
-					doc.idQuestionSet.questions.forEach(q => {
-						q.answers.forEach(a => {
-							a.weight = -1;
-						});
+				// replace correct answer information
+				doc.idQuestionSet.questions.forEach(q => {
+					q.answers.forEach(a => {
+						a.weight = -1;
 					});
-				}
+				});
 
 				return res.send(doc);
 			} catch(err) {
+				next(err);
+			}
+		}());
+	});
+
+	app.get('/api/testings/:id', authCheck, function(req, res, next) {
+		execute(function*() {
+			try {
+				let doc = yield testingFindById(req.params['id']);
+				doc ? res.send(doc) : next(new HttpError(404));
+
+			} catch (err) {
 				next(err);
 			}
 		}());

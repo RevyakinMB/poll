@@ -50,6 +50,10 @@ app.use(function(err, req, res, next) {
 	}
 	console.error(err);
 
+	if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+		err = new HttpError(400, 'Request body is invalid');
+	}
+
 	if (err instanceof HttpError) {
 		res.statusCode = err.status;
 		res.send({
