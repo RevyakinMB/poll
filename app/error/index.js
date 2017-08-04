@@ -1,4 +1,4 @@
-let http = require('http'),
+const http = require('http'),
 
 	HttpError = function(status, message) {
 		Error.call(this, arguments);

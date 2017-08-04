@@ -1,5 +1,5 @@
-let execute = function(generator, value, error) {
-	let next = error
+const execute = function(generator, value, error) {
+	const next = error
 		? generator.throw(error)
 		: generator.next(value);
 

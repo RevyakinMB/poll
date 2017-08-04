@@ -13,12 +13,12 @@ Matches = new mongoose.Schema({
 		type: Number,
 		validate: [
 			function(value) {
-				return value > -1
+				return value > -1;
 			},
 			'Please specify positive sum value'
 		]
 	},
-	_id : false
+	_id: false
 });
 
 Factors = new mongoose.Schema({
@@ -37,7 +37,7 @@ Factors = new mongoose.Schema({
 		type: [Matches],
 		required: true
 	},
-	_id : false
+	_id: false
 });
 
 FactorSets = new mongoose.Schema({

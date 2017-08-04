@@ -1,9 +1,9 @@
-let execute = require('../lib/promise-executer'),
+const execute = require('../lib/promise-executer'),
 	spawn = require('child_process').spawn,
 
 	mkdirProcess = function(dumpPath) {
 		return new Promise(function(resolve, reject) {
-			let mkdirArgs = ['-p', dumpPath],
+			const mkdirArgs = ['-p', dumpPath],
 				mkdir = spawn('mkdir', mkdirArgs);
 			mkdir.on('exit', function(code) {
 				if (code) {
@@ -16,7 +16,7 @@ let execute = require('../lib/promise-executer'),
 
 	dumpProcess = function(dumpPath) {
 		return new Promise(function(resolve, reject) {
-			let dumpArgs = ['--db', 'studentsTesting', '--out', dumpPath],
+			const dumpArgs = ['--db', 'studentsTesting', '--out', dumpPath],
 				mongodump = spawn('mongodump', dumpArgs);
 
 			mongodump.stdout.on('data', function(data) {
@@ -41,13 +41,13 @@ let execute = require('../lib/promise-executer'),
 	},
 
 	dbBackup = function() {
-		let now = new Date(),
+		const now = new Date(),
 			dumpPath = [
 				// TODO: move dump path to config
 				'dump/testing-',
 				now.getFullYear(),
 				'-',
-				numExpand(now.getMonth()+1),
+				numExpand(now.getMonth() + 1),
 				'-',
 				numExpand(now.getDate()),
 				'.',
@@ -61,7 +61,7 @@ let execute = require('../lib/promise-executer'),
 		console.log('Creating new dump at:', dumpPath);
 
 		return new Promise(function(resolve, reject) {
-			execute(function*() {
+			execute(function* () {
 				try {
 					yield mkdirProcess(dumpPath);
 					yield dumpProcess(dumpPath);

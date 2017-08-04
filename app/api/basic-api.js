@@ -1,4 +1,4 @@
-let GroupsModel = require('../db/model/groups-schema'),
+const GroupsModel = require('../db/model/groups-schema'),
 	TestingsModel = require('../db/model/testings-schema'),
 	QuestionSetsModel = require('../db/model/question-sets-schema'),
 	FactorSetsModel = require('../db/model/factor-sets-schema'),
@@ -23,12 +23,12 @@ module.exports = function(app) {
 		searchParam: 'name'
 	}].forEach(
 	function (options) {
-		let path = options.path,
+		const path = options.path,
 			Model = options.model,
 			data = options.data,
 			param = options.searchParam || 'id',
 
-			postActionSequence = function*(req, res) {
+			postActionSequence = function* (req, res) {
 				let doc, searchBy = {};
 				searchBy[options.searchParam || '_id'] = req.params[param];
 
@@ -43,12 +43,14 @@ module.exports = function(app) {
 					res.statusCode = 201;
 					doc = new Model();
 				}
-				data.forEach(field => doc[field] = req.body[field]);
+				data.forEach((field) => {
+					doc[field] = req.body[field];
+				});
 
 				doc = yield doc.save();
 				return res.send(doc);
 			},
-			getActionSequence = function*(req, res) {
+			getActionSequence = function* (req, res) {
 				let doc, searchBy = {};
 				if (!req.params[param]) {
 					doc = yield Model.find().exec();
@@ -109,7 +111,7 @@ module.exports = function(app) {
 		});
 
 		app.get(path, authCheck, function (req, res, next) {
-			execute(function*() {
+			execute(function* () {
 				try {
 					yield* getActionSequence(req, res);
 				} catch (err) {

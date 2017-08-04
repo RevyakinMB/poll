@@ -1,6 +1,7 @@
-let mongoose = require('mongoose'),
-	crypto = require('crypto'),
-	Users,
+const mongoose = require('mongoose'),
+	crypto = require('crypto');
+
+let Users,
 	UsersModel,
 	AuthError;
 

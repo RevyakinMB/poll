@@ -1,12 +1,12 @@
-let spawn = require('child_process').spawn,
+const spawn = require('child_process').spawn,
 	glob = require('glob'),
 
 	dbBackup = require('../lib/db-backup-create'),
 	authCheck = require('../middleware/authCheck');
 
 module.exports = function(app) {
-	dbRestore = function(req, res, next) {
-		let args = ['dump/testing-' + req.body.date],
+	const dbRestore = function(req, res, next) {
+		const args = ['dump/testing-' + req.body.date],
 			mongorestore = spawn('mongorestore', args);
 
 		console.log('Restoring', args[0], 'dump...');
@@ -22,10 +22,11 @@ module.exports = function(app) {
 		mongorestore.on('exit', function(code) {
 			if (code) {
 				console.log('`mongorestore` exit code: ' + code);
-				return next(500);
+				next(500);
+				return;
 			}
 
-			res.send({ 'status': 'OK' });
+			res.send({ status: 'OK' });
 		});
 	};
 
@@ -33,7 +34,8 @@ module.exports = function(app) {
 		glob('dump/testing-*', function(err, dirs) {
 			let args, du, backups = [];
 			if (err) {
-				return next(err);
+				next(err);
+				return;
 			}
 			args = ['-sh'].concat(dirs);
 			du = spawn('du', args);
@@ -60,7 +62,8 @@ module.exports = function(app) {
 			du.on('exit', function (code) {
 				if (code) {
 					console.log('`du` exit code: ' + code);
-					return next(500);
+					next(500);
+					return;
 				}
 				res.send(backups);
 			});
@@ -74,7 +77,7 @@ module.exports = function(app) {
 		}
 		dbBackup().then(
 			function() {
-				res.send({ 'status': 'OK' });
+				res.send({ status: 'OK' });
 			},
 			function(err) {
 				next(err);

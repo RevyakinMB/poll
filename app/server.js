@@ -28,7 +28,7 @@ app.use(session({
 	},
 	resave: true,
 	saveUninitialized: true,
-	store: new MongoStore({ mongooseConnection: mongoose.connection})
+	store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 // log requests to console
@@ -68,9 +68,7 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-app.listen(8080, function()  {
+app.listen(8080, function() {
 	// TODO: port to app config
 	console.log('Server is listening on port 8080');
 });
-
-

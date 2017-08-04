@@ -1,4 +1,4 @@
-let TestingsModel = require('../db/model/testings-schema'),
+const TestingsModel = require('../db/model/testings-schema'),
 
 	crypto = require('crypto'),
 
@@ -7,7 +7,7 @@ let TestingsModel = require('../db/model/testings-schema'),
 	authCheck = require('../middleware/authCheck');
 
 module.exports = function(app) {
-	let testPassingProcess = function(doc, query, next) {
+	const testPassingProcess = function(doc, query, next) {
 		let attempt, attempts;
 		if (!query.idStudent) {
 			// not a test passing, just testing creation/update
@@ -74,7 +74,7 @@ module.exports = function(app) {
 			next('route');
 			return;
 		}
-		execute(function*() {
+		execute(function* () {
 			try {
 				let doc;
 
@@ -100,10 +100,12 @@ module.exports = function(app) {
 				}
 
 				['idQuestionSet', 'idGroup', 'scheduledFor']
-					.forEach(field => doc[field] = req.body[field]);
+					.forEach((field) => {
+						doc[field] = req.body[field];
+					});
 
 				doc = yield doc.save();
-				return res.send(doc);
+				res.send(doc);
 			} catch (err) {
 				next(err);
 			}
@@ -115,47 +117,53 @@ module.exports = function(app) {
 			_id: req.params.id
 		}).exec()
 			.then(() => res.send())
-			.catch(err => next(500));
+			.catch(err => next(err));
 	});
 
 	app.get('/api/testings/:id?', function(req, res, next) {
-		execute(function*() {
+		execute(function* () {
 			try {
 				let doc;
 
-				if (!req.params['id']) {
+				if (!req.params.id) {
 					doc = yield TestingsModel.find().exec();
-					return res.send(doc);
+					res.send(doc);
+					return;
 				}
 
 				if (req.query.weightsLoad) {
-					return next();
+					next();
+					return;
 				}
 
-				doc = yield testingFindById(req.params['id']);
+				doc = yield testingFindById(req.params.id);
 				if (!doc) {
-					return next(new HttpError(404));
+					next(new HttpError(404));
+					return;
 				}
 				// replace correct answer information
-				doc.idQuestionSet.questions.forEach(q => {
-					q.answers.forEach(a => {
+				doc.idQuestionSet.questions.forEach((q) => {
+					q.answers.forEach((a) => {
 						a.weight = -1;
 					});
 				});
 
-				return res.send(doc);
-			} catch(err) {
+				res.send(doc);
+			} catch (err) {
 				next(err);
 			}
 		}());
 	});
 
 	app.get('/api/testings/:id', authCheck, function(req, res, next) {
-		execute(function*() {
+		execute(function* () {
 			try {
-				let doc = yield testingFindById(req.params['id']);
-				doc ? res.send(doc) : next(new HttpError(404));
-
+				const doc = yield testingFindById(req.params.id);
+				if (doc) {
+					res.send(doc);
+				} else {
+					next(new HttpError(404));
+				}
 			} catch (err) {
 				next(err);
 			}
