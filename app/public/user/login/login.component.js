@@ -4,11 +4,12 @@ angular
 		templateUrl: 'user/login/login.template.html',
 		controller: function loginController(
 			authorizeService, gettextCatalog, messenger, $location) {
+			this.redirectTo = $location.search().redirect || '/';
 			this.userLogin = function() {
 				authorizeService.userLogin(this.login, this.password)
 					.then(function() {
-						$location.path('/');
-					})
+						$location.path(this.redirectTo);
+					}.bind(this))
 					.catch(function(err) {
 						console.log(err);
 						messenger({

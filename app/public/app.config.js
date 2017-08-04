@@ -40,19 +40,19 @@ angular.module('pollApp')
 		var routesWithoutAuth = ['/greet', '/testPassing', '/login'];
 
 		$rootScope.$on('$routeChangeStart', function() {
-			if ($location.url() === '/') {
+			var url = $location.url();
+			if (url === '/') {
 				return;
 			}
 			if (authorizeService.isLoggedIn()) {
 				return;
 			}
 			if (routesWithoutAuth.some(function(route) {
-				return $location.url().indexOf(route) !== -1;
+				return url.indexOf(route) !== -1;
 			})) {
 				return;
 			}
-			$location.url('/login');
-			console.log($location.url());
+			$location.url('/login?redirect=' + url);
 		});
 
 		// TODO: cookies & language auto-select
