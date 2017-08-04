@@ -2,14 +2,16 @@
     <label class="control-label login__label">
         <span translate>Login:</span>
         <input type="text" ng-model="$ctrl.login"
-               class="form-control login__input">
+               class="form-control login__input"
+               enter-press="$ctrl.userLogin()">
     </label>
 </div>
 <div class="login__row">
     <label class="control-label login__label">
         <span translate>Password:</span>
         <input type="password" ng-model="$ctrl.password"
-               class="form-control login__input">
+               class="form-control login__input"
+               enter-press="$ctrl.userLogin()">
     </label>
 </div>
 <div class="login__row">

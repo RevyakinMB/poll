@@ -12,7 +12,8 @@
                    class="form-control"
                    required
                    capitalization
-                   placeholder="{{ 'Ivanov' | translate }}">
+                   placeholder="{{ 'Ivanov' | translate }}"
+                   enter-press="$ctrl.studentSave()">
             <label class="control-label" translate
                    ng-show="$ctrl.hasError($ctrl.form.lastName) &&
                     $ctrl.form.lastName.$error.required">
@@ -36,7 +37,8 @@
                    class="form-control"
                    required
                    capitalization
-                   placeholder="{{ 'Ivan' | translate }}">
+                   placeholder="{{ 'Ivan' | translate }}"
+                   enter-press="$ctrl.studentSave()">
             <label class="control-label" translate
                    ng-show="$ctrl.hasError($ctrl.form.firstName) &&
                     $ctrl.form.firstName.$error.required">
@@ -59,7 +61,8 @@
                    ng-model="$ctrl.student.patronymic"
                    class="form-control"
                    capitalization
-                   placeholder="{{ 'Ivanovich' | translate }}">
+                   placeholder="{{ 'Ivanovich' | translate }}"
+                   enter-press="$ctrl.studentSave()">
             <label class="control-label" translate
                    ng-show="$ctrl.form.patronymic.$error.capitalization">
                 Must be capitalized.
