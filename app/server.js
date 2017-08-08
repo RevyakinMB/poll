@@ -2,7 +2,7 @@
 
 'use strict';
 
-var express = require('express'),
+const express = require('express'),
 	app = express(),
 	logger = require('morgan'),
 	bodyParser = require('body-parser'),
@@ -13,6 +13,8 @@ var express = require('express'),
 	MongoStore = require('connect-mongo')(session),
 
 	HttpError = require('./error').HttpError;
+
+let server;
 
 require('./db/db-connect');
 
@@ -68,7 +70,15 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-app.listen(8080, function() {
+server = app.listen(8080, function() {
 	// TODO: port to app config
 	console.log('Server is listening on port 8080');
+});
+
+process.on('SIGINT', function() {
+	console.log('Kill signal received, shutting down...');
+	server.close(function() {
+		console.log('Done');
+		process.exit();
+	});
 });
