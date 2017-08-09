@@ -4,10 +4,27 @@
             <a class="question-set-list__new"
                ng-href="/question-sets/new">Create new</a>
         </button>
+        <button class="btn btn-default"
+                ng-click="$ctrl.edit()"
+                ng-disabled="$ctrl.checkedCount() !== 1"
+                translate>
+            Edit
+        </button>
+        <button class="btn btn-default"
+                ng-click="$ctrl.delete()"
+                ng-disabled="!$ctrl.checkedCount()"
+                translate>
+            Delete
+        </button>
     </div>
     <table class="table table-hover table-striped">
         <thead>
         <tr>
+            <td class="question-set-list__checkbox-cell">
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="$ctrl.allChecked">&nbsp;
+                </div>
+            </td>
             <td translate>#</td>
             <td>
                 <span class="question-set-list__name-thead">
@@ -30,12 +47,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="s in $ctrl.questionSets">
+        <tr ng-repeat="s in $ctrl.questionSets" ng-click="$ctrl.setCheck($event, s)">
+            <td>
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="s.checked"
+                           ng-click="$ctrl.setCheck($event)">&nbsp;
+                </div>
+            </td>
             <td>
                 {{$index+1}}
             </td>
             <td>
-                <a href="/question-sets/{{s._id}}">{{s.name | notApplicable}}</a>
+                <a href="/question-sets/{{s._id}}"
+                        ng-click="$ctrl.stopPropagation($event)">
+                    {{s.name | notApplicable}}
+                </a>
             </td>
             <td>
                 {{s.questions.length}}
@@ -46,4 +72,12 @@
         </tr>
         </tbody>
     </table>
+</div>
+<div class="message message_hidden"
+     ng-class="{
+                'message_hidden': $ctrl.message.hidden,
+                'bg-danger': $ctrl.message.error,
+                'bg-success': !$ctrl.message.error
+             }"
+     ng-bind="$ctrl.message.text">
 </div>

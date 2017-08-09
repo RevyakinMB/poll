@@ -273,6 +273,10 @@ ul {
     text-decoration: none;
 }
 
+.question-set-list__checkbox-cell {
+    width: 40px;
+}
+
 
 .q-set-modify__row {
     margin-bottom: 5px;

@@ -84,13 +84,24 @@ module.exports = function(app) {
 		});
 
 		app.post(path, function (req, res, next) {
-			if (Model === GroupsModel) {
-				TestingsModel.find({
-					idGroup: req.params[param]
-				}).exec()
+			if (Model === GroupsModel || Model === QuestionSetsModel) {
+				let searchBy = {};
+				if (Model === GroupsModel) {
+					searchBy.idGroup = req.params[param];
+				} else if (Model === QuestionSetsModel) {
+					searchBy.idQuestionSet = req.params[param];
+				}
+
+				TestingsModel.find(searchBy).exec()
 					.then(function (docs) {
 						if (docs.length > 0) {
-							next(new HttpError(400, 'A testing with specified group exists'));
+							let errMsg;
+							if (Model === GroupsModel) {
+								errMsg = 'A testing with specified group exists';
+							} else if (Model === QuestionSetsModel) {
+								errMsg = 'A testing with specified question set exists';
+							}
+							next(new HttpError(400, errMsg));
 						} else {
 							next();
 						}
