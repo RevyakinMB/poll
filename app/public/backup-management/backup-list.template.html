@@ -1,3 +1,13 @@
+<div class="backup-ls__row">
+    <button class="btn btn-default" ng-click="$ctrl.newBackupCreate()">
+        Create new backup
+    </button>
+    <button class="btn btn-default" ng-click="$ctrl.restore()"
+            ng-disabled="$ctrl.checkedCount() !== 1">
+        Restore
+    </button>
+</div>
+
 <div>
     <span translate>
         List of available backups:
@@ -33,15 +43,6 @@
         </tr>
     </tbody>
 </table>
-<div class="backup-ls__row">
-    <button class="btn btn-default" ng-click="$ctrl.newBackupCreate()">
-        Create new backup
-    </button>
-    <button class="btn btn-default" ng-click="$ctrl.restore()"
-            ng-disabled="$ctrl.checkedCount() !== 1">
-        Restore
-    </button>
-</div>
 
 <div ng-bind="$ctrl.message.text"
      class="message message_hidden"
