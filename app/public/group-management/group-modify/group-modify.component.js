@@ -15,7 +15,7 @@ angular
 					groupId: this.groupId
 				}, function() {}, function error(err) {
 					console.log('Error while group', $routeParams.groupId, 'loading:', err.statusText);
-					this.groupNotFound = true;
+					this.notFound = true;
 				}.bind(this));
 			}
 
@@ -32,6 +32,56 @@ angular
 					lastName: '',
 					patronymic: ''
 				});
+			};
+
+			this.massStudentsAdd = function() {
+				this.group.students = this.group.students.concat(
+					this.studentsRawList
+						.split('\n')
+						.filter(function(line) {
+							return line;
+						})
+						.map(function(line) {
+							var s = {
+									firstName: '',
+									lastName: '',
+									patronymic: ''
+								},
+								idx1, idx2;
+
+							idx1 = line.indexOf(' ');
+							if (idx1 === -1) {
+								s.lastName = line;
+								return s;
+							}
+							s.lastName = line.substring(0, idx1);
+
+							idx2 = line.indexOf(' ', idx1 + 1);
+							if (idx2 === -1) {
+								s.firstName = line.substring(idx1 + 1);
+								return s;
+							}
+							s.firstName = line.substring(idx1 + 1, idx2);
+							s.patronymic = line.substring(idx2 + 1);
+
+							return s;
+						})
+				);
+				this.textareaShowHide();
+			};
+
+			this.textareaShowHide = function() {
+				this.textareaIsVisible = !this.textareaIsVisible;
+				this.studentsRawList = '';
+			};
+
+			this.studentsRawListCount = function() {
+				return this.studentsRawList
+					.split('\n')
+					.filter(function(line) {
+						return line;
+					})
+					.length;
 			};
 
 			// TODO: one-way binding and studentUpdate call from student-info directive

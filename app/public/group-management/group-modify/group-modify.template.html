@@ -1,33 +1,57 @@
 <div class="group-modify">
     <div>
-        <div ng-show="$ctrl.groupNotFound" class="has-error">
-            <span translate class="control-label">
-                Error: group not found!
-            </span>
+        <div ng-if="$ctrl.notFound" class="has-error">
+            <label translate class="control-label">
+                Group not found!
+            </label>
         </div>
     </div>
-    <div ng-hide="$ctrl.groupNotFound">
+    <div ng-if="!$ctrl.notFound">
         <div class="group-modify__row">
             <label translate class="control-label text-left">Group name:</label>
             <input type="text" name="groupName"
                    ng-model="$ctrl.group.groupName"
-                   placeholder="{{ 'Group #14' | translate }}"
                    class="form-control">
         </div>
         <div class="group-modify__row">
             <label class="control-label" translate>
-                Students total:
+                Testees total:
             </label>
             <div class="group-modify__total">
                 {{$ctrl.group.students.length || 0}}
             </div>
+        </div>
+        <div class="group-modify__row">
             <button ng-click="$ctrl.studentAdd()"
-                    class="btn btn-default group-modify__add"
+                    class="btn btn-default"
                     translate>
-                Add a student
+                Add a testee
+            </button>
+            <button ng-click="$ctrl.textareaShowHide()"
+                    class="btn btn-default"
+                    translate>
+                Mass input
             </button>
         </div>
-
+        <div class="group-modify__row" ng-if="$ctrl.textareaIsVisible">
+            <span class="glyphicon glyphicon-info-sign"></span>
+            <span translate>Enter a list of testees separated by new line:</span>
+        </div>
+        <div class="group-modify__row" ng-if="$ctrl.textareaIsVisible">
+            <textarea ng-model="$ctrl.studentsRawList" rows="5"
+                      class="form-control">
+            </textarea>
+        </div>
+        <div class="group-modify__row" ng-if="$ctrl.textareaIsVisible">
+            <button ng-click="$ctrl.massStudentsAdd()"
+                    ng-disabled="!$ctrl.studentsRawList"
+                    class="btn btn-default"
+                    translate
+                    translate-n="$ctrl.studentsRawListCount()"
+                    translate-plural="Add {{$ctrl.studentsRawListCount() || ''}} testees">
+                Add testee
+            </button>
+        </div>
         <div ng-repeat="s in $ctrl.group.students" class="group-modify__row">
             <student-info student="s"
                           index="{{$index + 1}}"
