@@ -13,6 +13,17 @@ angular
 				$location.path('/groups/new');
 			};
 
+			this.groupEdit = function() {
+				var selected = this.groups.filter(function(g) {
+					return g.checked;
+				});
+				if (selected.length !== 1) {
+					return;
+				}
+
+				$location.path('/groups/' + selected[0]._id);
+			};
+
 			this.groupDelete = function() {
 				var victims = this.groups.filter(function(g) {
 					return g.checked;

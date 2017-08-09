@@ -5,6 +5,11 @@
             Create new
         </button>
         <button class="btn btn-default" translate
+                ng-click="$ctrl.groupEdit()"
+                ng-disabled="$ctrl.groupSelectedCount() !== 1">
+            Edit
+        </button>
+        <button class="btn btn-default" translate
                 ng-click="$ctrl.groupDelete()"
                 ng-disabled="!$ctrl.groupSelectedCount()">
             Delete
