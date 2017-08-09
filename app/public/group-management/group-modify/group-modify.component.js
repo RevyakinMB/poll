@@ -96,16 +96,24 @@ angular
 			};
 
 			this.changesSave = function() {
-				var isValid = this.group.students.every(function(s) {
+				if (!this.group.students.length) {
+					messenger({
+						message: gettextCatalog.getString('Error: group is empty'),
+						isError: true
+					}, this.message);
+					return;
+				}
+
+				if (!this.group.students.every(function(s) {
 					return s.firstName && s.lastName;
-				});
-				if (!isValid) {
+				})) {
 					messenger({
 						message: gettextCatalog.getString('Error: name or surname is missing'),
 						isError: true
 					}, this.message);
 					return;
 				}
+
 				this.group.$save({
 					groupId: this.groupId ? this.groupId : ''
 				},
