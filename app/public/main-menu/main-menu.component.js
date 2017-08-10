@@ -3,7 +3,6 @@ angular
 	.component('mainMenu', {
 		templateUrl: 'main-menu/main-menu.template.html',
 		controller: function mainMenuController(gettextCatalog, $location, $rootScope) {
-			var i;
 			this.items = [{
 				name: gettextCatalog.getString('Group list'),
 				path: '/groups'
@@ -23,14 +22,6 @@ angular
 				name: gettextCatalog.getString('Database backup'),
 				path: '/backup-list'
 			}];
-
-			// temporary dummy menu items
-			for (i = 0; i < 3; ++i) {
-				this.items.push({
-					name: gettextCatalog.getString('Menu' + (i + 7)),
-					path: '/nonExistent'
-				});
-			}
 
 			this.currentPath = $location.path();
 			this.isCurrent = function(item) {
