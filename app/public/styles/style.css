@@ -28,25 +28,25 @@ ul {
 }
 
 
-.logo {
-    border-radius: 20px;
+.home {
     display: inline-block;
     font-size: 2em;
     height: 70px;
-    padding: 17px 5px 0;
+    padding: 20px 10px 0;
 }
 
-.logo__link,
-.logo__link:link,
-.logo__link:visited,
-.logo__link:active {
+.home__link,
+.home__link:link,
+.home__link:visited,
+.home__link:active {
     color: rgba(255, 255, 255, 0.6);
     text-decoration: none;
+    transition: color 0.3s;
+    cursor: default;
 }
 
-.header__logo {
-    float: left;
-    border-right: 1px dashed rgba(255, 255, 255, 0.6);
+.home__link:hover {
+    color: white;
 }
 
 

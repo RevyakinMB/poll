@@ -25,9 +25,9 @@
 </head>
 <body ng-controller="IndexCtrl as $ctrl">
     <div class="header hide-on-print">
-        <span class="logo header__logo">
-            <a href="/" class="logo__link">LOGO</a>
-        </span>
+        <a href="/" class="home__link">
+            <span class="glyphicon glyphicon-home home"></span>
+        </a>
         <div class="log-in header__log-in">
             <a href="/login" class="log-in__link">
                 <span class="glyphicon glyphicon-log-in" ng-if="!$ctrl.loginCheck()"></span>
