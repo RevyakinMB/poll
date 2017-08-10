@@ -1,29 +1,29 @@
 <div class="test-results__row">
-    <span translate>
+    <label translate>
         Testing name:
-    </span>
+    </label>
     <span>
         {{ $ctrl.testing.idQuestionSet.name }}
     </span>
 </div>
 <div class="test-results__row">
-    <span translate>
+    <label translate>
         Testing date:
-    </span>
+    </label>
     <span>
         {{ $ctrl.testing.attempts[0].startedAt | date }}
     </span>
 </div>
 <div class="test-results__row hide-on-print">
-    <span translate>Search:</span>
+    <span translate>Search by testee's name:</span>
     <input type="text" ng-model="$ctrl.qs"
            class="form-control test-results__search-input">
 </div>
 <div ng-repeat="r in $ctrl.results | filter: { name: $ctrl.qs }">
     <div class="test-results__row">
-        <span translate>
+        <label translate>
             Name:
-        </span>
+        </label>
         <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
             {{r.name}}
         </a>
@@ -34,7 +34,7 @@
         <thead>
         <tr>
             <td translate>
-                Index
+                <label>Index</label>
             </td>
             <td ng-repeat="f in $ctrl.factorSet.factors">
                 {{f.index}}
@@ -44,7 +44,7 @@
         <tbody>
         <tr>
             <td translate>
-                Sum
+                <label>Sum</label>
             </td>
             <td ng-repeat="f in $ctrl.factorSet.factors">
                 {{ r.sumByFactor[f._id] }}
@@ -52,8 +52,13 @@
         </tr>
         </tbody>
     </table>
-    <div ng-if="r.questionsCount">
-        Correct answers: {{ r.correctCount }} / {{ r.questionsCount }}
+    <div ng-if="r.questionsCount" class="test-results__row">
+        <label>
+            Correct answers:
+        </label>
+        <span>
+            {{ r.correctCount }} / {{ r.questionsCount }}
+        </span>
     </div>
     <div ng-if="!r.attempt.finishedAt" class="test-results__row">
         <span translate>
@@ -63,6 +68,7 @@
             {{$ctrl.testing.idQuestionSet.questions.length}}
         </span>
     </div>
+    <hr>
 </div>
 <div ng-if="$ctrl.studentId &&
             $ctrl.results.length &&
@@ -73,13 +79,13 @@
         <thead>
             <tr>
                 <td rowspan="2" translate class="test-results__table-head1">
-                    Low stens by factor
+                    <label>Low stens by factor</label>
                 </td>
                 <td colspan="10" translate class="test-results__table-head2">
-                    Sten
+                    <label>Sten</label>
                 </td>
                 <td rowspan="2" translate class="test-results__table-head1">
-                    High stens by factor
+                    <label>High stens by factor</label>
                 </td>
             </tr>
             <tr>

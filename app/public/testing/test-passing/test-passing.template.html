@@ -1,5 +1,5 @@
 <div class="test-passing__row">
-    <span translate>Testing name:</span>
+    <label translate>Testing name:</label>
     <span class="test-passing__name">
         {{$ctrl.questionSet.name}}
     </span>
@@ -21,7 +21,7 @@
 
 <div ng-if="$ctrl.session.student">
     <div class="test-passing__row">
-        <span translate>Testee:</span>
+        <label translate>Testee:</label>
         <span>
             {{ $ctrl.session.student.lastName + ' ' +
                 $ctrl.session.student.firstName + ' ' +
@@ -30,7 +30,7 @@
         </span>
     </div>
     <div class="test-passing__row">
-        <span translate>Time elapsed:</span>
+        <label translate>Time elapsed:</label>
 
         <span ng-if="$ctrl.session.timeElapsed.days > 0">
             {{ $ctrl.session.timeElapsed.days }}
@@ -59,21 +59,23 @@
 
     <div class="test-passing__row"
          ng-if="$ctrl.session.currentQuestion">
-        <div><span translate>Progress:</span>
+        <div><label translate>Progress:</label>
             {{ $ctrl.questionSet.questions.length - $ctrl.session.questionList.length }}
             /
             {{ $ctrl.questionSet.questions.length }}
         </div>
     </div>
+    <hr>
 </div>
 
-<div class="test-passing__row">
+<div class="test-passing__row test-passing__question"
+     ng-if="$ctrl.session.currentQuestion">
     {{$ctrl.session.currentQuestion.text}}
 </div>
 
 <div ng-if="$ctrl.session.currentQuestion">
     <div ng-repeat="a in $ctrl.session.currentQuestion.answers"
-         class="test-passing__row">
+         class="test-passing__row test-passing__answer">
         <div class="checkbox-inline"
              ng-if="$ctrl.session.currentQuestion.qType === 'Multiple'">
             <label>
@@ -107,7 +109,7 @@
 <div ng-if="$ctrl.session.currentQuestion"
      class="test-passing__row">
     <button class="btn btn-default" ng-click="$ctrl.next()">
-        Next
+        Proceed
     </button>
 </div>
 

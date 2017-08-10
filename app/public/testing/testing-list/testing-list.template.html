@@ -17,12 +17,12 @@
         </button>
     </div>
     <div class="testing-list__row">
-        <span>
+        <label>
             Scheduled testings:
-        </span>
-        <label class="control-label">
-            {{$ctrl.testingsScheduled.length}}
         </label>
+        <span>
+            {{$ctrl.testingsScheduled.length}}
+        </span>
     </div>
     <table class="table" ng-if="$ctrl.testingsScheduled.length !== 0">
         <thead>
@@ -133,15 +133,15 @@
     <div ng-if="$ctrl.testingsScheduled.length === 0" class="testing-list__row has-warning">
         <label class="glyphicon glyphicon-info-sign control-label"></label>
         <label translate class="control-label">
-            No testings scheduled. Click to `Create` to add new
+            No testings scheduled. Click on `Create new` to add new
         </label>
     </div>
     <div class="testing-list__interactive-header testing-list__row"
          ng-if="$ctrl.testingsPassed.length !== 0">
-        <span translate>Passed testings:</span>
-        <label class="control-label">
+        <label translate>Passed testings:</label>
+        <span>
             {{$ctrl.testingsPassed.length}}
-        </label>
+        </span>
     </div>
     <table class="table"
            ng-if="$ctrl.testingsPassed.length !== 0">
