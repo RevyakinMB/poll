@@ -17,7 +17,7 @@ angular
 					questionSetId: this.setId
 				}, function success() {}, function error(err) {
 					if (err) {
-						console.error('Question set', this.questionSets, 'not found');
+						console.error('Question set', this.setId, 'not found');
 						this.notFound = true;
 					}
 				}.bind(this));
