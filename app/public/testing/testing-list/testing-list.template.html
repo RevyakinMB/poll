@@ -1,19 +1,19 @@
 <div>
     <div class="testing-list__row">
-        <button class="btn btn-default"
-                ng-click="$ctrl.testingRemove()"
-                ng-disabled="!$ctrl.testingSelectedCount()"
-                translate>
-            Remove
-        </button>
         <button class="btn btn-default" translate
                 ng-click="$ctrl.testingAdd()">
-            Create
+            Create new
         </button>
         <button class="btn btn-default" translate
                 ng-disabled="$ctrl.testingSelectedCount() !== 1"
                 ng-click="$ctrl.testingEdit()">
             Edit
+        </button>
+        <button class="btn btn-default"
+                ng-click="$ctrl.testingRemove()"
+                ng-disabled="!$ctrl.testingSelectedCount()"
+                translate>
+            Delete
         </button>
     </div>
     <div class="testing-list__row">
