@@ -9,15 +9,19 @@ angular.module('pollApp')
 				redirectTo: '/greet'
 			})
 			.when('/greet', {
+				title: 'Home',
 				template: '<greet></greet>'
 			})
 			.when('/groups', {
+				title: 'Groups',
 				template: '<group-list></group-list>'
 			})
 			.when('/groups/:groupId', {
+				title: 'Groups',
 				template: '<group-modify></group-modify>'
 			})
 			.otherwise({
+				title: '404',
 				templateUrl: '404.html'
 			});
 
@@ -53,6 +57,10 @@ angular.module('pollApp')
 				return;
 			}
 			$location.url('/login?redirect=' + url);
+		});
+
+		$rootScope.$on('$routeChangeSuccess', function(event, current) {
+			$rootScope.title = current.$$route.title;
 		});
 
 		// TODO: cookies & language auto-select
