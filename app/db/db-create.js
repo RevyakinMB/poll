@@ -35,7 +35,7 @@ const execute = require('../lib/promise-executer'),
 	},
 
 	userCreate = function() {
-		const Users = require('./model/users-schema'),
+		const Users = require('./model/users-schema').UsersModel,
 			user = new Users({
 				login: 'Admin',
 				password: 'admin'
