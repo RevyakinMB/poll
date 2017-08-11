@@ -4,20 +4,29 @@ angular
 		function questionTypesFactory(gettextCatalog) {
 			return [{
 				value: 'Alternative',
-				name: gettextCatalog.getString('Alternative choice')
+				name: function() {
+					return gettextCatalog.getString('Alternative choice');
+				}
 			}, {
 				value: 'Multiple',
-				name: gettextCatalog.getString('Multiple choice')
+				name: function() {
+					return gettextCatalog.getString('Multiple choice');
+				}
 			}, {
 				value: 'Sequencing',
-				name: gettextCatalog.getString('Sequencing')
+				name: function() {
+					return gettextCatalog.getString('Sequencing');
+				}
 			}, {
 				value: 'Cattell',
-				name: gettextCatalog.getString('Cattell')
+				name: function() {
+					return gettextCatalog.getString('Cattell');
+				}
 			}
 			// , {
 			//	value: 'Match',
-			//	name: gettextCatalog.getString('Match making')
+			//	name: function() {
+			//		return gettextCatalog.getString('Match making');
 			// }
 			];
 		});

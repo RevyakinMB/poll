@@ -14,7 +14,6 @@ angular
 				this.group = results.idGroup;
 				this.questionSet = results.idQuestionSet;
 
-				console.log(results);
 			}.bind(this), function(err) {
 				messenger({
 					message: gettextCatalog.getString('Error while testing loading'),
@@ -117,7 +116,7 @@ angular
 							message: s.lastName + ' ' + s.firstName + ' ' + s.patronymic + ' ' +
 								gettextCatalog.getString('started testing earlier. ' +
 									'Are you sure you want to proceed? ' +
-									'Please click on a name again or call your supervisor.'),
+									'Please click on a name again or call examiner.'),
 							isError: true
 						}, this.message);
 
@@ -222,7 +221,7 @@ angular
 						that.session = {};
 						messenger({
 							message: gettextCatalog.getString(
-								'Error: session changed. Please, call your supervisor'),
+								'Error: session changed. Please, call examiner'),
 							isError: true
 						}, that.message);
 						return;

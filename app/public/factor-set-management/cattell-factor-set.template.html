@@ -28,12 +28,12 @@
         <table class="table">
             <thead>
             <tr>
-                <th rowspan="2" class="factor-set__td">
+                <th rowspan="2" class="factor-set__td" translate>
                     Factor
                 </th>
                 <th title="Standardized TEN score" colspan="10"
                     class="factor-set__td">
-                <span class="factor-set__sten-text">
+                <span class="factor-set__sten-text" translate>
                     STEN
                 </span>
                 </th>
@@ -55,8 +55,8 @@
                 <tr ng-if="f.editing">
                     <td class="factor-set__td">
                         <button class="btn btn-default factor-set__remove"
-                                ng-click="$ctrl.factorRemove(f)">
-                            Remove
+                                ng-click="$ctrl.factorRemove(f)" translate>
+                            Delete
                         </button>
                         <div ng-class="{
                             'has-error' : !f.index}">
@@ -69,7 +69,7 @@
                         <div ng-class="{
                             'has-error' : !f.nameNegative}">
                             <label class="control-label" translate>
-                                Factor (Negative) Name:
+                                Factor Negative Name:
                             </label>
                             <input type="text" ng-model="f.nameNegative"
                                    required class="form-control">

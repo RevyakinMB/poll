@@ -5,7 +5,7 @@ angular
 		controller: function questionSetModifyControler(
 			$routeParams, $compile, $scope, $document, $timeout,
 			gettextCatalog, QuestionSet, appLocalStorage, messenger,
-			FactorSet
+			FactorSet, questionTypes
 		) {
 			if ($routeParams.questionSetId === 'new') {
 				this.set = new QuestionSet();
@@ -212,5 +212,10 @@ angular
 					}, this.message);
 				}.bind(this));
 			};
+
+			this._questionTypes = {};
+			questionTypes.forEach(function(t) {
+				this._questionTypes[t.value] = t.name;
+			}, this);
 		}
 	});

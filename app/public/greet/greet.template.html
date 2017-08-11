@@ -1,10 +1,11 @@
 <div>
     <p>
-        Testings list
+        <label translate>Testing list:</label>
     </p>
-    <p ng-repeat="testing in $ctrl.testings">
-        <a ng-href="/testPassing/{{testing._id}}">
-            {{testing.scheduledFor | date}}
+    <p ng-repeat="testing in $ctrl.testings | orderBy: 'scheduledFor'">
+        <a ng-href="/testPassing/{{testing._id}}" class="home__testing-link">
+            {{testing.scheduledFor | date}},
+            {{testing.idGroup.groupName | notApplicable}}
         </a>
     </p>
 </div>

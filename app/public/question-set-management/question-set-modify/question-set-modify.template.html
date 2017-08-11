@@ -18,7 +18,7 @@
             <span class="glyphicon glyphicon-info-sign"></span>
             <span translate>Click on question row to edit or remove</span>
         </div>
-        <div class="q-set-modify__row">
+        <div class="q-set-modify__row clearfix">
             <label translate>
                 Questions total:
             </label>
@@ -42,13 +42,13 @@
             </div>
         </div>
         <div ng-repeat="q in $ctrl.set.questions"
-             class="q-set-modify__question js-edit{{$index}}"
+             class="q-set-modify__question js-edit{{$index}} clearfix"
              ng-click="$ctrl.editorOpen($event, q)">
             <div class="q-set-modify__q-index">
                 {{$index + 1 + '.'}}
             </div>
             <div class="q-set-modify__q-type">
-                {{q.qType }}
+                {{ $ctrl._questionTypes[q.qType]() }}
             </div>
             <div class="q-set-modify__q-text has-error">
                 {{q.text}}

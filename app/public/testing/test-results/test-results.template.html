@@ -14,7 +14,8 @@
         {{ $ctrl.testing.attempts[0].startedAt | date }}
     </span>
 </div>
-<div class="test-results__row hide-on-print">
+<div class="test-results__row hide-on-print"
+     ng-if="!$ctrl.studentId">
     <span translate>Search by testee's name:</span>
     <input type="text" ng-model="$ctrl.qs"
            class="form-control test-results__search-input">
@@ -33,8 +34,8 @@
            class="test-results__table test-results__row">
         <thead>
         <tr>
-            <td translate>
-                <label>Index</label>
+            <td>
+                <label translate>Index</label>
             </td>
             <td ng-repeat="f in $ctrl.factorSet.factors">
                 {{f.index}}
@@ -43,8 +44,8 @@
         </thead>
         <tbody>
         <tr>
-            <td translate>
-                <label>Sum</label>
+            <td>
+                <label translate>Sum</label>
             </td>
             <td ng-repeat="f in $ctrl.factorSet.factors">
                 {{ r.sumByFactor[f._id] }}
@@ -53,7 +54,7 @@
         </tbody>
     </table>
     <div ng-if="r.questionsCount" class="test-results__row">
-        <label>
+        <label translate>
             Correct answers:
         </label>
         <span>
@@ -61,8 +62,10 @@
         </span>
     </div>
     <div ng-if="!r.attempt.finishedAt" class="test-results__row">
-        <span translate>
-            Test passing is in progress:
+        <span>
+            <span translate>
+                Test passing is in progress:
+            </span>
             {{r.attempt.results.length}}
             /
             {{$ctrl.testing.idQuestionSet.questions.length}}
@@ -78,14 +81,14 @@
     <table class="test-results__table">
         <thead>
             <tr>
-                <td rowspan="2" translate class="test-results__table-head1">
-                    <label>Low stens by factor</label>
+                <td rowspan="2" class="test-results__table-head1">
+                    <label translate>Low stens by factor</label>
                 </td>
-                <td colspan="10" translate class="test-results__table-head2">
-                    <label>Sten</label>
+                <td colspan="10" class="test-results__table-head2">
+                    <label translate>Sten</label>
                 </td>
-                <td rowspan="2" translate class="test-results__table-head1">
-                    <label>High stens by factor</label>
+                <td rowspan="2" class="test-results__table-head1">
+                    <label translate>High stens by factor</label>
                 </td>
             </tr>
             <tr>

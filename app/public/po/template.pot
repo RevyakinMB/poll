@@ -4,14 +4,662 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
-#: greet/greet.template.html:2
-msgid "Hello, {{$ctrl.name}}"
+#: group-management/group-list/group-list.template.html:31
+#: question-set-management/question-set-list/question-set-list.template.html:28
+#: question-set-management/question-set-modify/question-set-modify.template.html:34
+msgid "#"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:55
+msgid "(draft)"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:28
+msgid "Add a question"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:29
+msgid "Add a testee"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:45
+msgid "Add answer"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:17
+msgid "Add factor"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:50
+msgid "Add testee"
+msgid_plural "Add {{$ctrl.studentsRawListCount() || ''}} testees"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/question-types.service.js:8
+msgid "Alternative choice"
+msgstr ""
+
+#: backup-management/backup-list.component.js:76
+msgid "An error occurred while backup creation"
+msgstr ""
+
+#: backup-management/backup-list.component.js:58
+msgid "An error occurred while backup restoration"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:230
+msgid "An error occurred while saving answer"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:23
+msgid "An error occurred while testings loading"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:264
+msgid "An error occurred while testings saving"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:108
+msgid "Answer text"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:132
+msgid "Answer value is incorrect."
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:39
+msgid "Answers total:"
+msgstr ""
+
+#: backup-management/backup-list.template.html:22
+msgid "Backup creation date"
+msgstr ""
+
+#: backup-management/backup-list.component.js:69
+msgid "Backup successfully created"
+msgstr ""
+
+#: backup-management/backup-list.component.js:51
+msgid "Backup successfully restored"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:74
+msgid "Cancel"
+msgstr ""
+
+#: core/question-types.service.js:23
+msgid "Cattell"
+msgstr ""
+
+#: main-menu/main-menu.component.js:23
+msgid "Cattell factor set"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:18
+msgid "Click on a row to edit or remove"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:25
+msgid "Click on factor row to edit or remove"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:19
+msgid "Click on question row to edit or remove"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:205
+msgid "Click to open"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:161
+#: testing/testing-list/testing-list.template.html:126
+msgid "Close"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:143
+#: question-set-management/question-set-modify/question-modify.template.html:150
+msgid "Correct answer is required."
+msgstr ""
+
+#: testing/test-results/test-results.template.html:57
+msgid "Correct answers:"
+msgstr ""
+
+#: group-management/group-list/group-list.template.html:3
+#: question-set-management/question-set-list/question-set-list.template.html:4
+#: testing/testing-list/testing-list.template.html:3
+msgid "Create new"
+msgstr ""
+
+#: backup-management/backup-list.template.html:2
+msgid "Create new backup"
+msgstr ""
+
+#: main-menu/main-menu.component.js:33
+msgid "Database backup"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:57
+#: group-management/group-list/group-list.template.html:12
+#: question-set-management/question-set-list/question-set-list.template.html:13
+#: testing/testing-list/testing-list.template.html:12
+msgid "Delete"
+msgstr ""
+
+#: group-management/group-list/group-list.template.html:7
+#: group-management/group-modify/student-info.template.html:16
+#: question-set-management/question-set-list/question-set-list.template.html:7
+#: question-set-management/question-set-modify/question-set-modify.template.html:61
+#: testing/testing-list/testing-list.template.html:7
+msgid "Edit"
+msgstr ""
+
+#: group-management/group-modify/student-info.template.html:18
+msgid "Edit testee"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:42
+msgid "Enter a list of testees separated by new line:"
+msgstr ""
+
+#: group-management/group-modify/student-info.directive.js:66
+msgid "Enter name"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:19
+#: testing/test-results/test-results.component.js:42
+msgid "Error while testing loading"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.component.js:97
+#: group-management/group-modify/group-modify.component.js:135
+#: question-set-management/question-set-modify/question-set-modify.component.js:210
+msgid "Error:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.component.js:36
+msgid "Error: Cattell factor set was not loaded"
+msgstr ""
+
+#: group-management/group-list/group-list.component.js:57
+msgid "Error: a group was not deleted"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.component.js:103
+msgid "Error: a question set was not deleted"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:231
+msgid "Error: a testing is invalid"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:184
+msgid "Error: a testing was not deleted"
+msgstr ""
+
+#: group-management/group-list/group-list.component.js:50
+msgid "Error: a testing with specified group exists"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.component.js:96
+msgid "Error: a testing with specified question set exists"
+msgstr ""
+
+#: backup-management/backup-list.component.js:16
+msgid "Error: an error occurred while backup list loading"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.component.js:91
+#: group-management/group-modify/group-modify.component.js:129
+#: question-set-management/question-set-modify/question-set-modify.component.js:204
+msgid "Error: form validation failed"
+msgstr ""
+
+#: group-management/group-modify/group-modify.component.js:101
+msgid "Error: group is empty"
+msgstr ""
+
+#: group-management/group-modify/group-modify.component.js:111
+msgid "Error: name or surname is missing"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.component.js:162
+msgid "Error: question/answer text or correct answer is missing"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:223
+msgid "Error: session changed. Please, call examiner"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:31
+#: question-set-management/question-set-modify/question-modify.template.html:27
+msgid "Factor"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:71
+msgid "Factor Negative Name:"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:77
+msgid "Factor Positive Name:"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:96
+msgid "Factor index and name are required"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:3
+msgid "Factor set name"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.component.js:84
+msgid "Factor set successfully saved"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:11
+msgid "Factors total:"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:17
+#: group-management/group-modify/student-modify.template.html:42
+#: question-set-management/question-set-modify/question-modify.template.html:119
+#: question-set-management/question-set-modify/question-modify.template.html:21
+msgid "Field is required."
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:32
+msgid "First name:"
+msgstr ""
+
+#: main-menu/main-menu.component.js:13
+msgid "Greet page"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:105
+msgid "Group"
+msgstr ""
+
+#: main-menu/main-menu.component.js:8
+msgid "Group list"
+msgstr ""
+
+#: group-management/group-list/group-list.template.html:34
+#: testing/testing-list/testing-list.template.html:153
+#: testing/testing-list/testing-list.template.html:38
+msgid "Group name"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:11
+msgid "Group name:"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:4
+msgid "Group not found!"
+msgstr ""
+
+#: group-management/group-modify/group-modify.component.js:122
+msgid "Group successfully saved"
+msgstr ""
+
+#: group-management/group-list/group-list.component.js:42
+msgid "Group(s) successfully removed"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:91
+msgid "High stens by factor"
 msgstr ""
 
 #: 404.html:4
 msgid "Home"
 msgstr ""
 
+#: testing/test-results/test-results.template.html:38
+msgid "Index"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:63
+msgid "Index:"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:49
+msgid "Internal server error"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.component.js:73
+msgid "Invalid form data; fix errors to proceed"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:40
+msgid "Ivan"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:15
+msgid "Ivanov"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:64
+msgid "Ivanovich"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:7
+msgid "Last name:"
+msgstr ""
+
+#: backup-management/backup-list.template.html:14
+msgid "List of available backups:"
+msgstr ""
+
+#: user/login/login.template.html:18
+msgid "Log in"
+msgstr ""
+
+#: user/login/login.template.html:3
+msgid "Login:"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:85
+msgid "Low stens by factor"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:34
+msgid "Mass input"
+msgstr ""
+
+#: core/question-types.service.js:13
+msgid "Multiple choice"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:22
+#: group-management/group-modify/student-modify.template.html:47
+#: group-management/group-modify/student-modify.template.html:66
+msgid "Must be capitalized."
+msgstr ""
+
+#: utils/notApplicable.filter.js:6
+msgid "N/a"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:25
+msgid "Name:"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:200
+msgid "No answer selected"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:248
+msgid "No testings changed"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:135
+msgid "No testings scheduled. Click on `Create new` to add new"
+msgstr ""
+
 #: 404.html:2
 msgid "Page not found"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:169
+msgid "Passed at"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:141
+msgid "Passed testings:"
+msgstr ""
+
+#: user/login/login.template.html:11
+msgid "Password:"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:57
+msgid "Patronymic:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:129
+msgid "Position number is incorrect."
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:14
+msgid "Practice Test"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:62
+msgid "Progress:"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:113
+#: testing/testing-list/testing-list.template.html:165
+#: testing/testing-list/testing-list.template.html:51
+msgid "Question set"
+msgstr ""
+
+#: main-menu/main-menu.component.js:18
+msgid "Question set list"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.template.html:31
+#: question-set-management/question-set-modify/question-set-modify.template.html:9
+msgid "Question set name"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:3
+msgid "Question set not found!"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.component.js:187
+msgid "Question set successfully saved"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.component.js:88
+msgid "Question set(s) successfully removed"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:14
+#: question-set-management/question-set-modify/question-set-modify.template.html:40
+msgid "Question text"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.template.html:41
+msgid "Questions count"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:22
+msgid "Questions total:"
+msgstr ""
+
+#: group-management/group-modify/student-info.template.html:10
+#: question-set-management/question-set-modify/question-set-modify.template.html:64
+msgid "Remove"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:116
+msgid "Remove answer"
+msgstr ""
+
+#: group-management/group-modify/student-info.template.html:12
+msgid "Remove testee"
+msgstr ""
+
+#: backup-management/backup-list.template.html:6
+msgid "Restore"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:181
+msgid "Results"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:36
+msgid "STEN"
+msgstr ""
+
+#: group-management/group-modify/student-modify.template.html:78
+#: question-set-management/question-set-modify/question-modify.template.html:165
+msgid "Save"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:105
+msgid "Save factor set"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:66
+msgid "Save group"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-set-modify.template.html:72
+msgid "Save question set"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:212
+msgid "Save testings changes"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:121
+#: testing/testing-list/testing-list.template.html:58
+msgid "Scheduled for"
+msgstr ""
+
+#: testing/testing-list/testing-list.template.html:20
+msgid "Scheduled testings:"
+msgstr ""
+
+#: group-management/group-list/group-list.template.html:19
+msgid "Search a testee:"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:19
+msgid "Search by testee's name:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:56
+msgid "Select correct answer(s):"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:11
+msgid "Select your name from the list:"
+msgstr ""
+
+#: testing/test-passing/test-passing.component.js:129
+msgid "Selected user have passed test already"
+msgstr ""
+
+#: core/question-types.service.js:18
+msgid "Sequencing"
+msgstr ""
+
+#: backup-management/backup-list.template.html:25
+msgid "Size"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:64
+msgid "Specify answers weights:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:60
+msgid "Specify correct order of answers:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:152
+msgid "Specify unique position number for each answer."
+msgstr ""
+
+#: testing/test-results/test-results.template.html:88
+msgid "Sten"
+msgstr ""
+
+#: factor-set-management/cattell-factor-set.template.html:89
+msgid "Sten corresponding values have to be ascending"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:48
+msgid "Sum"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:117
+msgid "Test passed!"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:66
+msgid "Test passing is in progress:"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:24
+msgid "Testee:"
+msgstr ""
+
+#: group-management/group-list/group-list.template.html:44
+msgid "Testees count"
+msgstr ""
+
+#: group-management/group-modify/group-modify.template.html:21
+msgid "Testees total:"
+msgstr ""
+
+#: testing/test-results/test-results.template.html:10
+msgid "Testing date:"
+msgstr ""
+
+#: main-menu/main-menu.component.js:28
+msgid "Testing list"
+msgstr ""
+
+#: greet/greet.template.html:3
+msgid "Testing list:"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:2
+#: testing/test-results/test-results.template.html:2
+msgid "Testing name:"
+msgstr ""
+
+#: testing/test-results/test-results.component.js:37
+msgid "Testing not found"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:163
+#: testing/testing-list/testing-list.component.js:178
+msgid "Testing(s) successfully removed"
+msgstr ""
+
+#: testing/testing-list/testing-list.component.js:259
+msgid "Testing(s) successfully saved"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:33
+msgid "Time elapsed:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:2
+#: question-set-management/question-set-modify/question-set-modify.template.html:37
+msgid "Type"
+msgstr ""
+
+#: question-set-management/question-set-list/question-set-list.template.html:44
+msgid "Use count"
+msgstr ""
+
+#: user/login/login.component.js:16
+msgid "Wrong username or password"
+msgstr ""
+
+#: testing/test-passing/test-passing.template.html:37
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: testing/test-passing/test-passing.template.html:45
+msgid "hour"
+msgid_plural "hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: testing/test-passing/test-passing.template.html:53
+msgid "minute"
+msgid_plural "minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: testing/test-passing/test-passing.component.js:117
+msgid "started testing earlier. Are you sure you want to proceed? Please click on a name again or call examiner."
 msgstr ""

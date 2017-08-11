@@ -7,7 +7,7 @@
             name="qType"
             required>
         <option ng-repeat="qType in $ctrl.qTypes" value="{{qType.value}}">
-            {{qType.name}}
+            {{ qType.name() }}
         </option>
     </select>
     <div ng-class="{ 'has-error': $ctrl.hasError($ctrl.qForm.qText)} ">
@@ -124,12 +124,12 @@
             <div ng-if="
                 $ctrl.question.qType === 'Sequencing' ||
                 $ctrl.question.qType === 'Cattell'">
-                <label class="control-label" translate
+                <label class="control-label"
                        ng-show=" $ctrl.hasError($ctrl.qForm['answerPosition' + $index]) ">
-                    <span ng-if="$ctrl.question.qType === 'Sequencing'">
+                    <span ng-if="$ctrl.question.qType === 'Sequencing'" translate>
                         Position number is incorrect.
                     </span>
-                    <span ng-if="$ctrl.question.qType === 'Cattell'">
+                    <span ng-if="$ctrl.question.qType === 'Cattell'" translate>
                         Answer value is incorrect.
                     </span>
                 </label>
@@ -164,7 +164,7 @@
         </button>
         <button class="btn btn-default" translate
                 ng-click="$ctrl.questionSave()">
-            Save question changes
+            Save
         </button>
     </div>
     <hr>

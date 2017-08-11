@@ -313,7 +313,10 @@ ul {
 }
 
 .q-set-modify__q-type {
-    min-width: 100px;
+    width: 100px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .q-set-modify__q-action-block {
@@ -576,4 +579,14 @@ ul {
 
 .login__row {
     margin-bottom: 10px;
+}
+
+
+.home__testing-link {
+    font-size: large;
+}
+
+
+.clearfix {
+    clear: both;
 }

@@ -4,22 +4,34 @@ angular
 		templateUrl: 'main-menu/main-menu.template.html',
 		controller: function mainMenuController(gettextCatalog, $location, $rootScope) {
 			this.items = [{
-				name: gettextCatalog.getString('Group list'),
+				name: function() {
+					return gettextCatalog.getString('Group list');
+				},
 				path: '/groups'
 			}, {
-				name: gettextCatalog.getString('Greet page'),
+				name: function() {
+					return gettextCatalog.getString('Greet page');
+				},
 				path: '/greet'
 			}, {
-				name: gettextCatalog.getString('Question set list'),
+				name: function() {
+					return gettextCatalog.getString('Question set list');
+				},
 				path: '/question-sets'
 			}, {
-				name: gettextCatalog.getString('Cattell factor set'),
+				name: function() {
+					return gettextCatalog.getString('Cattell factor set');
+				},
 				path: '/cattell-factor-set'
 			}, {
-				name: gettextCatalog.getString('Testing list'),
+				name: function() {
+					return gettextCatalog.getString('Testing list');
+				},
 				path: '/testings'
 			}, {
-				name: gettextCatalog.getString('Database backup'),
+				name: function() {
+					return gettextCatalog.getString('Database backup');
+				},
 				path: '/backup-list'
 			}];
 

@@ -1,9 +1,11 @@
 <div class="backup-ls__row">
-    <button class="btn btn-default" ng-click="$ctrl.newBackupCreate()">
+    <button class="btn btn-default" ng-click="$ctrl.newBackupCreate()"
+            translate>
         Create new backup
     </button>
     <button class="btn btn-default" ng-click="$ctrl.restore()"
-            ng-disabled="$ctrl.checkedCount() !== 1">
+            ng-disabled="$ctrl.checkedCount() !== 1"
+            translate>
         Restore
     </button>
 </div>
