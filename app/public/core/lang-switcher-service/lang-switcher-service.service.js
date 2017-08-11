@@ -1,16 +1,18 @@
 angular
 	.module('langSwitcherService')
 	.value('availableLanguages', ['en', 'ru'])
-	.value('currentLanguage', {
-		value: 'ru'
-	})
 	.factory('langSwitcherService', function langSwitcherFactory(
-		availableLanguages, currentLanguage, gettextCatalog, $rootScope) {
+		availableLanguages,
+		gettextCatalog, $rootScope,
+		userPersistenceService) {
 		return function(lang) {
+			lang = lang || 'ru';
 			if (availableLanguages.indexOf(lang) === -1) {
-				throw new Error('Language switcher service: no such language: ' + lang);
+				console.error('Language switcher service: no such language: ' + lang);
+				lang = 'ru';
 			}
-			currentLanguage.value = lang;
+			userPersistenceService.setCookieData('language', lang, 365);
+
 			$rootScope.$broadcast('language:switched', lang);
 			gettextCatalog.setCurrentLanguage(lang);
 			gettextCatalog.loadRemote('po/' + lang + '.json');

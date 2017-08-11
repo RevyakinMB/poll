@@ -37,11 +37,13 @@ angular.module('pollApp')
 		});
 	})
 	.run(function pollAppRun(
-		langSwitcherService, currentLanguage,
-		$rootScope, $location,
-		authorizeService
+		langSwitcherService,
+		$rootScope, $location, $http,
+		authorizeService,
+		userPersistenceService
 	) {
-		var routesWithoutAuth = ['/greet', '/testPassing', '/login'];
+		var routesWithoutAuth = ['/greet', '/testPassing', '/login'],
+			language;
 
 		$rootScope.$on('$routeChangeStart', function() {
 			var url = $location.url();
@@ -63,6 +65,18 @@ angular.module('pollApp')
 			$rootScope.title = current.$$route.title;
 		});
 
-		// TODO: cookies & language auto-select
-		langSwitcherService(currentLanguage.value);
+		language = userPersistenceService.getCookieData('language');
+		if (language) {
+			langSwitcherService(language);
+
+		} else {
+			$http.get('/api/_language')
+				.then(function(res) {
+					var lang = res.data.language.substr(0, 2);
+					langSwitcherService(lang);
+				})
+				.catch(function(err) {
+					console.log(err);
+				});
+		}
 	});

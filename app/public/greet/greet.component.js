@@ -6,7 +6,6 @@ angular.module('greet')
 				populate: true
 			},
 				function(ls) {
-					console.log(ls);
 					this.testings = ls.filter(function(t) {
 						if (t.attempts.length < t.idGroup.students.length) {
 							return true;
