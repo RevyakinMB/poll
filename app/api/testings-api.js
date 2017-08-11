@@ -126,7 +126,11 @@ module.exports = function(app) {
 				let doc;
 
 				if (!req.params.id) {
-					doc = yield TestingsModel.find().exec();
+					let t = TestingsModel.find();
+					if (req.query.populate === 'true') {
+						t = t.populate('idQuestionSet idGroup');
+					}
+					doc = yield t.exec();
 					res.send(doc);
 					return;
 				}
