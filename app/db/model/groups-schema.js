@@ -12,6 +12,12 @@ Students = new mongoose.Schema({
 
 Groups = new mongoose.Schema({
 	groupName: String,
+	index: {
+		type: Number,
+		unique: true,
+		// TODO: no need after database recreation?
+		sparse: true
+	},
 	students: [Students]
 });
 

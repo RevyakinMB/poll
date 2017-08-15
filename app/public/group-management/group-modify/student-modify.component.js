@@ -33,7 +33,7 @@ angular
 			};
 
 			this.hasError = function(input) {
-				return input.$touched && input.$invalid;
+				return input && input.$touched && input.$invalid;
 			};
 		}
 	});

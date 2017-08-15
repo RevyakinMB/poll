@@ -56,6 +56,12 @@ app.use(function(err, req, res, next) {
 		err = new HttpError(400, 'Request body is invalid');
 	}
 
+	if (err.name === 'MongoError' &&
+		err.message.indexOf('duplicate key error') !== -1
+	) {
+		err = new HttpError(400, 'Duplicate key error');
+	}
+
 	if (err instanceof HttpError) {
 		res.statusCode = err.status;
 		res.send({

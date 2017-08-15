@@ -11,11 +11,12 @@ module.exports = function(app) {
 	[{
 		path: '/api/question-sets/:id?',
 		model: QuestionSetsModel,
+		// TODO: replace data array by req.forEach or so
 		data: ['name', 'questions']
 	}, {
 		path: '/api/groups/:id?',
 		model: GroupsModel,
-		data: ['groupName', 'students']
+		data: ['groupName', 'students', 'index']
 	}, {
 		path: '/api/factor-sets/:name?',
 		model: FactorSetsModel,

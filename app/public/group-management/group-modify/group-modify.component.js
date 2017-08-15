@@ -9,6 +9,7 @@ angular
 				this.group = new Group();
 				this.group.students = [];
 				this.group.groupName = '';
+				this.group.index = undefined;
 			} else {
 				this.groupId = $routeParams.groupId;
 				this.group = Group.get({
@@ -96,11 +97,7 @@ angular
 			};
 
 			this.changesSave = function() {
-				if (!this.group.students.length) {
-					messenger({
-						message: gettextCatalog.getString('Error: group is empty'),
-						isError: true
-					}, this.message);
+				if (this.form.$invalid) {
 					return;
 				}
 
@@ -131,11 +128,23 @@ angular
 						}, this.message);
 						return;
 					}
+					if (err.data.error === 'Duplicate key error') {
+						messenger({
+							message: gettextCatalog.getString('Error: group number have to be unique'),
+							isError: true
+						}, this.message);
+						return;
+					}
 					messenger({
 						message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
 						isError: true
 					}, this.message);
 				}.bind(this));
+			};
+
+			this.hasError = function() {
+				return this.form.index.$touched &&
+					this.form.index.$invalid;
 			};
 		}
 	});

@@ -6,12 +6,25 @@
             </label>
         </div>
     </div>
-    <div ng-if="!$ctrl.notFound">
+    <form ng-if="!$ctrl.notFound" name="$ctrl.form" novalidate>
         <div class="group-modify__row">
-            <label translate class="control-label text-left">Group name:</label>
+            <label translate class="control-label">Group name:</label>
             <input type="text" name="groupName"
                    ng-model="$ctrl.group.groupName"
                    class="form-control">
+        </div>
+        <div class="group-modify__row" ng-class="{
+            'has-error': $ctrl.hasError()
+        }">
+            <label translate class="control-label">Group number:</label>
+            <input type="number" min="0" name="index"
+                   ng-model="$ctrl.group.index"
+                   class="form-control">
+        </div>
+        <div class="group-modify__row has-error" ng-if="$ctrl.hasError()">
+            <label class="control-label" translate>
+                Group number is wrong
+            </label>
         </div>
         <div class="group-modify__row">
             <span class="glyphicon glyphicon-info-sign"></span>
@@ -64,7 +77,8 @@
         </div>
         <div class="group-modify__row">
             <button class="btn btn-default" translate
-                    ng-click="$ctrl.changesSave()">
+                    ng-click="$ctrl.changesSave()"
+                    ng-disabled="$ctrl.form.$invalid">
                 Save group
             </button>
         </div>
@@ -78,5 +92,5 @@
                  ng-bind="$ctrl.message.text">
             </div>
         </div>
-    </div>
+    </form>
 </div>
