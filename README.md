@@ -12,6 +12,4 @@ AngularJS, NodeJS, MongoDB
 - node app/db/db-create.js
 - node app/server.js
 
-default
-- login: Admin
-- password: admin
+default login: Admin, password: admin
