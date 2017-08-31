@@ -56,7 +56,10 @@
                     </div>
                 </td>
                 <td>
-                    {{$index+1}}
+                    <span ng-if="!g.index">
+                       	&ndash;
+                    </span>
+                    {{ g.index }}
                 </td>
                 <td>
                     <a href="/groups/{{g._id}}"

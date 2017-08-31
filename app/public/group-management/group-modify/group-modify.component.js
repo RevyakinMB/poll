@@ -3,13 +3,17 @@ angular
 	.component('groupModify', {
 		templateUrl: 'group-management/group-modify/group-modify.template.html',
 		controller: function groupModifyController(
-			$routeParams, Group, gettextCatalog, messenger) {
-			// initialize Group model
+			$routeParams, Group, gettextCatalog, messenger,
+			EduForm, Specialty) {
+			var noop = function() {},
+				errLog = function(err) { console.log(err); };
+
 			if ($routeParams.groupId === 'new') {
-				this.group = new Group();
-				this.group.students = [];
-				this.group.groupName = '';
-				this.group.index = undefined;
+				this.group = new Group({
+					students: [],
+					groupName: '',
+					index: undefined
+				});
 			} else {
 				this.groupId = $routeParams.groupId;
 				this.group = Group.get({
@@ -19,6 +23,9 @@ angular
 					this.notFound = true;
 				}.bind(this));
 			}
+
+			this.eduForms = EduForm.query(noop, errLog);
+			this.specialties = Specialty.query(noop, errLog);
 
 			// page interaction feedback
 			this.message = {

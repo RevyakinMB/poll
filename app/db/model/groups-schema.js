@@ -18,6 +18,16 @@ Groups = new mongoose.Schema({
 		// TODO: no need after database recreation?
 		sparse: true
 	},
+	idEduForm: {
+		type: mongoose.Schema.ObjectId,
+		required: true,
+		ref: 'EduForms'
+	},
+	idSpecialty: {
+		type: mongoose.Schema.ObjectId,
+		required: true,
+		ref: 'Specialties'
+	},
 	students: [Students]
 });
 

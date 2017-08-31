@@ -26,6 +26,24 @@
                 Group number is wrong
             </label>
         </div>
+
+        <div class="group-modify__row">
+            <label translate class="control-label">Education form:</label>
+            <select ng-model="$ctrl.group.idEduForm" class="form-control">
+                <option ng-repeat="f in $ctrl.eduForms" ng-value="f._id">
+                    {{ f.name | notApplicable }}
+                </option>
+            </select>
+        </div>
+        <div class="group-modify__row">
+            <label translate class="control-label">Specialty:</label>
+            <select ng-model="$ctrl.group.idSpecialty" class="form-control">
+                <option ng-repeat="s in $ctrl.specialties" ng-value="s._id">
+                    {{ s.name | notApplicable }}
+                </option>
+            </select>
+        </div>
+
         <div class="group-modify__row">
             <span class="glyphicon glyphicon-info-sign"></span>
             <span translate>Click on a row to edit or remove</span>
