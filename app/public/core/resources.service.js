@@ -75,4 +75,35 @@ angular
 				isArray: true
 			}
 		});
+	})
+	.factory('EduForm', function($resource) {
+		return $resource('/api/edu-forms/:id', {}, {
+			delete: {
+				method: 'POST',
+				params: {
+					action: 'delete'
+				}
+			},
+			query: {
+				method: 'GET',
+				params: { id: '' },
+				isArray: true
+			}
+		});
+	})
+	.factory('Specialty', function($resource) {
+		return $resource('/api/specialties/:id', {}, {
+			delete: {
+				method: 'POST',
+				params: {
+					action: 'delete'
+				}
+			},
+			query: {
+				method: 'GET',
+				params: { id: '' },
+				isArray: true
+			}
+		});
 	});
+

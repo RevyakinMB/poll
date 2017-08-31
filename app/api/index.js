@@ -2,6 +2,7 @@ module.exports = function(app) {
 	require('./login')(app);
 	require('./basic-api')(app);
 	require('./testings-api')(app);
+	require('./directories-api')(app);
 	require('./db-backup-api')(app);
 
 	require('./language')(app);

@@ -16,7 +16,7 @@ module.exports = function(app) {
 	}, {
 		path: '/api/groups/:id?',
 		model: GroupsModel,
-		data: ['groupName', 'students', 'index']
+		data: ['groupName', 'students', 'index', 'idEduForm', 'idSpecialty']
 	}, {
 		path: '/api/factor-sets/:name?',
 		model: FactorSetsModel,

@@ -589,3 +589,8 @@ ul {
 .clearfix {
     clear: both;
 }
+
+
+.dir__checkbox-cell {
+    width: 40px;
+}

@@ -1,0 +1,89 @@
+<div ng-if="$ctrl.notFound">
+    <label class="control-label">
+        Directory not found!
+    </label>
+</div>
+
+<div ng-if="!$ctrl.notFound">
+    <h4>
+       {{ $ctrl.dirLabel() }}
+    </h4>
+    <p>
+        <button class="btn btn-default" ng-click="$ctrl.add()" translate>
+            Create
+        </button>
+        <button class="btn btn-default" ng-click="$ctrl.edit()" translate
+                ng-disabled="$ctrl.checkedCount() !== 1">
+            Edit
+        </button>
+        <button class="btn btn-default" ng-click="$ctrl.delete()" translate
+                ng-disabled="!$ctrl.checkedCount()">
+            Delete
+        </button>
+    </p>
+    <!--<p ng-if="$ctrl.isEditing()">-->
+        <!--<input type="text" ng-model="$ctrl.editInput">-->
+        <!--<button class="btn btn-default" ng-click="$ctrl.addOrEdit()"-->
+                <!--ng-disabled="$ctrl.isEditing()">-->
+            <!--Add-->
+        <!--</button>-->
+    <!--</p>-->
+    <p ng-if="!$ctrl.directory.length">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span translate>
+            Directory is empty. Click on `Add` to add record
+        </span>
+    </p>
+    <table class="table" ng-if="$ctrl.directory.length">
+        <thead>
+        <tr>
+            <td class="dir__checkbox-cell">
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="$ctrl.allChecked">&nbsp;
+                </div>
+            </td>
+            <td translate>
+                #
+            </td>
+            <td translate>
+                Name
+            </td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="r in $ctrl.directory" ng-click="$ctrl.recordCheck($event, r)">
+            <td class="dir__checkbox-cell">
+                <div class="checkbox-inline">
+                    <input type="checkbox" ng-model="r.checked"
+                           ng-click="$ctrl.recordCheck($event)">&nbsp;
+                </div>
+            </td>
+            <td>
+                {{ $index + 1 }}
+            </td>
+            <td>
+                <input type="text" ng-if="r.editing" ng-model="r.name"
+                        class="form-control" ng-click="$ctrl.stopPropagation($event)">
+                <span ng-if="!r.editing">
+                    {{ r.name | notApplicable }}
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <button class="btn btn-default" ng-if="$ctrl.directory.length"
+                ng-click="$ctrl.save()" translate>
+            Save
+        </button>
+    </p>
+</div>
+
+<p ng-bind="$ctrl.message.text"
+     class="message message_hidden"
+     ng-class="{
+        'message_hidden': $ctrl.message.hidden,
+        'bg-danger': $ctrl.message.error,
+        'bg-success': !$ctrl.message.error
+     }">
+</p>

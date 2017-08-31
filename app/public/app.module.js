@@ -12,7 +12,7 @@ angular.module('pollApp', [
 	'questionSetManagement',
 	'cattellFactorSet',
 	'testing',
-
+	'directories',
 	'backupList',
 	'utils',
 	'greet'
