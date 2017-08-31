@@ -65,7 +65,7 @@ angular
 
 			this.changesSave = function() {
 				var isValid = this.set.factors.every(function(f) {
-					return f.index && f.nameNegative && !this.nonAscending(f);
+					return f.index && f.namePositive && !this.nonAscending(f);
 				}, this);
 
 				if (!isValid) {
@@ -86,7 +86,7 @@ angular
 					}.bind(this),
 					function error(err) {
 						console.warn('Error while saving question set', err);
-						if (err.data.error === 'Validation error') {
+						if (err.data.error === 'FactorSets validation failed') {
 							messenger({
 								message: gettextCatalog.getString('Error: form validation failed'),
 								isError: true

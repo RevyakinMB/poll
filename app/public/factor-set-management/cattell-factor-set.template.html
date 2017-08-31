@@ -67,17 +67,20 @@
                                    required class="form-control">
                         </div>
                         <div ng-class="{
-                            'has-error' : !f.nameNegative}">
+                            'has-error' : !f.namePositive}">
+                            <label class="control-label" translate>
+                                Factor Positive Name:
+                            </label>
+                            <input type="text" ng-model="f.namePositive"
+                                   required class="form-control">
+                        </div>
+                        <div>
                             <label class="control-label" translate>
                                 Factor Negative Name:
                             </label>
                             <input type="text" ng-model="f.nameNegative"
-                                   required class="form-control">
+                                   class="form-control">
                         </div>
-                        <label class="control-label" translate>
-                            Factor Positive Name:
-                        </label>
-                        <input type="text" ng-model="f.namePositive" class="form-control">
                     </td>
                     <td class="factor-set__td" ng-repeat="m in f.matches">
                         <input type="number" ng-model="m.rawSum" min="0"
@@ -91,7 +94,7 @@
                         </label>
                     </td>
                 </tr>
-                <tr class="has-error" ng-if="!f.nameNegative || !f.index">
+                <tr class="has-error" ng-if="!f.namePositive || !f.index">
                     <td colspan="11">
                         <label class="control-label" translate>
                             Factor index and name are required
