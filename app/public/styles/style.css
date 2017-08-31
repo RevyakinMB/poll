@@ -528,6 +528,10 @@ ul {
     font-size: 16px;
 }
 
+.test-passing__done-link {
+    font-size: 16px;
+}
+
 
 .test-results__table {
     border-collapse: collapse;
@@ -542,13 +546,7 @@ ul {
     border-top: 1px solid #ddd;
 }
 
-.test-results__table-head2 {
-    vertical-align: middle;
-    border-bottom: 1px solid #ddd;
-}
-
-.test-results__table-head1,
-.test-results__table-head2 {
+.test-results__table-cell {
     text-align: center;
 }
 
@@ -559,6 +557,23 @@ ul {
 
 .test-results__search-input {
     width: 250px;
+}
+
+.test-results__paper {
+    font-size: 1.5em;
+}
+
+.test-results__paper-header {
+    font-weight: bold;
+    text-align: center;
+}
+
+.test-results__paper-right {
+    float: right;
+}
+
+.test-results__paper-table-head {
+    font-weight: bold;
 }
 
 

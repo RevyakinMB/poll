@@ -42,7 +42,12 @@ angular.module('pollApp')
 		authorizeService,
 		userPersistenceService
 	) {
-		var routesWithoutAuth = ['/greet', '/testPassing', '/login'],
+		var routesWithoutAuth = [
+				'/greet',
+				'/login',
+				'/testPassing',
+				'/testResults'
+			],
 			language;
 
 		$rootScope.$on('$routeChangeStart', function() {

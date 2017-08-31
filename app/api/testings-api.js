@@ -135,39 +135,22 @@ module.exports = function(app) {
 					return;
 				}
 
-				if (req.query.weightsLoad) {
-					next();
-					return;
-				}
-
 				doc = yield testingFindById(req.params.id);
 				if (!doc) {
 					next(new HttpError(404));
 					return;
 				}
-				// replace correct answer information
-				doc.idQuestionSet.questions.forEach((q) => {
-					q.answers.forEach((a) => {
-						a.weight = -1;
+
+				if (!req.query.weightsLoad) {
+					// replace correct answer information
+					doc.idQuestionSet.questions.forEach((q) => {
+						q.answers.forEach((a) => {
+							a.weight = -1;
+						});
 					});
-				});
+				}
 
 				res.send(doc);
-			} catch (err) {
-				next(err);
-			}
-		}());
-	});
-
-	app.get('/api/testings/:id', authCheck, function(req, res, next) {
-		execute(function* () {
-			try {
-				const doc = yield testingFindById(req.params.id);
-				if (doc) {
-					res.send(doc);
-				} else {
-					next(new HttpError(404));
-				}
 			} catch (err) {
 				next(err);
 			}

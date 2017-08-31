@@ -113,8 +113,16 @@
     </button>
 </div>
 
-<div ng-if="$ctrl.session.attempt.finishedAt">
-    <span translate>Test passed!</span>
+<div ng-if="$ctrl.session.attempt.finishedAt" class="test-passing__done-link">
+    <div translate>
+        Test passed!
+    </div>
+    <div>
+        <a ng-href="/testResults/{{ $ctrl.testingId }}/{{ $ctrl.session.attempt.idStudent }}"
+           translate>
+            Results
+        </a>
+    </div>
 </div>
 
 <div class="test-passing__row">

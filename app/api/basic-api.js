@@ -7,6 +7,8 @@ const GroupsModel = require('../db/model/groups-schema'),
 	HttpError = require('../error').HttpError,
 	authCheck = require('../middleware/authCheck');
 
+let authCheckOrNot;
+
 module.exports = function(app) {
 	[{
 		path: '/api/question-sets/:id?',
@@ -122,7 +124,15 @@ module.exports = function(app) {
 				.catch(err => next(err));
 		});
 
-		app.get(path, authCheck, function (req, res, next) {
+		// FactorSet data is required for testResults page,
+		// which can be shown for a non-authorized testee
+		authCheckOrNot = Model === FactorSetsModel
+			? function(req, res, next) {
+				next();
+			}
+			: authCheck;
+
+		app.get(path, authCheckOrNot, function (req, res, next) {
 			execute(function* () {
 				try {
 					yield* getActionSequence(req, res);

@@ -22,6 +22,9 @@ angular
 				console.log('error while testing loading:', err.message);
 			}.bind(this));
 
+
+			this.testingId = $routeParams.testingId;
+
 			this.message = {
 				text: '',
 				error: false,
