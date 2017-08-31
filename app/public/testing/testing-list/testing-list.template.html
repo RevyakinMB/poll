@@ -82,7 +82,12 @@
             </td>
             <td>
                 <a href="/groups/{{t.idGroup}}" ng-if="t.idGroup">
-                    {{$ctrl.groupsMap[t.idGroup] | notApplicable}}
+                    <span ng-if="$ctrl.groupsMap[t.idGroup].index" translate>
+                        Group #{{ $ctrl.groupsMap[t.idGroup].index + ',' }}
+                    </span>
+                    <span>
+                        {{$ctrl.groupsMap[t.idGroup].groupName | notApplicable}}
+                    </span>
                 </a>
                 <span ng-if="!t.idGroup">
                     {{'' | notApplicable}}
@@ -183,8 +188,14 @@
         </thead>
         <tr ng-repeat="t in $ctrl.testingsPassed">
             <td>
+
                 <a href="/groups/{{t.idGroup}}" ng-if="t.idGroup">
-                    {{$ctrl.groupsMap[t.idGroup] | notApplicable}}
+                    <span ng-if="$ctrl.groupsMap[t.idGroup].index" translate>
+                        Group #{{ $ctrl.groupsMap[t.idGroup].index + ',' }}
+                    </span>
+                    <span>
+                        {{$ctrl.groupsMap[t.idGroup].groupName | notApplicable}}
+                    </span>
                 </a>
                 <span ng-if="!t.idGroup">
                     {{'' | notApplicable}}

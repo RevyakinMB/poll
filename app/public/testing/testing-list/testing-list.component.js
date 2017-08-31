@@ -31,7 +31,7 @@ angular
 			this.groupsMap = [];
 			this.groups = Group.query(function groupsLoaded(groups) {
 				groups.forEach(function(g) {
-					this.groupsMap[g._id] = g.groupName;
+					this.groupsMap[g._id] = g;
 				}, this);
 			}.bind(this), function(err) {
 				console.log(err);
@@ -99,8 +99,8 @@ angular
 						}
 
 						if (property === 'idGroup') {
-							mapped1 = self.groupsMap[v1.value] || v1.value;
-							mapped2 = self.groupsMap[v2.value] || v2.value;
+							mapped1 = self.groupsMap[v1.value].groupName || v1.value;
+							mapped2 = self.groupsMap[v2.value].groupName || v2.value;
 							return mapped1.localeCompare(mapped2);
 						}
 
