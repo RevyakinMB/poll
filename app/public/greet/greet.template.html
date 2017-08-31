@@ -2,10 +2,39 @@
     <p>
         <label translate>Testing list:</label>
     </p>
-    <p ng-repeat="testing in $ctrl.testings | orderBy: 'scheduledFor'">
-        <a ng-href="/testPassing/{{testing._id}}" class="home__testing-link">
-            {{testing.scheduledFor | date}},
-            {{testing.idGroup.groupName | notApplicable}}
-        </a>
-    </p>
+    <table class="table">
+        <tbody>
+        <tr ng-repeat="testing in $ctrl.testings | orderBy: ['idGroup.index', 'scheduledFor']">
+            <td>
+                <a ng-href="/testPassing/{{testing._id}}" class="home__testing-link">
+                    <span>
+                        {{testing.scheduledFor | date: 'hh:mm'}}
+                    </span>
+                    <span ng-if="testing.idGroup.index" translate>
+                        Group #{{testing.idGroup.index}},
+                    </span>
+                    <span>
+                        {{testing.idGroup.groupName | notApplicable}}
+                    </span>
+                </a>
+            </td>
+            <td ng-if="$ctrl.isLoggedIn()">
+                <a ng-href="/testResults/{{testing._id}}"
+                   class="home__testing-link"
+                   ng-if="$ctrl.isPassed(testing)"
+                   translate>
+                    Results
+                </a>
+                <span ng-if="$ctrl.isInProgress(testing)">
+                    <span translate>
+                        Progress:
+                    </span>
+                    <span>
+                        {{ $ctrl.progress(testing) + '%'}}
+                    </span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
