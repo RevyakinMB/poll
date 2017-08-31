@@ -5,16 +5,61 @@ angular
 		controller: function testResultsController(
 			$routeParams,
 			gettextCatalog, messenger,
-			Testing, FactorSet
+			Testing, FactorSet,
+			EduForm, Specialty,
+			authorizeService
 		) {
 			var collectionsPopulate, resultsCalculate;
 
 			this.results = [];
-			this.factorSet = FactorSet.get({ factorSetName: 'Cattell' });
+			this.message = {
+				text: '',
+				error: false,
+				hidden: true
+			};
+			this.keysGet = Object.keys;
+
+			this.authorized = authorizeService.isLoggedIn();
 
 			// provide value for template
 			this.studentId = $routeParams.studentId;
 
+			if (this.studentId === 'examinationPaper') {
+				this.passedMap = {};
+				this.eduForms = {};
+				this.specialties = {};
+
+				EduForm.query(function(forms) {
+					forms.forEach(function(f) {
+						this.eduForms[f._id] = f.name;
+					}, this);
+					console.log(this.eduForms);
+				}.bind(this), function(err) {
+					console.log(err);
+				});
+
+				Specialty.query(function(specialties) {
+					specialties.forEach(function(s) {
+						this.specialties[s._id] = s.name;
+					}, this);
+					console.log(this.specialties);
+				}.bind(this), function(err) {
+					console.log(err);
+				});
+
+				this.testing = Testing.get({
+					testingId: $routeParams.testingId
+				}, function(t) {
+					t.attempts.forEach(function(a) {
+						this.passedMap[a.idStudent] = !!a.finishedAt;
+					}, this);
+				}.bind(this), function(err) {
+					console.log(err);
+				});
+				return;
+			}
+
+			this.factorSet = FactorSet.get({ factorSetName: 'Cattell' });
 			this.testing = Testing.get({
 				testingId: $routeParams.testingId,
 				weightsLoad: true
@@ -45,14 +90,6 @@ angular
 				}
 
 			}.bind(this));
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
-
-			this.keysGet = Object.keys;
 
 			collectionsPopulate = function(testing) {
 				var maps = {

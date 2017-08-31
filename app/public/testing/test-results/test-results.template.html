@@ -1,121 +1,173 @@
-<div class="test-results__row">
-    <label translate>
-        Testing name:
-    </label>
+<div ng-if="!($ctrl.studentId === 'examinationPaper')">
+    <div class="test-results__row">
+        <label translate>
+            Testing name:
+        </label>
     <span>
         {{ $ctrl.testing.idQuestionSet.name }}
     </span>
-</div>
-<div class="test-results__row">
-    <label translate>
-        Testing date:
-    </label>
+    </div>
+    <div class="test-results__row">
+        <label translate>
+            Testing date:
+        </label>
     <span>
         {{ $ctrl.testing.attempts[0].startedAt | date }}
     </span>
-</div>
-<div class="test-results__row hide-on-print"
-     ng-if="!$ctrl.studentId">
-    <span translate>Search by testee's name:</span>
-    <input type="text" ng-model="$ctrl.qs"
-           class="form-control test-results__search-input">
-</div>
-<div ng-repeat="r in $ctrl.results | filter: { name: $ctrl.qs }">
-    <div class="test-results__row">
-        <label translate>
-            Name:
-        </label>
-        <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
-            {{r.name}}
+    </div>
+    <div class="test-results__row" ng-if="$ctrl.authorized">
+        <a ng-href="/testResults/{{$ctrl.testing._id}}/examinationPaper">
+            Testing examination paper
         </a>
     </div>
-    <table ng-if="$ctrl.keysGet(r.sumByFactor).length &&
-                r.attempt.finishedAt"
-           class="test-results__table test-results__row">
-        <thead>
-        <tr>
-            <td>
-                <label translate>Index</label>
-            </td>
-            <td ng-repeat="f in $ctrl.factorSet.factors">
-                {{f.index}}
-            </td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                <label translate>Sum</label>
-            </td>
-            <td ng-repeat="f in $ctrl.factorSet.factors">
-                {{ r.sumByFactor[f._id] }}
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div ng-if="r.questionsCount" class="test-results__row">
-        <label translate>
-            Correct answers:
-        </label>
-        <span>
-            {{ r.correctCount }} / {{ r.questionsCount }}
-        </span>
+    <div class="test-results__row hide-on-print"
+         ng-if="!$ctrl.studentId">
+        <span translate>Search by testee's name:</span>
+        <input type="text" ng-model="$ctrl.qs"
+               class="form-control test-results__search-input">
     </div>
-    <div ng-if="!r.attempt.finishedAt" class="test-results__row">
-        <span>
-            <span translate>
-                Test passing is in progress:
+    <div ng-repeat="r in $ctrl.results | filter: { name: $ctrl.qs }"
+         class="test-results__row">
+        <div class="test-results__row">
+            <label translate>
+                Name:
+            </label>
+            <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
+                {{r.name}}
+            </a>
+        </div>
+        <table ng-if="$ctrl.keysGet(r.sumByFactor).length && r.attempt.finishedAt"
+               class="test-results__table test-results__row">
+            <thead>
+            <tr>
+                <td></td>
+                <td class="test-results__table-cell" translate>
+                    Factor
+                </td>
+                <td class="test-results__table-cell" translate>
+                    Sum
+                </td>
+                <td colspan="10" class="test-results__table-cell" translate>
+                    Sten
+                </td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="f in $ctrl.factorSet.factors">
+                <td class="test-results__table-cell">
+                    {{ f.index }}
+                </td>
+                <td class="test-results__table-cell">
+                    {{ f.nameNegative }}
+                    <span ng-if="f.nameNegative">
+                        &mdash;
+                    </span>
+                    {{ f.namePositive }}
+                </td>
+                <td class="test-results__table-cell">
+                    {{ r.sumByFactor[f._id] }}
+                </td>
+                <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+                    <!-- NB : NON-strict equality -->
+                    <span ng-if="r.stenByFactor[f._id] == v">
+                        {{ v }}
+                    </span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div ng-if="r.questionsCount" class="test-results__row">
+            <label translate>
+                Correct answers:
+            </label>
+            <span>
+                {{ r.correctCount }} / {{ r.questionsCount }}
             </span>
-            {{r.attempt.results.length}}
-            /
-            {{$ctrl.testing.idQuestionSet.questions.length}}
-        </span>
+        </div>
+        <div ng-if="!r.attempt.finishedAt" class="test-results__row">
+            <span>
+                <span translate>
+                    Test passing is in progress:
+                </span>
+                {{r.attempt.results.length}}
+                /
+                {{$ctrl.testing.idQuestionSet.questions.length}}
+            </span>
+        </div>
+        <hr>
     </div>
-    <hr>
 </div>
-<div ng-if="$ctrl.studentId &&
-            $ctrl.results.length &&
-            $ctrl.results[0].attempt.finishedAt &&
-            $ctrl.keysGet($ctrl.results[0].stenByFactor).length"
-     class="test-results__row">
-    <table class="test-results__table">
-        <thead>
-            <tr>
-                <td rowspan="2" class="test-results__table-head1">
-                    <label translate>Low stens by factor</label>
-                </td>
-                <td colspan="10" class="test-results__table-head2">
-                    <label translate>Sten</label>
-                </td>
-                <td rowspan="2" class="test-results__table-head1">
-                    <label translate>High stens by factor</label>
-                </td>
-            </tr>
-            <tr>
-                <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]"
-                    class="test-results__table-head2">
-                    {{v}}
-                </td>
-            </tr>
+<div ng-if="$ctrl.studentId === 'examinationPaper'"
+     class="test-results__paper">
+    <p class="test-results__paper-header">
+        ККБМК
+    </p>
+    <p class="test-results__paper-header">
+        ЭКЗАМЕНАЦИОННАЯ ВЕДОМОСТЬ
+    </p>
+    <p>Вступительного экзамена по предмету: Психологическое тестирование</p>
+    <p>Форма проведения вступительного испытания:</p>
+    <p>
+        На группу
+        {{ $ctrl.testing.idGroup.index }}
+    </p>
+    <p>По специальности: {{ $ctrl.specialties[$ctrl.testing.idGroup.idSpecialty] }}</p>
+    <p>Отделение (обучение): {{ $ctrl.eduForms[$ctrl.testing.idGroup.idEduForm] }}</p>
+    <p>
+        Дата экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'dd.MM.yyyy' }}
+    </p>
+    <p>
+        Начало экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'hh:mm' }}
+    </p>
+    <p>Фамилия и инициалы</p>
+    <p>экзаменаторов:
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+        <br>
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+    </p>
+    <table class="table">
+        <thead class="test-results__paper-table-head">
+        <tr>
+            <td>П/П</td>
+            <td>Фамилия Имя Отчество</td>
+            <td>Результат</td>
+            <td>Подпись экзаменаторов</td>
+        </tr>
         </thead>
         <tbody>
-        <tr ng-repeat="f in $ctrl.factorSet.factors">
+        <tr ng-repeat="s in $ctrl.testing.idGroup.students">
+            <td>{{ $index + 1 }}</td>
             <td>
-                {{f.nameNegative}}
-            </td>
-            <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                <span class="glyphicon glyphicon-ok"
-                      ng-if="$ctrl.results[0].stenByFactor[f._id] == v">
-                </span>
+                {{ s.lastName + ' ' + s.firstName + ' ' + s.patronymic }}
             </td>
             <td>
-                {{f.namePositive}}
+                {{ $ctrl.passedMap[s._id] !== undefined ? 'зачтено' : 'неявка'}}
             </td>
+            <td></td>
         </tr>
         </tbody>
     </table>
+    <p>
+        Число экзаменовавшихся:
+        {{ $ctrl.testing.attempts.length }}
+    </p>
+    <p>
+        Число не явившихся на экзамен:
+        {{ $ctrl.testing.idGroup.students.length - $ctrl.testing.attempts.length }}
+    </p>
+    <p>
+        Ответственный секретарь приемной комиссии:
+        <span class="test-results__paper-right">
+             _________________________________________________
+        </span>
+    </p>
 </div>
-
 <div ng-bind="$ctrl.message.text"
      class="message message_hidden"
      ng-class="{
