@@ -9,7 +9,8 @@ angular
 			},
 			link: function datePickerLink(scope, element, attrs, ngModelCtrl) {
 				var opt = {
-						toggleSelected: false
+						toggleSelected: false,
+						timepicker: true
 					}, listener;
 
 				opt.onSelect = function(formattedDate, date) {
