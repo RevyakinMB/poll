@@ -13,6 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
+#: directories/directories.template.html:45
 #: group-management/group-list/group-list.template.html:31
 #: question-set-management/question-set-list/question-set-list.template.html:28
 #: question-set-management/question-set-modify/question-set-modify.template.html:34
@@ -27,7 +28,7 @@ msgstr "(черновик)"
 msgid "Add a question"
 msgstr "Добавить вопрос"
 
-#: group-management/group-modify/group-modify.template.html:29
+#: group-management/group-modify/group-modify.template.html:60
 msgid "Add a testee"
 msgstr "Добавить тестируемого"
 
@@ -39,7 +40,7 @@ msgstr "Добавить ответ"
 msgid "Add factor"
 msgstr "Добавить фактор"
 
-#: group-management/group-modify/group-modify.template.html:50
+#: group-management/group-modify/group-modify.template.html:81
 msgid "Add testee"
 msgid_plural "Add {{$ctrl.studentsRawListCount() || ''}} testees"
 msgstr[0] "Добавить {{$ctrl.studentsRawListCount()}} тестируемого"
@@ -58,7 +59,11 @@ msgstr "Произошла ошибка во время создания рез�
 msgid "An error occurred while backup restoration"
 msgstr "Произошла ошибка во время восстановления резервной копии"
 
-#: testing/test-passing/test-passing.component.js:230
+#: directories/directories.component.js:131
+msgid "An error occurred while changes saving"
+msgstr "Произошла ошибка во время сохранения изменений"
+
+#: testing/test-passing/test-passing.component.js:233
 msgid "An error occurred while saving answer"
 msgstr "Произошла ошибка во время сохранения ответа"
 
@@ -94,7 +99,7 @@ msgstr "Резервная копия успешно создана"
 msgid "Backup successfully restored"
 msgstr "Резервная копия успешно восстановлена"
 
-#: group-management/group-modify/student-modify.template.html:74
+#: group-management/group-modify/student-modify.template.html:77
 msgid "Cancel"
 msgstr "Отмена"
 
@@ -106,7 +111,7 @@ msgstr "Кэттелл"
 msgid "Cattell factor set"
 msgstr "Набор факторов Кэттелла"
 
-#: group-management/group-modify/group-modify.template.html:18
+#: group-management/group-modify/group-modify.template.html:49
 msgid "Click on a row to edit or remove"
 msgstr "Нажмите на строку для редактирования или удаления"
 
@@ -118,12 +123,12 @@ msgstr "Нажмите на строку с фактором для редакт
 msgid "Click on question row to edit or remove"
 msgstr "Нажмите на строку с вопросом для редактирования или удаления"
 
-#: testing/testing-list/testing-list.template.html:205
+#: testing/testing-list/testing-list.template.html:216
 msgid "Click to open"
 msgstr "Нажмите, чтобы открыть"
 
 #: question-set-management/question-set-modify/question-modify.template.html:161
-#: testing/testing-list/testing-list.template.html:126
+#: testing/testing-list/testing-list.template.html:131
 msgid "Close"
 msgstr "Закрыть"
 
@@ -132,9 +137,13 @@ msgstr "Закрыть"
 msgid "Correct answer is required."
 msgstr "Верный ответ обязателен."
 
-#: testing/test-results/test-results.template.html:57
+#: testing/test-results/test-results.template.html:80
 msgid "Correct answers:"
 msgstr "Верные ответы:"
+
+#: directories/directories.template.html:12
+msgid "Create"
+msgstr "Создать"
 
 #: group-management/group-list/group-list.template.html:3
 #: question-set-management/question-set-list/question-set-list.template.html:4
@@ -146,10 +155,15 @@ msgstr "Создать"
 msgid "Create new backup"
 msgstr "Создать новую резервную копию"
 
+#: directories/directories.component.js:126
+msgid "Data successfully saved"
+msgstr "Данные успешно сохранены"
+
 #: main-menu/main-menu.component.js:33
 msgid "Database backup"
 msgstr "Резервная копия базы данных"
 
+#: directories/directories.template.html:19
 #: factor-set-management/cattell-factor-set.template.html:57
 #: group-management/group-list/group-list.template.html:12
 #: question-set-management/question-set-list/question-set-list.template.html:13
@@ -157,6 +171,11 @@ msgstr "Резервная копия базы данных"
 msgid "Delete"
 msgstr "Удалить"
 
+#: directories/directories.template.html:33
+msgid "Directory is empty. Click on `Add` to add record"
+msgstr "Справочник пуст. Нажмите на `Добавить`, чтобы создать запись"
+
+#: directories/directories.template.html:15
 #: group-management/group-list/group-list.template.html:7
 #: group-management/group-modify/student-info.template.html:16
 #: question-set-management/question-set-list/question-set-list.template.html:7
@@ -169,7 +188,15 @@ msgstr "Редактировать"
 msgid "Edit testee"
 msgstr "Редактировать тестируемого"
 
-#: group-management/group-modify/group-modify.template.html:42
+#: group-management/group-modify/group-modify.template.html:31
+msgid "Education form:"
+msgstr "Форма обучения:"
+
+#: directories/directories.component.js:16
+msgid "Educational form list"
+msgstr "Список форм обучения"
+
+#: group-management/group-modify/group-modify.template.html:73
 msgid "Enter a list of testees separated by new line:"
 msgstr "Введите список тестируемых, разделенных переводом строки:"
 
@@ -178,12 +205,12 @@ msgid "Enter name"
 msgstr "Введите имя"
 
 #: testing/test-passing/test-passing.component.js:19
-#: testing/test-results/test-results.component.js:42
+#: testing/test-results/test-results.component.js:87
 msgid "Error while testing loading"
 msgstr "Произошла ошибка во время загрузки тестирования"
 
 #: factor-set-management/cattell-factor-set.component.js:97
-#: group-management/group-modify/group-modify.component.js:135
+#: group-management/group-modify/group-modify.component.js:146
 #: question-set-management/question-set-modify/question-set-modify.component.js:210
 msgid "Error:"
 msgstr "Ошибка:"
@@ -199,6 +226,10 @@ msgstr "Ошибка: группа не была удалена"
 #: question-set-management/question-set-list/question-set-list.component.js:103
 msgid "Error: a question set was not deleted"
 msgstr "Ошибка: набор вопросов не был удален"
+
+#: directories/directories.component.js:100
+msgid "Error: a record was not deleted"
+msgstr "Ошибка: запись не была удалена"
 
 #: testing/testing-list/testing-list.component.js:231
 msgid "Error: a testing is invalid"
@@ -221,16 +252,16 @@ msgid "Error: an error occurred while backup list loading"
 msgstr "Произошла ошибка во время загрузки списка резервных копий"
 
 #: factor-set-management/cattell-factor-set.component.js:91
-#: group-management/group-modify/group-modify.component.js:129
+#: group-management/group-modify/group-modify.component.js:133
 #: question-set-management/question-set-modify/question-set-modify.component.js:204
 msgid "Error: form validation failed"
 msgstr "Ошибка: форма не корректна"
 
-#: group-management/group-modify/group-modify.component.js:101
-msgid "Error: group is empty"
-msgstr "Ошибка: группа пуста"
+#: group-management/group-modify/group-modify.component.js:140
+msgid "Error: group number have to be unique"
+msgstr "Ошибка: номер группы должен быть уникальным"
 
-#: group-management/group-modify/group-modify.component.js:111
+#: group-management/group-modify/group-modify.component.js:115
 msgid "Error: name or surname is missing"
 msgstr "Ошибка: имя или фамилия отсутствует"
 
@@ -238,24 +269,25 @@ msgstr "Ошибка: имя или фамилия отсутствует"
 msgid "Error: question/answer text or correct answer is missing"
 msgstr "Ошибка: текст вопроса/ответа или верный ответ отсутствует"
 
-#: testing/test-passing/test-passing.component.js:223
+#: testing/test-passing/test-passing.component.js:226
 msgid "Error: session changed. Please, call examiner"
 msgstr "Ошибка: сессия изменилась. Пожалуйста, позовите экзаменатора"
 
 #: factor-set-management/cattell-factor-set.template.html:31
 #: question-set-management/question-set-modify/question-modify.template.html:27
+#: testing/test-results/test-results.template.html:44
 msgid "Factor"
 msgstr "Фактор"
 
-#: factor-set-management/cattell-factor-set.template.html:71
+#: factor-set-management/cattell-factor-set.template.html:78
 msgid "Factor Negative Name:"
 msgstr "Негативное наименование фактора:"
 
-#: factor-set-management/cattell-factor-set.template.html:77
+#: factor-set-management/cattell-factor-set.template.html:71
 msgid "Factor Positive Name:"
 msgstr "Позитивное наименование фактора:"
 
-#: factor-set-management/cattell-factor-set.template.html:96
+#: factor-set-management/cattell-factor-set.template.html:99
 msgid "Factor index and name are required"
 msgstr "Индекс и наименование фактора обязательны"
 
@@ -272,13 +304,13 @@ msgid "Factors total:"
 msgstr "Количество факторов:"
 
 #: group-management/group-modify/student-modify.template.html:17
-#: group-management/group-modify/student-modify.template.html:42
+#: group-management/group-modify/student-modify.template.html:43
 #: question-set-management/question-set-modify/question-modify.template.html:119
 #: question-set-management/question-set-modify/question-modify.template.html:21
 msgid "Field is required."
 msgstr "Поле обязательно."
 
-#: group-management/group-modify/student-modify.template.html:32
+#: group-management/group-modify/student-modify.template.html:33
 msgid "First name:"
 msgstr "Имя:"
 
@@ -286,16 +318,25 @@ msgstr "Имя:"
 msgid "Greet page"
 msgstr "Главная страница"
 
-#: testing/testing-list/testing-list.template.html:105
+#: testing/testing-list/testing-list.template.html:110
 msgid "Group"
 msgstr "Группа"
+
+#: testing/testing-list/testing-list.template.html:193
+#: testing/testing-list/testing-list.template.html:85
+msgid "Group #{{ $ctrl.groupsMap[t.idGroup].index + ',' }}"
+msgstr "Группа №{{ $ctrl.groupsMap[t.idGroup].index + ',' }}"
+
+#: greet/greet.template.html:13
+msgid "Group #{{testing.idGroup.index}},"
+msgstr "Группа №{{testing.idGroup.index}},"
 
 #: main-menu/main-menu.component.js:8
 msgid "Group list"
 msgstr "Список групп"
 
 #: group-management/group-list/group-list.template.html:34
-#: testing/testing-list/testing-list.template.html:153
+#: testing/testing-list/testing-list.template.html:158
 #: testing/testing-list/testing-list.template.html:38
 msgid "Group name"
 msgstr "Наименование группы"
@@ -308,7 +349,15 @@ msgstr "Наименование группы:"
 msgid "Group not found!"
 msgstr "Группа не найдена!"
 
-#: group-management/group-modify/group-modify.component.js:122
+#: group-management/group-modify/group-modify.template.html:25
+msgid "Group number is wrong"
+msgstr "Номер группы некорректен"
+
+#: group-management/group-modify/group-modify.template.html:19
+msgid "Group number:"
+msgstr "Номер группы:"
+
+#: group-management/group-modify/group-modify.component.js:126
 msgid "Group successfully saved"
 msgstr "Группа успешно сохранена"
 
@@ -316,23 +365,15 @@ msgstr "Группа успешно сохранена"
 msgid "Group(s) successfully removed"
 msgstr "Группа(ы) успешно удалена(ы)"
 
-#: testing/test-results/test-results.template.html:91
-msgid "High stens by factor"
-msgstr "Высокие оценки по фактору"
-
 #: 404.html:4
 msgid "Home"
 msgstr "Домой"
-
-#: testing/test-results/test-results.template.html:38
-msgid "Index"
-msgstr "Индекс"
 
 #: factor-set-management/cattell-factor-set.template.html:63
 msgid "Index:"
 msgstr "Индекс:"
 
-#: testing/test-passing/test-passing.component.js:49
+#: testing/test-passing/test-passing.component.js:52
 msgid "Internal server error"
 msgstr "Внутренняя ошибка сервера"
 
@@ -340,7 +381,7 @@ msgstr "Внутренняя ошибка сервера"
 msgid "Invalid form data; fix errors to proceed"
 msgstr "Форма некорректна; исправьте ошибки, чтобы продолжить"
 
-#: group-management/group-modify/student-modify.template.html:40
+#: group-management/group-modify/student-modify.template.html:41
 msgid "Ivan"
 msgstr "Иван"
 
@@ -348,7 +389,7 @@ msgstr "Иван"
 msgid "Ivanov"
 msgstr "Иванов"
 
-#: group-management/group-modify/student-modify.template.html:64
+#: group-management/group-modify/student-modify.template.html:66
 msgid "Ivanovich"
 msgstr "Иванович"
 
@@ -368,11 +409,7 @@ msgstr "Войти"
 msgid "Login:"
 msgstr "Имя пользователя:"
 
-#: testing/test-results/test-results.template.html:85
-msgid "Low stens by factor"
-msgstr "Низкие оценки по фактору:"
-
-#: group-management/group-modify/group-modify.template.html:34
+#: group-management/group-modify/group-modify.template.html:65
 msgid "Mass input"
 msgstr "Массовый ввод"
 
@@ -381,8 +418,8 @@ msgid "Multiple choice"
 msgstr "Множественный выбор"
 
 #: group-management/group-modify/student-modify.template.html:22
-#: group-management/group-modify/student-modify.template.html:47
-#: group-management/group-modify/student-modify.template.html:66
+#: group-management/group-modify/student-modify.template.html:48
+#: group-management/group-modify/student-modify.template.html:68
 msgid "Must be capitalized."
 msgstr "Должно начинаться с прописной буквы."
 
@@ -390,19 +427,27 @@ msgstr "Должно начинаться с прописной буквы."
 msgid "N/a"
 msgstr "Нет данных"
 
-#: testing/test-results/test-results.template.html:25
+#: directories/directories.template.html:48
+msgid "Name"
+msgstr "Наименование"
+
+#: testing/test-results/test-results.template.html:32
 msgid "Name:"
 msgstr "Имя:"
 
-#: testing/test-passing/test-passing.component.js:200
+#: testing/test-passing/test-passing.component.js:203
 msgid "No answer selected"
 msgstr "Не указан ответ"
+
+#: directories/directories.component.js:115
+msgid "No records changed"
+msgstr "Нет изменений"
 
 #: testing/testing-list/testing-list.component.js:248
 msgid "No testings changed"
 msgstr "Тестирования не изменялись"
 
-#: testing/testing-list/testing-list.template.html:135
+#: testing/testing-list/testing-list.template.html:140
 msgid "No testings scheduled. Click on `Create new` to add new"
 msgstr "Тестирований не запланировано. Нажмите на `Создать` чтобы добавить"
 
@@ -410,11 +455,11 @@ msgstr "Тестирований не запланировано. Нажмите
 msgid "Page not found"
 msgstr "Страница не найдена"
 
-#: testing/testing-list/testing-list.template.html:169
+#: testing/testing-list/testing-list.template.html:174
 msgid "Passed at"
 msgstr "Проводилось:"
 
-#: testing/testing-list/testing-list.template.html:141
+#: testing/testing-list/testing-list.template.html:146
 msgid "Passed testings:"
 msgstr "Проведенные тестирования:"
 
@@ -422,7 +467,7 @@ msgstr "Проведенные тестирования:"
 msgid "Password:"
 msgstr "Пароль:"
 
-#: group-management/group-modify/student-modify.template.html:57
+#: group-management/group-modify/student-modify.template.html:59
 msgid "Patronymic:"
 msgstr "Отчество:"
 
@@ -434,12 +479,13 @@ msgstr "Номер позиции некорректен."
 msgid "Practice Test"
 msgstr "Практический тест"
 
+#: greet/greet.template.html:29
 #: testing/test-passing/test-passing.template.html:62
 msgid "Progress:"
 msgstr "Прогресс:"
 
-#: testing/testing-list/testing-list.template.html:113
-#: testing/testing-list/testing-list.template.html:165
+#: testing/testing-list/testing-list.template.html:118
+#: testing/testing-list/testing-list.template.html:170
 #: testing/testing-list/testing-list.template.html:51
 msgid "Question set"
 msgstr "Набор вопросов"
@@ -478,6 +524,11 @@ msgstr "Количество вопросов"
 msgid "Questions total:"
 msgstr "Количество вопросов:"
 
+#: directories/directories.component.js:77
+#: directories/directories.component.js:94
+msgid "Record(s) successfully removed"
+msgstr "Запись(и) успешно удалена(ы)"
+
 #: group-management/group-modify/student-info.template.html:10
 #: question-set-management/question-set-modify/question-set-modify.template.html:64
 msgid "Remove"
@@ -495,7 +546,9 @@ msgstr "Удалить тестируемого"
 msgid "Restore"
 msgstr "Восстановить"
 
-#: testing/testing-list/testing-list.template.html:181
+#: greet/greet.template.html:22
+#: testing/test-passing/test-passing.template.html:121
+#: testing/testing-list/testing-list.template.html:186
 msgid "Results"
 msgstr "Результаты"
 
@@ -503,16 +556,17 @@ msgstr "Результаты"
 msgid "STEN"
 msgstr "Стены"
 
-#: group-management/group-modify/student-modify.template.html:78
+#: directories/directories.template.html:75
+#: group-management/group-modify/student-modify.template.html:81
 #: question-set-management/question-set-modify/question-modify.template.html:165
 msgid "Save"
 msgstr "Сохранить"
 
-#: factor-set-management/cattell-factor-set.template.html:105
+#: factor-set-management/cattell-factor-set.template.html:108
 msgid "Save factor set"
 msgstr "Сохранить набор факторов"
 
-#: group-management/group-modify/group-modify.template.html:66
+#: group-management/group-modify/group-modify.template.html:97
 msgid "Save group"
 msgstr "Сохранить группу"
 
@@ -520,11 +574,11 @@ msgstr "Сохранить группу"
 msgid "Save question set"
 msgstr "Сохранить набор вопросов"
 
-#: testing/testing-list/testing-list.template.html:212
+#: testing/testing-list/testing-list.template.html:223
 msgid "Save testings changes"
 msgstr "Сохранить изменения тестирований"
 
-#: testing/testing-list/testing-list.template.html:121
+#: testing/testing-list/testing-list.template.html:126
 #: testing/testing-list/testing-list.template.html:58
 msgid "Scheduled for"
 msgstr "Запланировано на:"
@@ -537,7 +591,7 @@ msgstr "Запланированные тестирования:"
 msgid "Search a testee:"
 msgstr "Найти тестируемого:"
 
-#: testing/test-results/test-results.template.html:19
+#: testing/test-results/test-results.template.html:25
 msgid "Search by testee's name:"
 msgstr "Поиск по имени тестируемого:"
 
@@ -549,7 +603,7 @@ msgstr "Выберите правильный ответ(ы):"
 msgid "Select your name from the list:"
 msgstr "Выберите свое имя из списка:"
 
-#: testing/test-passing/test-passing.component.js:129
+#: testing/test-passing/test-passing.component.js:132
 msgid "Selected user have passed test already"
 msgstr "Выбранный пользователь уже прошел тест ранее"
 
@@ -560,6 +614,14 @@ msgstr "Указание последовательности"
 #: backup-management/backup-list.template.html:25
 msgid "Size"
 msgstr "Размер"
+
+#: directories/directories.component.js:10
+msgid "Specialty list"
+msgstr "Список специальностей"
+
+#: group-management/group-modify/group-modify.template.html:39
+msgid "Specialty:"
+msgstr "Специальность:"
 
 #: question-set-management/question-set-modify/question-modify.template.html:64
 msgid "Specify answers weights:"
@@ -573,15 +635,15 @@ msgstr "Укажите правильный порядок ответов:"
 msgid "Specify unique position number for each answer."
 msgstr "Укажите уникальное значение позиции каждого ответа."
 
-#: testing/test-results/test-results.template.html:88
+#: testing/test-results/test-results.template.html:50
 msgid "Sten"
 msgstr "Баллы"
 
-#: factor-set-management/cattell-factor-set.template.html:89
+#: factor-set-management/cattell-factor-set.template.html:92
 msgid "Sten corresponding values have to be ascending"
 msgstr "Значения, соответствующие стенам должны быть возрастающими"
 
-#: testing/test-results/test-results.template.html:48
+#: testing/test-results/test-results.template.html:47
 msgid "Sum"
 msgstr "Сумма"
 
@@ -589,7 +651,7 @@ msgstr "Сумма"
 msgid "Test passed!"
 msgstr "Тест завершен!"
 
-#: testing/test-results/test-results.template.html:66
+#: testing/test-results/test-results.template.html:89
 msgid "Test passing is in progress:"
 msgstr "Находится в процессе тестирования:"
 
@@ -601,11 +663,11 @@ msgstr "Тестируемый:"
 msgid "Testees count"
 msgstr "Количество тестируемых"
 
-#: group-management/group-modify/group-modify.template.html:21
+#: group-management/group-modify/group-modify.template.html:52
 msgid "Testees total:"
 msgstr "Количество тестируемых:"
 
-#: testing/test-results/test-results.template.html:10
+#: testing/test-results/test-results.template.html:11
 msgid "Testing date:"
 msgstr "Дата тестирования:"
 
@@ -618,11 +680,11 @@ msgid "Testing list:"
 msgstr "Список тестирований:"
 
 #: testing/test-passing/test-passing.template.html:2
-#: testing/test-results/test-results.template.html:2
+#: testing/test-results/test-results.template.html:3
 msgid "Testing name:"
 msgstr "Наименование тестирования:"
 
-#: testing/test-results/test-results.component.js:37
+#: testing/test-results/test-results.component.js:82
 msgid "Testing not found"
 msgstr "Тестирование не найдено"
 
@@ -673,13 +735,25 @@ msgstr[0] "минута"
 msgstr[1] "минуты"
 msgstr[2] "минут"
 
-#: testing/test-passing/test-passing.component.js:117
+#: testing/test-passing/test-passing.component.js:120
 msgid ""
 "started testing earlier. Are you sure you want to proceed? Please click on a "
 "name again or call examiner."
 msgstr ""
 "начал тестирование раньше. Вы уверены, что хотите продолжить? Пожалуйста, "
 "нажмите на имя снова или позовите экзаменатора."
+
+#~ msgid "High stens by factor"
+#~ msgstr "Высокие оценки по фактору"
+
+#~ msgid "Index"
+#~ msgstr "Индекс"
+
+#~ msgid "Low stens by factor"
+#~ msgstr "Низкие оценки по фактору:"
+
+#~ msgid "Error: group is empty"
+#~ msgstr "Ошибка: группа пуста"
 
 #~ msgid "Save question changes"
 #~ msgstr "Сохранить изменения вопроса"
