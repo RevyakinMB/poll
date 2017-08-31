@@ -10,9 +10,28 @@ angular
 
 			this.testing = Testing.get({
 				testingId: $routeParams.testingId
-			}, function(results) {
-				this.group = results.idGroup;
-				this.questionSet = results.idQuestionSet;
+			}, function(t) {
+				var tempId;
+				this.group = t.idGroup;
+				this.questionSet = t.idQuestionSet;
+
+				if (!this.group) {
+					tempId = Math.random().toString(16).substr(2, 12);
+					// ObjectId `must be a single String of 12 bytes or a string of 24 hex characters`
+					tempId += tempId;
+					t.$save({
+						idStudent: tempId,
+						testingId: $routeParams.testingId
+					}, function() {
+						this.session.student._id = tempId;
+						this.session.attempt = testingAttemptRetrieve(
+							this.testing, tempId, this.message);
+
+						testingProceed(this);
+					}.bind(this), function(err) {
+						console.log(err);
+					});
+				}
 
 			}.bind(this), function(err) {
 				messenger({
@@ -21,7 +40,6 @@ angular
 				}, this.message);
 				console.log('error while testing loading:', err.message);
 			}.bind(this));
-
 
 			this.testingId = $routeParams.testingId;
 
@@ -100,6 +118,10 @@ angular
 				};
 			};
 
+			if (!this.group) {
+				this.session.student = {};
+			}
+
 			this.studentSelect = function(s) {
 				messenger(undefined, this.message);
 				this.testing.$save({
@@ -177,7 +199,10 @@ angular
 					answers = [];
 				messenger(undefined, that.message);
 
-				if (q.qType === 'Alternative' || q.qType === 'Cattell') {
+				if (q.qType === 'Alternative' ||
+					q.qType === 'Cattell' ||
+					q.qType === 'Poll'
+				) {
 					if (that.session.answerSelected !== undefined) {
 						answers.push(q.answers[that.session.answerSelected]._id);
 					}

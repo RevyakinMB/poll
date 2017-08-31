@@ -23,13 +23,6 @@ angular.module('greet')
 				});
 
 			this.isPassed = function(t) {
-				console.log(t.idGroup.groupName, t.attempts.length,
-					t.attempts.length === t.idGroup.students.length,
-					t.idGroup.students.length,
-					t.attempts.every(function(a) {
-						return a.finishedAt;
-					}));
-
 				return t.attempts.length === t.idGroup.students.length &&
 					t.attempts.every(function(a) {
 						return a.finishedAt;

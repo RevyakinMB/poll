@@ -29,6 +29,7 @@ Questions = new mongoose.Schema({
 	qType: {
 		type: String,
 		enum: ['Alternative', 'Multiple', 'Sequencing', 'Cattell'
+			, 'Poll'
 			// , 'Match'
 		],
 		required: true

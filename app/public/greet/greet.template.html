@@ -7,14 +7,19 @@
         <tr ng-repeat="testing in $ctrl.testings | orderBy: ['idGroup.index', 'scheduledFor']">
             <td>
                 <a ng-href="/testPassing/{{testing._id}}" class="home__testing-link">
-                    <span>
-                        {{testing.scheduledFor | date: 'hh:mm'}}
+                    <span ng-if="testing.idGroup">
+                        <span>
+                            {{testing.scheduledFor | date: 'HH:mm'}}
+                        </span>
+                        <span ng-if="testing.idGroup.index" translate>
+                            Group #{{testing.idGroup.index}},
+                        </span>
+                        <span>
+                            {{testing.idGroup.groupName | notApplicable}}
+                        </span>
                     </span>
-                    <span ng-if="testing.idGroup.index" translate>
-                        Group #{{testing.idGroup.index}},
-                    </span>
-                    <span>
-                        {{testing.idGroup.groupName | notApplicable}}
+                    <span ng-if="!testing.idGroup">
+                        {{ testing.idQuestionSet.name }}
                     </span>
                 </a>
             </td>

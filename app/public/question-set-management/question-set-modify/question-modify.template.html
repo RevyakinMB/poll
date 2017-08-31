@@ -59,6 +59,10 @@
         <span class="glyphicon glyphicon-info-sign"></span>
         <span translate>Specify correct order of answers:</span>
     </div>
+    <div ng-if="$ctrl.question.qType === 'Poll'" class="q-modify__row">
+        <span class="glyphicon glyphicon-info-sign"></span>
+        <span translate>Specify answers:</span>
+    </div>
     <div ng-if="$ctrl.question.qType === 'Cattell'" class="q-modify__row">
         <span class="glyphicon glyphicon-info-sign"></span>
         <span translate>Specify answers weights:</span>

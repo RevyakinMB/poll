@@ -5,7 +5,7 @@
     </span>
 </div>
 
-<div ng-if="!$ctrl.session.student">
+<div ng-if="!$ctrl.session.student && $ctrl.group">
     <div class="test-passing__row">
         <label class="glyphicon glyphicon-info-sign control-label"></label>
         <span translate>Select your name from the list:</span>
@@ -20,7 +20,7 @@
 </div>
 
 <div ng-if="$ctrl.session.student">
-    <div class="test-passing__row">
+    <div class="test-passing__row" ng-if="$ctrl.group">
         <label translate>Testee:</label>
         <span>
             {{ $ctrl.session.student.lastName + ' ' +
@@ -87,6 +87,7 @@
         <div class="radio-inline"
              ng-if="
                 $ctrl.session.currentQuestion.qType === 'Alternative' ||
+                $ctrl.session.currentQuestion.qType === 'Poll' ||
                 $ctrl.session.currentQuestion.qType === 'Cattell'">
             <label>
                 <input type="radio" ng-model="$ctrl.session.answerSelected"

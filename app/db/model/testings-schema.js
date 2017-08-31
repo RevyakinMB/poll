@@ -32,7 +32,7 @@ Testings = new mongoose.Schema({
 	scheduledFor: Date,
 	idGroup: {
 		type: mongoose.Schema.ObjectId,
-		required: true,
+		required: false,
 		ref: 'Groups'
 	},
 	attempts: [TestingAttempts]

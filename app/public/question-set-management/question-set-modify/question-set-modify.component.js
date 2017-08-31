@@ -147,7 +147,9 @@ angular
 			this.changesSave = function() {
 				var draftsReplaceMap = {}, i,
 					isValid = this.set.questions.every(function(q) {
-						var weight = false, answersValid;
+						var weight = q.qType === 'Poll', // no correct answers for a poll question
+							answersValid;
+
 						if (!q.text) {
 							return false;
 						}

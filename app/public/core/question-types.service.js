@@ -22,6 +22,11 @@ angular
 				name: function() {
 					return gettextCatalog.getString('Cattell');
 				}
+			}, {
+				value: 'Poll',
+				name: function() {
+					return gettextCatalog.getString('Poll');
+				}
 			}
 			// , {
 			//	value: 'Match',

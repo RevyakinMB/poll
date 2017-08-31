@@ -221,7 +221,7 @@ angular
 				yesterday.setDate(yesterday.getDate() - 1);
 
 				invalidTestings = changedTestings.filter(function(t) {
-					return !t.idGroup || !t.idQuestionSet || new Date(t.scheduledFor) < yesterday;
+					return !t.idQuestionSet || new Date(t.scheduledFor) < yesterday;
 				});
 
 				isValid = invalidTestings.length === 0;

@@ -65,11 +65,11 @@ msgstr ""
 msgid "An error occurred while testings saving"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:108
+#: question-set-management/question-set-modify/question-modify.template.html:112
 msgid "Answer text"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:132
+#: question-set-management/question-set-modify/question-modify.template.html:136
 msgid "Answer value is incorrect."
 msgstr ""
 
@@ -117,13 +117,13 @@ msgstr ""
 msgid "Click to open"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:161
+#: question-set-management/question-set-modify/question-modify.template.html:165
 #: testing/testing-list/testing-list.template.html:131
 msgid "Close"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:143
-#: question-set-management/question-set-modify/question-modify.template.html:150
+#: question-set-management/question-set-modify/question-modify.template.html:147
+#: question-set-management/question-set-modify/question-modify.template.html:154
 msgid "Correct answer is required."
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 
 #: factor-set-management/cattell-factor-set.component.js:97
 #: group-management/group-modify/group-modify.component.js:146
-#: question-set-management/question-set-modify/question-set-modify.component.js:210
+#: question-set-management/question-set-modify/question-set-modify.component.js:212
 msgid "Error:"
 msgstr ""
 
@@ -243,7 +243,7 @@ msgstr ""
 
 #: factor-set-management/cattell-factor-set.component.js:91
 #: group-management/group-modify/group-modify.component.js:133
-#: question-set-management/question-set-modify/question-set-modify.component.js:204
+#: question-set-management/question-set-modify/question-set-modify.component.js:206
 msgid "Error: form validation failed"
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Error: name or surname is missing"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-set-modify.component.js:162
+#: question-set-management/question-set-modify/question-set-modify.component.js:164
 msgid "Error: question/answer text or correct answer is missing"
 msgstr ""
 
@@ -295,7 +295,7 @@ msgstr ""
 
 #: group-management/group-modify/student-modify.template.html:17
 #: group-management/group-modify/student-modify.template.html:43
-#: question-set-management/question-set-modify/question-modify.template.html:119
+#: question-set-management/question-set-modify/question-modify.template.html:123
 #: question-set-management/question-set-modify/question-modify.template.html:21
 msgid "Field is required."
 msgstr ""
@@ -461,7 +461,11 @@ msgstr ""
 msgid "Patronymic:"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:129
+#: core/question-types.service.js:28
+msgid "Poll"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:133
 msgid "Position number is incorrect."
 msgstr ""
 
@@ -493,7 +497,7 @@ msgstr ""
 msgid "Question set not found!"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-set-modify.component.js:187
+#: question-set-management/question-set-modify/question-set-modify.component.js:189
 msgid "Question set successfully saved"
 msgstr ""
 
@@ -524,7 +528,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:116
+#: question-set-management/question-set-modify/question-modify.template.html:120
 msgid "Remove answer"
 msgstr ""
 
@@ -548,7 +552,7 @@ msgstr ""
 
 #: directories/directories.template.html:75
 #: group-management/group-modify/student-modify.template.html:81
-#: question-set-management/question-set-modify/question-modify.template.html:165
+#: question-set-management/question-set-modify/question-modify.template.html:169
 msgid "Save"
 msgstr ""
 
@@ -613,15 +617,19 @@ msgstr ""
 msgid "Specialty:"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:64
+#: question-set-management/question-set-modify/question-modify.template.html:68
 msgid "Specify answers weights:"
+msgstr ""
+
+#: question-set-management/question-set-modify/question-modify.template.html:64
+msgid "Specify answers:"
 msgstr ""
 
 #: question-set-management/question-set-modify/question-modify.template.html:60
 msgid "Specify correct order of answers:"
 msgstr ""
 
-#: question-set-management/question-set-modify/question-modify.template.html:152
+#: question-set-management/question-set-modify/question-modify.template.html:156
 msgid "Specify unique position number for each answer."
 msgstr ""
 

@@ -75,11 +75,11 @@ msgstr "Произошла ошибка во время загрузки тес�
 msgid "An error occurred while testings saving"
 msgstr "Произошла ошибка во время сохранения тестирований"
 
-#: question-set-management/question-set-modify/question-modify.template.html:108
+#: question-set-management/question-set-modify/question-modify.template.html:112
 msgid "Answer text"
 msgstr "Текст ответа"
 
-#: question-set-management/question-set-modify/question-modify.template.html:132
+#: question-set-management/question-set-modify/question-modify.template.html:136
 msgid "Answer value is incorrect."
 msgstr "Значение ответа неверно."
 
@@ -127,13 +127,13 @@ msgstr "Нажмите на строку с вопросом для редакт
 msgid "Click to open"
 msgstr "Нажмите, чтобы открыть"
 
-#: question-set-management/question-set-modify/question-modify.template.html:161
+#: question-set-management/question-set-modify/question-modify.template.html:165
 #: testing/testing-list/testing-list.template.html:131
 msgid "Close"
 msgstr "Закрыть"
 
-#: question-set-management/question-set-modify/question-modify.template.html:143
-#: question-set-management/question-set-modify/question-modify.template.html:150
+#: question-set-management/question-set-modify/question-modify.template.html:147
+#: question-set-management/question-set-modify/question-modify.template.html:154
 msgid "Correct answer is required."
 msgstr "Верный ответ обязателен."
 
@@ -211,7 +211,7 @@ msgstr "Произошла ошибка во время загрузки тес�
 
 #: factor-set-management/cattell-factor-set.component.js:97
 #: group-management/group-modify/group-modify.component.js:146
-#: question-set-management/question-set-modify/question-set-modify.component.js:210
+#: question-set-management/question-set-modify/question-set-modify.component.js:212
 msgid "Error:"
 msgstr "Ошибка:"
 
@@ -253,7 +253,7 @@ msgstr "Произошла ошибка во время загрузки спи�
 
 #: factor-set-management/cattell-factor-set.component.js:91
 #: group-management/group-modify/group-modify.component.js:133
-#: question-set-management/question-set-modify/question-set-modify.component.js:204
+#: question-set-management/question-set-modify/question-set-modify.component.js:206
 msgid "Error: form validation failed"
 msgstr "Ошибка: форма не корректна"
 
@@ -265,7 +265,7 @@ msgstr "Ошибка: номер группы должен быть уникал
 msgid "Error: name or surname is missing"
 msgstr "Ошибка: имя или фамилия отсутствует"
 
-#: question-set-management/question-set-modify/question-set-modify.component.js:162
+#: question-set-management/question-set-modify/question-set-modify.component.js:164
 msgid "Error: question/answer text or correct answer is missing"
 msgstr "Ошибка: текст вопроса/ответа или верный ответ отсутствует"
 
@@ -305,7 +305,7 @@ msgstr "Количество факторов:"
 
 #: group-management/group-modify/student-modify.template.html:17
 #: group-management/group-modify/student-modify.template.html:43
-#: question-set-management/question-set-modify/question-modify.template.html:119
+#: question-set-management/question-set-modify/question-modify.template.html:123
 #: question-set-management/question-set-modify/question-modify.template.html:21
 msgid "Field is required."
 msgstr "Поле обязательно."
@@ -471,7 +471,11 @@ msgstr "Пароль:"
 msgid "Patronymic:"
 msgstr "Отчество:"
 
-#: question-set-management/question-set-modify/question-modify.template.html:129
+#: core/question-types.service.js:28
+msgid "Poll"
+msgstr "Опрос"
+
+#: question-set-management/question-set-modify/question-modify.template.html:133
 msgid "Position number is incorrect."
 msgstr "Номер позиции некорректен."
 
@@ -503,7 +507,7 @@ msgstr "Наименование набора вопросов"
 msgid "Question set not found!"
 msgstr "Набор вопросов не найден!"
 
-#: question-set-management/question-set-modify/question-set-modify.component.js:187
+#: question-set-management/question-set-modify/question-set-modify.component.js:189
 msgid "Question set successfully saved"
 msgstr "Набор вопросов успешно сохранен"
 
@@ -534,7 +538,7 @@ msgstr "Запись(и) успешно удалена(ы)"
 msgid "Remove"
 msgstr "Удалить"
 
-#: question-set-management/question-set-modify/question-modify.template.html:116
+#: question-set-management/question-set-modify/question-modify.template.html:120
 msgid "Remove answer"
 msgstr "Удалить ответ"
 
@@ -558,7 +562,7 @@ msgstr "Стены"
 
 #: directories/directories.template.html:75
 #: group-management/group-modify/student-modify.template.html:81
-#: question-set-management/question-set-modify/question-modify.template.html:165
+#: question-set-management/question-set-modify/question-modify.template.html:169
 msgid "Save"
 msgstr "Сохранить"
 
@@ -623,15 +627,19 @@ msgstr "Список специальностей"
 msgid "Specialty:"
 msgstr "Специальность:"
 
-#: question-set-management/question-set-modify/question-modify.template.html:64
+#: question-set-management/question-set-modify/question-modify.template.html:68
 msgid "Specify answers weights:"
 msgstr "Укажите веса ответов:"
+
+#: question-set-management/question-set-modify/question-modify.template.html:64
+msgid "Specify answers:"
+msgstr "Укажите ответы:"
 
 #: question-set-management/question-set-modify/question-modify.template.html:60
 msgid "Specify correct order of answers:"
 msgstr "Укажите правильный порядок ответов:"
 
-#: question-set-management/question-set-modify/question-modify.template.html:152
+#: question-set-management/question-set-modify/question-modify.template.html:156
 msgid "Specify unique position number for each answer."
 msgstr "Укажите уникальное значение позиции каждого ответа."
 
