@@ -56,10 +56,14 @@ app.use(function(err, req, res, next) {
 		err = new HttpError(400, 'Request body is invalid');
 	}
 
-	if (err.name === 'MongoError' &&
+	else if (err.name === 'MongoError' &&
 		err.message.indexOf('duplicate key error') !== -1
 	) {
 		err = new HttpError(400, 'Duplicate key error');
+	}
+
+	else if (err.name === 'ValidationError') {
+		err = new HttpError(400, err.message);
 	}
 
 	if (err instanceof HttpError) {
