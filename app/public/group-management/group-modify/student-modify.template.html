@@ -20,7 +20,8 @@
                 Field is required.
             </label>
             <label class="control-label" translate
-                   ng-show="$ctrl.form.lastName.$error.capitalization">
+                   ng-show="$ctrl.hasError($ctrl.form.lastName) &&
+                    $ctrl.form.lastName.$error.capitalization">
                 Must be capitalized.
             </label>
         </div>
@@ -45,7 +46,8 @@
                 Field is required.
             </label>
             <label class="control-label" translate
-                   ng-show="$ctrl.form.firstName.$error.capitalization">
+                   ng-show="$ctrl.hasError($ctrl.form.firstName) &&
+                    $ctrl.form.firstName.$error.capitalization">
                 Must be capitalized.
             </label>
         </div>
@@ -64,7 +66,8 @@
                    placeholder="{{ 'Ivanovich' | translate }}"
                    enter-press="$ctrl.studentSave()">
             <label class="control-label" translate
-                   ng-show="$ctrl.form.patronymic.$error.capitalization">
+                   ng-show="$ctrl.hasError($ctrl.form.patronymic) &&
+                    $ctrl.form.patronymic.$error.capitalization">
                 Must be capitalized.
             </label>
         </div>
