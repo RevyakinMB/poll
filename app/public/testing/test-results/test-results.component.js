@@ -97,9 +97,11 @@ angular
 					questions: {}
 				};
 
-				testing.idGroup.students.forEach(function(s) {
-					maps.students[s._id] = s.lastName + ' ' + s.firstName + ' ' + s.patronymic;
-				});
+				if (testing.idGroup) {
+					testing.idGroup.students.forEach(function(s) {
+						maps.students[s._id] = s.lastName + ' ' + s.firstName + ' ' + s.patronymic;
+					});
+				}
 				testing.idQuestionSet.questions.forEach(function(q) {
 					maps.questions[q._id] = {
 						answers: q.answers,
@@ -120,7 +122,7 @@ angular
 						sumByFactor: {},
 						stenByFactor: {},
 
-						// takes non-Cattell question into account only
+						// takes into account non-Cattell questions only
 						correctCount: 0,
 						questionsCount: 0
 					};

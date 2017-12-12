@@ -29,12 +29,17 @@
     <div ng-repeat="r in $ctrl.results | filter: { name: $ctrl.qs }"
          class="test-results__row">
         <div class="test-results__row">
-            <label translate>
-                Name:
-            </label>
-            <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
-                {{r.name}}
-            </a>
+            <div ng-if="r.name">
+                <label translate>
+                    Name:
+                </label>
+                <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
+                    {{r.name}}
+                </a>
+            </div>
+            <div ng-if="!r.name">
+                <span translate>#</span>{{$index + 1}}
+            </div>
         </div>
         <table ng-if="$ctrl.keysGet(r.sumByFactor).length && r.attempt.finishedAt"
                class="test-results__table test-results__row">
@@ -76,7 +81,7 @@
             </tr>
             </tbody>
         </table>
-        <div ng-if="r.questionsCount" class="test-results__row">
+        <div ng-if="r.name && r.questionsCount" class="test-results__row">
             <label translate>
                 Correct answers:
             </label>

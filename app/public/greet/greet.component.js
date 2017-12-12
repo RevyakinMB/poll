@@ -23,14 +23,19 @@ angular.module('greet')
 				});
 
 			this.isPassed = function(t) {
-				return t.attempts.length === t.idGroup.students.length &&
-					t.attempts.every(function(a) {
-						return a.finishedAt;
-					});
+				if (t.idGroup) {
+					return t.attempts.length === t.idGroup.students.length &&
+						t.attempts.every(function(a) {
+							return a.finishedAt;
+						});
+				}
+				return t.attempts.some(function(a) {
+					return a.finishedAt;
+				});
 			};
 
 			this.isInProgress = function(t) {
-				return t.attempts.length && !this.isPassed(t);
+				return t.idGroup && t.attempts.length && !this.isPassed(t);
 			};
 
 			this.progress = function(t) {
