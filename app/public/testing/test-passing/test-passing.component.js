@@ -6,40 +6,49 @@ angular
 			$routeParams,
 			Testing, messenger, gettextCatalog) {
 			var testingAttemptRetrieve, testingProceed, answerPost,
-				timeElapsedCalc;
+				timeElapsedCalc,
+				onTestingLoadSuccess, onTestingLoadError;
 
-			this.testing = Testing.get({
-				testingId: $routeParams.testingId
-			}, function(t) {
+			onTestingLoadSuccess = function(t) {
 				var tempId;
 				this.group = t.idGroup;
 				this.questionSet = t.idQuestionSet;
-
-				if (!this.group) {
-					tempId = Math.random().toString(16).substr(2, 12);
-					// ObjectId `must be a single String of 12 bytes or a string of 24 hex characters`
-					tempId += tempId;
-					t.$save({
-						idStudent: tempId,
-						testingId: $routeParams.testingId
-					}, function() {
-						this.session.student._id = tempId;
-						this.session.attempt = testingAttemptRetrieve(
-							this.testing, tempId, this.message);
-
-						testingProceed(this);
-					}.bind(this), function(err) {
-						console.log(err);
-					});
+				if (this.group) {
+					return;
 				}
 
-			}.bind(this), function(err) {
+				// if there's no group, this,testing is `Poll`, available for any testee
+				tempId = Math.random().toString(16).substr(2, 12);
+				// ObjectId `must be a single String of 12 bytes or a string of 24 hex characters`
+				tempId += tempId;
+				t.$save({
+					idStudent: tempId,
+					testingId: $routeParams.testingId
+				}, function() {
+					this.session.student = { _id: tempId };
+					this.session.attempt = testingAttemptRetrieve(
+						this.testing, tempId, this.message);
+					testingProceed(this);
+				}.bind(this), function(err) {
+					console.log(err);
+				});
+			}.bind(this);
+
+			onTestingLoadError = function(err) {
 				messenger({
 					message: gettextCatalog.getString('Error while testing loading'),
 					isError: true
 				}, this.message);
 				console.log('error while testing loading:', err.message);
-			}.bind(this));
+			}.bind(this);
+
+			this.testing = Testing.get(
+				{
+					testingId: $routeParams.testingId
+				},
+				onTestingLoadSuccess,
+				onTestingLoadError
+			);
 
 			this.testingId = $routeParams.testingId;
 
@@ -117,10 +126,6 @@ angular
 					minutes: m
 				};
 			};
-
-			if (!this.group) {
-				this.session.student = {};
-			}
 
 			this.studentSelect = function(s) {
 				messenger(undefined, this.message);
