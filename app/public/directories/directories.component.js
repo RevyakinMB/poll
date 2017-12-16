@@ -4,7 +4,14 @@ angular
 		templateUrl: 'directories/directories.template.html',
 		controller: function directoryController(
 			$routeParams, Specialty, EduForm, gettextCatalog, messenger) {
-			var dirOpts = [{
+			var dirOpts;
+
+			if (!$routeParams.directory) {
+				this.listDirectories = true;
+				return;
+			}
+
+			dirOpts = [{
 				path: 'specialties',
 				label: function() {
 					return gettextCatalog.getString('Specialty list');

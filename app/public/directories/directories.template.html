@@ -4,7 +4,16 @@
     </label>
 </div>
 
-<div ng-if="!$ctrl.notFound">
+<div ng-if="$ctrl.listDirectories">
+    <p>
+        <a href="/directories/specialties" translate>Specialty list</a>
+    </p>
+    <p>
+        <a href="/directories/edu-forms" translate>Educational form list</a>
+    </p>
+</div>
+
+<div ng-if="!$ctrl.listDirectories && !$ctrl.notFound">
     <h4>
        {{ $ctrl.dirLabel() }}
     </h4>

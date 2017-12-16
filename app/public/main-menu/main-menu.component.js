@@ -33,6 +33,11 @@ angular
 					return gettextCatalog.getString('Database backup');
 				},
 				path: '/backup-list'
+			}, {
+				name: function() {
+					return gettextCatalog.getString('Directories');
+				},
+				path: '/directories'
 			}];
 
 			this.currentPath = $location.path();
