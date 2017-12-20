@@ -17,7 +17,7 @@ angular
 					return;
 				}
 
-				// if there's no group, this,testing is `Poll`, available for any testee
+				// if there's no group, this.testing is `Poll`, available for any testee
 				tempId = Math.random().toString(16).substr(2, 12);
 				// ObjectId `must be a single String of 12 bytes or a string of 24 hex characters`
 				tempId += tempId;

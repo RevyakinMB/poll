@@ -21,7 +21,7 @@
         </a>
     </div>
     <div class="test-results__row hide-on-print"
-         ng-if="!$ctrl.studentId">
+         ng-if="!$ctrl.studentId && ctrl.quickSearchAvailable">
         <span translate>Search by testee's name:</span>
         <input type="text" ng-model="$ctrl.qs"
                class="form-control test-results__search-input">
@@ -81,6 +81,20 @@
             </tr>
             </tbody>
         </table>
+        <div ng-if="r.questionsCount" class="test-results__row">
+            <div>
+                Question text:
+                <strong>
+                    {{ r.questionProcessed.text }}
+                </strong>
+            </div>
+            <div>
+                Answer:
+                <div ng-repeat="a in r.questionProcessed.correctAnswers">
+                    {{ a }}
+                </div>
+            </div>
+        </div>
         <div ng-if="r.name && r.questionsCount" class="test-results__row">
             <label translate>
                 Correct answers:

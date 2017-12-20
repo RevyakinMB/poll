@@ -73,6 +73,9 @@ angular
 						maps.students,
 						maps.questions,
 						factorSet.factors);
+					this.quickSearchAvailable = this.results.some(function(r) {
+						return r.name;
+					});
 				}.bind(this));
 
 			}.bind(this), function(err) {
@@ -103,19 +106,22 @@ angular
 					});
 				}
 				testing.idQuestionSet.questions.forEach(function(q) {
-					maps.questions[q._id] = {
-						answers: q.answers,
-						type: q.qType,
-						idFactor: q.idFactor
-					};
+					maps.questions[q._id] = q;
 				});
 				return maps;
 			};
 
 			resultsCalculate = function(testing, students, questions, factors) {
-				var results = [];
+				var results = [],
+					attempts = testing.attempts;
 
-				testing.attempts.forEach(function(a) {
+				if ($routeParams.studentId) {
+					attempts = attempts.filter(function(a) {
+						return a.idStudent === $routeParams.studentId;
+					});
+				}
+
+				attempts.forEach(function(a) {
 					var studentResult = {
 						name: students[a.idStudent],
 						attempt: a,
@@ -127,83 +133,82 @@ angular
 						questionsCount: 0
 					};
 
-					if ($routeParams.studentId && a.idStudent !== $routeParams.studentId) {
-						return;
-					}
-
 					a.results.forEach(function(r) {
 						var q = questions[r.idQuestion],
-							selectedAnswer,
-							correctMap = {},
+							allQuestionAnswersMap = {},
 							isCorrect = true,
-							i, checker;
+							questionProcessed = {
+								type: q.qType,
+								text: q.text,
+								correctAnswers: [],
+								incorrectAnswers: []
+							}, qAnswer, i;
 
-						if (q.type === 'Cattell' || q.type === 'Alternative') {
-							selectedAnswer = q.answers.filter(function(answer) {
-								return answer._id === r.answers[0];
-							});
-
-							if (selectedAnswer.length !== 1) {
-								console.error('Error while results calculation: no answer found',
-									q.answers,
-									r.answers[0]
-								);
-								return;
-							}
-							selectedAnswer = selectedAnswer[0];
-
-						} else if (q.type === 'Sequencing' || q.type === 'Multiple') {
+						// preparation
+						if (q.qType === 'Sequencing' || q.qType === 'Poll') {
 							q.answers.forEach(function(answer) {
-								correctMap[answer._id] = answer;
+								allQuestionAnswersMap[answer._id] = answer;
 							});
 						}
 
-						if (q.type === 'Cattell') {
+						// calculation
+						if (q.qType === 'Cattell') {
 							if (!studentResult.sumByFactor[q.idFactor]) {
 								studentResult.sumByFactor[q.idFactor] = 0;
 							}
-							studentResult.sumByFactor[q.idFactor] += selectedAnswer.weight;
+							qAnswer = q.answers.filter(function(answer) {
+								return answer._id === r.answers[0];
+							})[0];
 
-						} else if (q.type === 'Alternative') {
-							if (selectedAnswer.weight === 1) {
-								studentResult.correctCount += 1;
+							if (qAnswer) {
+								studentResult.sumByFactor[q.idFactor] += qAnswer.weight;
 							}
 
-						} else if (q.type === 'Multiple') {
-							if (q.answers.filter(
-								function(answer) {
-									return answer.weight === 1;
-								}).length === r.answers.length
-							) {
-								for (i = 0; i < r.answers.length; ++i) {
-									if (correctMap[r.answers[i]].weight !== 1) {
-										isCorrect = false;
-										break;
-									}
-								}
-								if (isCorrect) {
-									studentResult.correctCount += 1;
-								}
-							}
-						} else if (q.type === 'Sequencing') {
-							for (i = 0; i < r.answers.length; ++i) {
-								if (checker === undefined) {
-									checker = correctMap[r.answers[i]].weight;
+						} else if (q.qType === 'Alternative' || q.qType === 'Multiple') {
+							for (i = 0; i < q.answers.length; ++i) {
+								qAnswer = q.answers[i];
+								if (qAnswer.weight === 1) {
+									questionProcessed.correctAnswers.push(qAnswer.text);
 
-								} else if (checker >= correctMap[r.answers[i]].weight) {
+								} else if (r.answers.filter(function(id) {
+									return id === qAnswer.id;
+								}).length === 1) {
 									isCorrect = false;
-									break;
-								} else {
-									checker = correctMap[r.answers[i]].weight;
+									questionProcessed.incorrectAnswers.push(qAnswer.text);
 								}
 							}
 							if (isCorrect) {
 								studentResult.correctCount += 1;
 							}
+
+						} else if (q.qType === 'Sequencing') {
+							q.answers.sort(function(q1, q2) {
+								return q1.weight < q2.weight ? 1 :
+									q1.weight > q2.weight ? -1 : 0;
+							});
+							questionProcessed.correctAnswers = q.answers.map(function(qA) {
+								return qA.text;
+							});
+							if (q.answers.some(function(qA, index) {
+								return qA.id !== r.answers[index];
+							})) {
+								// there's incorrect order of answers, store it to show in view
+								questionProcessed.incorrectAnswers = r.answers.map(function(tA) {
+									return allQuestionAnswersMap[tA].text;
+								});
+							} else {
+								studentResult.questionsCount += 1;
+							}
+
+						} else if (q.qType === 'Poll') {
+							questionProcessed.correctAnswers = r.answers.map(function(tA) {
+								return allQuestionAnswersMap[tA].text;
+							});
 						}
 
-						if (q.type !== 'Cattell') {
+						if (q.qType !== 'Cattell') {
 							studentResult.questionsCount += 1;
+							studentResult.questionProcessed = questionProcessed;
 						}
 					});
 
@@ -224,7 +229,6 @@ angular
 
 					results.push(studentResult);
 				});
-
 				return results;
 			};
 		}
