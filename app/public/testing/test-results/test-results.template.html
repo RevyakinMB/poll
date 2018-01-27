@@ -73,8 +73,7 @@
                     {{ r.sumByFactor[f._id] }}
                 </td>
                 <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                    <!-- NB : NON-strict equality -->
-                    <span ng-if="r.stenByFactor[f._id] == v">
+                    <span ng-if="r.stenByFactor[f._id] === v">
                         {{ v }}
                     </span>
                 </td>
@@ -82,16 +81,30 @@
             </tbody>
         </table>
         <div ng-if="r.questionsCount" class="test-results__row">
-            <div>
-                Question text:
-                <strong>
-                    {{ r.questionProcessed.text }}
-                </strong>
-            </div>
-            <div>
-                Answer:
-                <div ng-repeat="a in r.questionProcessed.correctAnswers">
-                    {{ a }}
+            <div ng-repeat="q in r.questionsProcessed">
+                <div>
+                    <strong ng-class="{ 'test-results__incorrect-answer' :  q.incorrectAnswers.length > 0 }">
+                        {{ q.text }}
+                    </strong>
+                </div>
+                <div>
+                    <div ng-repeat="a in q.correctAnswers">
+                        <span class="test-results__correct-answer" ng-if="q.type !== 'Poll'">
+                            <span class="glyphicon glyphicon-ok "></span>
+                            {{ a }}
+                        </span>
+                        <span ng-if="q.type === 'Poll'">
+                            {{ a }}
+                        </span>
+                    </div>
+                </div>
+                <div ng-if="q.incorrectAnswers.length">
+                    <div ng-repeat="a in q.incorrectAnswers">
+                        <span class="test-results__incorrect-answer">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            {{ a }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

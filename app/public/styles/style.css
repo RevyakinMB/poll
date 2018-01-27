@@ -576,6 +576,14 @@ ul {
     font-weight: bold;
 }
 
+.test-results__correct-answer {
+    color: #3c763d;
+}
+
+.test-results__incorrect-answer {
+    color: #a94442;
+}
+
 
 .backup-ls__checkbox-cell {
     width: 40px;

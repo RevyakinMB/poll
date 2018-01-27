@@ -127,6 +127,7 @@ angular
 						attempt: a,
 						sumByFactor: {},
 						stenByFactor: {},
+						questionsProcessed: [],
 
 						// takes into account non-Cattell questions only
 						correctCount: 0,
@@ -171,7 +172,7 @@ angular
 									questionProcessed.correctAnswers.push(qAnswer.text);
 
 								} else if (r.answers.filter(function(id) {
-									return id === qAnswer.id;
+									return id === qAnswer._id;
 								}).length === 1) {
 									isCorrect = false;
 									questionProcessed.incorrectAnswers.push(qAnswer.text);
@@ -183,21 +184,25 @@ angular
 
 						} else if (q.qType === 'Sequencing') {
 							q.answers.sort(function(q1, q2) {
-								return q1.weight < q2.weight ? 1 :
-									q1.weight > q2.weight ? -1 : 0;
+								if (q1.weight < q2.weight) {
+									return -1;
+								} else if (q1.weight > q2.weight) {
+									return 1;
+								}
+								return 0;
 							});
 							questionProcessed.correctAnswers = q.answers.map(function(qA) {
 								return qA.text;
 							});
 							if (q.answers.some(function(qA, index) {
-								return qA.id !== r.answers[index];
+								return qA._id !== r.answers[index];
 							})) {
 								// there's incorrect order of answers, store it to show in view
 								questionProcessed.incorrectAnswers = r.answers.map(function(tA) {
 									return allQuestionAnswersMap[tA].text;
 								});
 							} else {
-								studentResult.questionsCount += 1;
+								studentResult.correctCount += 1;
 							}
 
 						} else if (q.qType === 'Poll') {
@@ -208,21 +213,30 @@ angular
 
 						if (q.qType !== 'Cattell') {
 							studentResult.questionsCount += 1;
-							studentResult.questionProcessed = questionProcessed;
+							studentResult.questionsProcessed.push(questionProcessed);
 						}
 					});
 
 					if (Object.keys(studentResult.sumByFactor).length) {
 						// map raw sum to sten by factor
 						factors.forEach(function(f) {
-							var i = 0,
-								sum = studentResult.sumByFactor[f._id] || 0;
-							for (i; i < f.matches.length; ++i) {
+							var i, sum = studentResult.sumByFactor[f._id] || 0;
+							for (i = 0; i < f.matches.length; ++i) {
 								// assuming matches are in ascending order
 								if (f.matches[i].rawSum && sum <= f.matches[i].rawSum) {
-									studentResult.stenByFactor[f._id] = f.matches[i].sten;
+									studentResult.stenByFactor[f._id] = parseInt(f.matches[i].sten, 10);
 									break;
 								}
+							}
+							// fix of a situation when answer's weight sum is more then max factor value
+							if (!studentResult.stenByFactor[f._id]) {
+								// get max rawSum value for current factor
+								studentResult.stenByFactor[f._id] = f.matches.reduce(function(max, match) {
+									if (match.rawSum && match.rawSum > max) {
+										return match.rawSum;
+									}
+									return max;
+								}, 0);
 							}
 						});
 					}
