@@ -6,7 +6,7 @@
         <tbody>
         <tr ng-repeat="testing in $ctrl.testings | orderBy: ['idGroup.index', 'scheduledFor']">
             <td>
-                <a ng-href="/testPassing/{{testing._id}}" class="home__testing-link">
+                <a ng-href="/test-passing/{{testing._id}}" class="home__testing-link">
                     <span ng-if="testing.idGroup">
                         <span>
                             {{testing.scheduledFor | date: 'HH:mm'}}

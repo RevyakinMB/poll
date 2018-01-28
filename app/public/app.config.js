@@ -13,14 +13,6 @@ angular.module('pollApp')
 				title: 'Home',
 				template: '<greet></greet>'
 			})
-			.when('/groups', {
-				title: 'Groups',
-				template: '<group-list></group-list>'
-			})
-			.when('/groups/:groupId', {
-				title: 'Groups',
-				template: '<group-modify></group-modify>'
-			})
 			.otherwise({
 				title: '404',
 				templateUrl: '404.html'
@@ -50,8 +42,8 @@ angular.module('pollApp')
 		var routesWithoutAuth = [
 				'/greet',
 				'/login',
-				'/testPassing',
-				'/testResults'
+				'/test-passing',
+				'/test-results'
 			],
 			language;
 
@@ -72,7 +64,11 @@ angular.module('pollApp')
 		});
 
 		$rootScope.$on('$routeChangeSuccess', function(event, current) {
-			$rootScope.title = current.$$route.title;
+			if (current.$$route) {
+				$rootScope.title = current.$$route.title;
+			} else {
+				$rootScope.title = '404';
+			}
 		});
 
 		language = userPersistenceService.getCookieData('language');

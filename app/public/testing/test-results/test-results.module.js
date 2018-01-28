@@ -1,7 +1,7 @@
 angular
 	.module('testResults', [])
 	.config(function testResultsConfig($routeProvider) {
-		$routeProvider.when('/testResults/:testingId/:studentId?', {
+		$routeProvider.when('/test-results/:testingId/:studentId?', {
 			title: 'Test results',
 			template: '<test-results></test-results>'
 		});

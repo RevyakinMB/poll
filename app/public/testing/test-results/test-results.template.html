@@ -16,7 +16,7 @@
     </span>
     </div>
     <div class="test-results__row" ng-if="$ctrl.authorized">
-        <a ng-href="/testResults/{{$ctrl.testing._id}}/examinationPaper">
+        <a ng-href="/test-results/{{$ctrl.testing._id}}/examinationPaper">
             Testing examination paper
         </a>
     </div>
@@ -33,7 +33,7 @@
                 <label translate>
                     Name:
                 </label>
-                <a ng-href="/testResults/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
+                <a ng-href="/test-results/{{$ctrl.testing._id}}/{{r.attempt.idStudent}}">
                     {{r.name}}
                 </a>
             </div>
