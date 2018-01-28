@@ -58,10 +58,10 @@
                 {{$index+1}}
             </td>
             <td>
-                <a href="/question-sets/{{s._id}}"
-                        ng-click="$ctrl.stopPropagation($event)">
+                <span class="question-set-list__link"
+                      ng-click="$ctrl.setOpen($event, s._id)">
                     {{s.name | notApplicable}}
-                </a>
+                </span>
             </td>
             <td>
                 {{s.questions.length}}

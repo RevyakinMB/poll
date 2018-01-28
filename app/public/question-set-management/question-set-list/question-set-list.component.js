@@ -62,7 +62,8 @@ angular
 				$event.stopPropagation();
 			};
 
-			this.stopPropagation = function($event) {
+			this.setOpen = function($event, id) {
+				$location.path('/question-sets/' + id);
 				$event.stopPropagation();
 			};
 

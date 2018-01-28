@@ -262,6 +262,15 @@ ul {
     width: 40px;
 }
 
+.group-list__group-link {
+    color: #337AB7;
+    cursor: pointer;
+}
+
+.group-list__group-link:hover {
+    text-decoration: underline;
+}
+
 
 .question-set-list__new,
 .question-set-list__new:link,
@@ -273,6 +282,15 @@ ul {
 
 .question-set-list__checkbox-cell {
     width: 40px;
+}
+
+.question-set-list__link {
+    color: #337AB7;
+    cursor: pointer;
+}
+
+.question-set-list__link:hover {
+    text-decoration: underline;
 }
 
 

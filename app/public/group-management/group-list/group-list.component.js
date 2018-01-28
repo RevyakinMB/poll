@@ -147,7 +147,8 @@ angular
 				});
 			};
 
-			this.stopPropagation = function($event) {
+			this.groupOpen = function($event, id) {
+				$location.path('/groups/' + id);
 				$event.stopPropagation();
 			};
 

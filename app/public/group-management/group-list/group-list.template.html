@@ -62,10 +62,10 @@
                     {{ g.index }}
                 </td>
                 <td>
-                    <a href="/groups/{{g._id}}"
-                       ng-click="$ctrl.stopPropagation($event)">
+                    <span class="group-list__group-link"
+                          ng-click="$ctrl.groupOpen($event, g._id)">
                         {{g.groupName | notApplicable}}
-                    </a>
+                    </span>
                 </td>
                 <td>
                     {{ g.students.length }}
