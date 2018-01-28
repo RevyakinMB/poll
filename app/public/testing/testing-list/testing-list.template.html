@@ -102,7 +102,7 @@
                 </span>
             </td>
             <td>
-                {{t.scheduledFor | date: 'dd.MM.yyyy hh:mm'}}
+                {{t.scheduledFor | date: 'dd MMM yyyy HH:mm'}}
             </td>
         </tr>
         <tr ng-if="t.editing">
@@ -210,7 +210,7 @@
                 </span>
             </td>
             <td>
-                {{t.attempts[0].startedAt | date: 'dd.MM.yyyy'}}
+                {{t.attempts[0].startedAt | date: 'dd MMM yyyy'}}
             </td>
             <td>
                 <a ng-href="/testResults/{{t._id}}" translate>

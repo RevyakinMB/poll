@@ -5,6 +5,8 @@ angular.module('pollApp', [
 	'ngResource',
 	'ngAnimate',
 
+	'tmh.dynamicLocale',
+
 	'core',
 	'login',
 	'mainMenu',

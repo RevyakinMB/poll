@@ -191,7 +191,12 @@
     </p>
     <p>
         Число не явившихся на экзамен:
-        {{ $ctrl.testing.idGroup.students.length - $ctrl.testing.attempts.length }}
+        <span ng-if="$ctrl.testing.idGroup">
+            {{ $ctrl.testing.idGroup.students.length - $ctrl.testing.attempts.length }}
+        </span>
+        <span ng-if="!$ctrl.testing.idGroup">
+            0
+        </span>
     </p>
     <p>
         Ответственный секретарь приемной комиссии:

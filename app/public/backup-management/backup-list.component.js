@@ -3,12 +3,18 @@ angular
 	.component('backupList', {
 		templateUrl: 'backup-management/backup-list.template.html',
 		controller: function backupListController(
-			$http, gettextCatalog, messenger
+			$http, gettextCatalog, messenger, moment
 		) {
 			this.backups = [];
 			$http.get('/api/backups').then(
 				function(response) {
 					this.backups = response.data;
+					this.backups.forEach(function(backup) {
+						var date = moment(backup.date, 'YYYY-MM-DD.HH.mm.ss');
+						if (date.isValid()) {
+							backup.viewDate = date.toDate();
+						}
+					});
 				}.bind(this),
 				function(err) {
 					console.log(err);

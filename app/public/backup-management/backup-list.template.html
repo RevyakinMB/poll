@@ -37,7 +37,8 @@
                 </div>
             </td>
             <td>
-                {{ b.date }}
+                <span ng-if="!b.viewDate">{{ b.date }}</span>
+                <span ng-if="b.viewDate">{{ b.viewDate | date: 'dd MMM yyyy HH:mm:ss' }}</span>
             </td>
             <td>
                 {{ b.size }}

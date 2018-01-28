@@ -33,7 +33,6 @@ angular
 					forms.forEach(function(f) {
 						this.eduForms[f._id] = f.name;
 					}, this);
-					console.log(this.eduForms);
 				}.bind(this), function(err) {
 					console.log(err);
 				});
@@ -42,7 +41,6 @@ angular
 					specialties.forEach(function(s) {
 						this.specialties[s._id] = s.name;
 					}, this);
-					console.log(this.specialties);
 				}.bind(this), function(err) {
 					console.log(err);
 				});

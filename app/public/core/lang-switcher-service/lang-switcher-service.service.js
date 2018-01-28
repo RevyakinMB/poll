@@ -4,7 +4,11 @@ angular
 	.factory('langSwitcherService', function langSwitcherFactory(
 		availableLanguages,
 		gettextCatalog, $rootScope,
-		userPersistenceService) {
+		userPersistenceService,
+		tmhDynamicLocale) {
+		availableLanguages.forEach(function(lang) {
+			gettextCatalog.loadRemote('po/' + lang + '.json');
+		});
 		return function(lang) {
 			lang = lang || 'ru';
 			if (availableLanguages.indexOf(lang) === -1) {
@@ -16,5 +20,14 @@ angular
 			$rootScope.$broadcast('language:switched', lang);
 			gettextCatalog.setCurrentLanguage(lang);
 			gettextCatalog.loadRemote('po/' + lang + '.json');
+			switch (lang) {
+			case 'en': {
+				tmhDynamicLocale.set('en-gb');
+				break;
+			}
+			default: {
+				tmhDynamicLocale.set('ru-ru');
+			}
+			}
 		};
 	});

@@ -1,6 +1,7 @@
 angular.module('pollApp')
 	.config(function pollAppConfig(
-		$routeProvider, $locationProvider, $httpProvider
+		$routeProvider, $locationProvider, $httpProvider,
+		tmhDynamicLocaleProvider
 	) {
 		$locationProvider.html5Mode(true);
 
@@ -35,6 +36,10 @@ angular.module('pollApp')
 				}
 			};
 		});
+
+		tmhDynamicLocaleProvider.localeLocationPattern(
+			'/bower_components/angular-i18n/angular-locale_{{locale}}.js'
+		);
 	})
 	.run(function pollAppRun(
 		langSwitcherService,
