@@ -4,6 +4,7 @@ angular
 		templateUrl: 'testing/test-results/test-results.template.html',
 		controller: function testResultsController(
 			$routeParams,
+			$timeout, $window,
 			gettextCatalog, messenger,
 			Testing, FactorSet,
 			EduForm, Specialty,
@@ -12,23 +13,34 @@ angular
 			var collectionsPopulate, resultsCalculate;
 
 			this.results = [];
+			this.passedMap = {};
+			this.eduForms = {};
+			this.specialties = {};
+			this.printMode = 'full';
 			this.message = {
 				text: '',
 				error: false,
 				hidden: true
 			};
-			this.keysGet = Object.keys;
-
+			// used in template
+			this.studentId = $routeParams.studentId;
 			this.authorized = authorizeService.isLoggedIn();
 
-			// provide value for template
-			this.studentId = $routeParams.studentId;
+			this.reportPrint = function(mode) {
+				this.printMode = mode;
+				$timeout(function() {
+					$window.print();
+				}, 50, false);
+			};
+			this.fullPrint = function() {
+				this.reportPrint('full');
+			};
+			this.paperPrint = function() {
+				this.reportPrint('paper');
+			};
 
-			if (this.studentId === 'examinationPaper') {
-				this.passedMap = {};
-				this.eduForms = {};
-				this.specialties = {};
-
+			// data requests
+			if (this.authorized) {
 				EduForm.query(function(forms) {
 					forms.forEach(function(f) {
 						this.eduForms[f._id] = f.name;
@@ -44,17 +56,6 @@ angular
 				}.bind(this), function(err) {
 					console.log(err);
 				});
-
-				this.testing = Testing.get({
-					testingId: $routeParams.testingId
-				}, function(t) {
-					t.attempts.forEach(function(a) {
-						this.passedMap[a.idStudent] = !!a.finishedAt;
-					}, this);
-				}.bind(this), function(err) {
-					console.log(err);
-				});
-				return;
 			}
 
 			this.factorSet = FactorSet.get({ factorSetName: 'Cattell' });
@@ -63,8 +64,12 @@ angular
 				weightsLoad: true
 
 			}, function(testing) {
-				var maps = collectionsPopulate(testing);
+				var maps;
+				testing.attempts.forEach(function(a) {
+					this.passedMap[a.idStudent] = !!a.finishedAt;
+				}, this);
 
+				maps = collectionsPopulate(testing);
 				this.factorSet.$promise.then(function(factorSet) {
 					this.results = resultsCalculate(
 						testing,
@@ -92,6 +97,7 @@ angular
 
 			}.bind(this));
 
+			// helper calculation functions
 			collectionsPopulate = function(testing) {
 				var maps = {
 					students: {},

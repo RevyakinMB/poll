@@ -1,0 +1,39 @@
+<table ng-if="$ctrl.keysGet($ctrl.result.sumByFactor).length && $ctrl.result.attempt.finishedAt"
+    class="test-results__table test-results__row">
+    <thead>
+    <tr>
+        <td></td>
+        <td class="test-results__table-cell" translate>
+            Factor
+        </td>
+        <td class="test-results__table-cell" translate>
+            Sum
+        </td>
+        <td colspan="10" class="test-results__table-cell" translate>
+            Sten
+        </td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="f in $ctrl.factors">
+        <td class="test-results__table-cell">
+            {{ f.index }}
+        </td>
+        <td class="test-results__table-cell">
+            {{ f.nameNegative }}
+            <span ng-if="f.nameNegative">
+                &mdash;
+            </span>
+            {{ f.namePositive }}
+        </td>
+        <td class="test-results__table-cell">
+            {{ $ctrl.result.sumByFactor[f._id] }}
+        </td>
+        <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <span ng-if="$ctrl.result.stenByFactor[f._id] === v">
+                {{ v }}
+            </span>
+        </td>
+    </tr>
+    </tbody>
+</table>

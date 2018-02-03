@@ -1,24 +1,35 @@
-<div ng-if="!($ctrl.studentId === 'examinationPaper')">
-    <div class="test-results__row">
-        <label translate>
-            Testing name:
-        </label>
-    <span>
-        {{ $ctrl.testing.idQuestionSet.name }}
-    </span>
+<div ng-class="{
+        'hide-on-print': $ctrl.printMode === 'paper'
+    }">
+    <div class="test-results__row clearfix">
+        <div class="test-results__name">
+            <label translate>
+                Testing name:
+            </label>
+            <span>
+                {{ $ctrl.testing.idQuestionSet.name }}
+            </span>
+        </div>
+        <div class="test-results__print hide-on-print">
+            <button class="btn btn-default" ng-click="$ctrl.fullPrint()">
+                <span class="glyphicon glyphicon-print"></span>
+                <span translate>Print</span>
+            </button>
+            <button class="btn btn-default"
+                    ng-click="$ctrl.paperPrint()"
+                    ng-if="$ctrl.authorized">
+                <span class="glyphicon glyphicon-education"></span>
+                <span translate>Examination paper</span>
+            </button>
+        </div>
     </div>
     <div class="test-results__row">
         <label translate>
             Testing date:
         </label>
-    <span>
-        {{ $ctrl.testing.attempts[0].startedAt | date }}
-    </span>
-    </div>
-    <div class="test-results__row" ng-if="$ctrl.authorized">
-        <a ng-href="/test-results/{{$ctrl.testing._id}}/examinationPaper">
-            Testing examination paper
-        </a>
+        <span>
+            {{ $ctrl.testing.attempts[0].startedAt | date }}
+        </span>
     </div>
     <div class="test-results__row hide-on-print"
          ng-if="!$ctrl.studentId && ctrl.quickSearchAvailable">
@@ -41,50 +52,12 @@
                 <span translate>#</span>{{$index + 1}}
             </div>
         </div>
-        <table ng-if="$ctrl.keysGet(r.sumByFactor).length && r.attempt.finishedAt"
-               class="test-results__table test-results__row">
-            <thead>
-            <tr>
-                <td></td>
-                <td class="test-results__table-cell" translate>
-                    Factor
-                </td>
-                <td class="test-results__table-cell" translate>
-                    Sum
-                </td>
-                <td colspan="10" class="test-results__table-cell" translate>
-                    Sten
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="f in $ctrl.factorSet.factors">
-                <td class="test-results__table-cell">
-                    {{ f.index }}
-                </td>
-                <td class="test-results__table-cell">
-                    {{ f.nameNegative }}
-                    <span ng-if="f.nameNegative">
-                        &mdash;
-                    </span>
-                    {{ f.namePositive }}
-                </td>
-                <td class="test-results__table-cell">
-                    {{ r.sumByFactor[f._id] }}
-                </td>
-                <td ng-repeat="v in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
-                    <span ng-if="r.stenByFactor[f._id] === v">
-                        {{ v }}
-                    </span>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <cattell-factor-table result="r" factors="$ctrl.factorSet.factors"></cattell-factor-table>
         <div ng-if="r.questionsCount" class="test-results__row">
             <div ng-repeat="q in r.questionsProcessed">
                 <div>
                     <strong ng-class="{ 'test-results__incorrect-answer' :  q.incorrectAnswers.length > 0 }">
-                        {{ q.text }}
+                        {{ $index + 1 + '. ' + q.text }}
                     </strong>
                 </div>
                 <div>
@@ -129,82 +102,6 @@
         <hr>
     </div>
 </div>
-<div ng-if="$ctrl.studentId === 'examinationPaper'"
-     class="test-results__paper">
-    <p class="test-results__paper-header">
-        ККБМК
-    </p>
-    <p class="test-results__paper-header">
-        ЭКЗАМЕНАЦИОННАЯ ВЕДОМОСТЬ
-    </p>
-    <p>Вступительного экзамена по предмету: Психологическое тестирование</p>
-    <p>Форма проведения вступительного испытания:</p>
-    <p>
-        На группу
-        {{ $ctrl.testing.idGroup.index }}
-    </p>
-    <p>По специальности: {{ $ctrl.specialties[$ctrl.testing.idGroup.idSpecialty] }}</p>
-    <p>Отделение (обучение): {{ $ctrl.eduForms[$ctrl.testing.idGroup.idEduForm] }}</p>
-    <p>
-        Дата экзамена
-        {{ $ctrl.testing.scheduledFor | date: 'dd.MM.yyyy' }}
-    </p>
-    <p>
-        Начало экзамена
-        {{ $ctrl.testing.scheduledFor | date: 'hh:mm' }}
-    </p>
-    <p>Фамилия и инициалы</p>
-    <p>экзаменаторов:
-        <span class="test-results__paper-right">
-            _________________________________________________
-        </span>
-        <br>
-        <span class="test-results__paper-right">
-            _________________________________________________
-        </span>
-    </p>
-    <table class="table">
-        <thead class="test-results__paper-table-head">
-        <tr>
-            <td>П/П</td>
-            <td>Фамилия Имя Отчество</td>
-            <td>Результат</td>
-            <td>Подпись экзаменаторов</td>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="s in $ctrl.testing.idGroup.students">
-            <td>{{ $index + 1 }}</td>
-            <td>
-                {{ s.lastName + ' ' + s.firstName + ' ' + s.patronymic }}
-            </td>
-            <td>
-                {{ $ctrl.passedMap[s._id] !== undefined ? 'зачтено' : 'неявка'}}
-            </td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
-    <p>
-        Число экзаменовавшихся:
-        {{ $ctrl.testing.attempts.length }}
-    </p>
-    <p>
-        Число не явившихся на экзамен:
-        <span ng-if="$ctrl.testing.idGroup">
-            {{ $ctrl.testing.idGroup.students.length - $ctrl.testing.attempts.length }}
-        </span>
-        <span ng-if="!$ctrl.testing.idGroup">
-            0
-        </span>
-    </p>
-    <p>
-        Ответственный секретарь приемной комиссии:
-        <span class="test-results__paper-right">
-             _________________________________________________
-        </span>
-    </p>
-</div>
 <div ng-bind="$ctrl.message.text"
      class="message message_hidden"
      ng-class="{
@@ -214,3 +111,20 @@
      }">
 </div>
 
+<test-result-paper class="print-only"
+                   ng-if="$ctrl.printMode === 'paper' && !$ctrl.studentId"
+                   testing="$ctrl.testing"
+                   specialties="$ctrl.specialties"
+                   edu-forms="$ctrl.eduForms"
+                   passed-map="$ctrl.passedMap">
+</test-result-paper>
+
+<testee-paper class="print-only"
+              ng-if="$ctrl.printMode === 'paper' && $ctrl.studentId"
+              testing="$ctrl.testing"
+              specialties="$ctrl.specialties"
+              edu-forms="$ctrl.eduForms"
+              passed-map="$ctrl.passedMap">
+    <cattell-factor-table factors="$ctrl.factorSet.factors" result="$ctrl.results[0]">
+    </cattell-factor-table>
+</testee-paper>

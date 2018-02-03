@@ -1,0 +1,75 @@
+<div class="test-results__paper">
+    <p class="test-results__paper-header">
+        ККБМК
+    </p>
+    <p class="test-results__paper-header">
+        ЭКЗАМЕНАЦИОННАЯ ВЕДОМОСТЬ
+    </p>
+    <p>Вступительного экзамена по предмету: Психологическое тестирование</p>
+    <p>Форма проведения вступительного испытания:</p>
+    <p>
+        На группу
+        {{ $ctrl.testing.idGroup.index }}
+    </p>
+    <p>По специальности: {{ $ctrl.specialties[$ctrl.testing.idGroup.idSpecialty] }}</p>
+    <p>Отделение (обучение): {{ $ctrl.eduForms[$ctrl.testing.idGroup.idEduForm] }}</p>
+    <p>
+        Дата экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'dd.MM.yyyy' }}
+    </p>
+    <p>
+        Начало экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'hh:mm' }}
+    </p>
+    <p>Фамилия и инициалы</p>
+    <p>экзаменаторов:
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+        <br>
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+    </p>
+    <table class="table">
+        <thead class="test-results__paper-table-head">
+        <tr>
+            <td>П/П</td>
+            <td>Фамилия Имя Отчество</td>
+            <td>Результат</td>
+            <td>Подпись экзаменаторов</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="s in $ctrl.testing.idGroup.students">
+            <td>{{ $index + 1 }}</td>
+            <td>
+                {{ s.lastName + ' ' + s.firstName + ' ' + s.patronymic }}
+            </td>
+            <td>
+                {{ $ctrl.passedMap[s._id] !== undefined ? 'зачтено' : 'неявка'}}
+            </td>
+            <td></td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        Число экзаменовавшихся:
+        {{ $ctrl.testing.attempts.length }}
+    </p>
+    <p>
+        Число не явившихся на экзамен:
+        <span ng-if="$ctrl.testing.idGroup">
+            {{ $ctrl.testing.idGroup.students.length - $ctrl.testing.attempts.length }}
+        </span>
+        <span ng-if="!$ctrl.testing.idGroup">
+            0
+        </span>
+    </p>
+    <p>
+        Ответственный секретарь приемной комиссии:
+        <span class="test-results__paper-right">
+             _________________________________________________
+        </span>
+    </p>
+</div>

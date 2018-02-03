@@ -1,0 +1,41 @@
+<div class="test-results__paper">
+    <p class="test-results__paper-header">
+        ККБМК
+    </p>
+    <p class="test-results__paper-header">
+        ЭКЗАМЕНАЦИОННАЯ ВЕДОМОСТЬ
+    </p>
+    <p>Вступительного экзамена по предмету: Психологическое тестирование</p>
+    <p>Форма проведения вступительного испытания:</p>
+    <p>
+        На группу
+        {{ $ctrl.testing.idGroup.index }}
+    </p>
+    <p>По специальности: {{ $ctrl.specialties[$ctrl.testing.idGroup.idSpecialty] }}</p>
+    <p>Отделение (обучение): {{ $ctrl.eduForms[$ctrl.testing.idGroup.idEduForm] }}</p>
+    <p>
+        Дата экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'dd.MM.yyyy' }}
+    </p>
+    <p>
+        Начало экзамена
+        {{ $ctrl.testing.scheduledFor | date: 'hh:mm' }}
+    </p>
+    <p>Фамилия и инициалы</p>
+    <p>экзаменаторов:
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+        <br>
+        <span class="test-results__paper-right">
+            _________________________________________________
+        </span>
+    </p>
+    <div ng-transclude></div>
+    <p>
+        Ответственный секретарь приемной комиссии:
+        <span class="test-results__paper-right">
+             _________________________________________________
+        </span>
+    </p>
+</div>

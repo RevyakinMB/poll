@@ -21,6 +21,10 @@ ul {
     .print-only { display: block !important; }
 }
 
+.print-only {
+    display: none;
+}
+
 .header {
     background-color: #006666;
     height: 70px;
@@ -600,6 +604,14 @@ ul {
 
 .test-results__incorrect-answer {
     color: #a94442;
+}
+
+.test-results__name {
+    float: left;
+}
+
+.test-results__print {
+    float: right;
 }
 
 
