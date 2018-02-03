@@ -11,6 +11,7 @@
         На группу
         {{ $ctrl.testing.idGroup.index }}
     </p>
+    <p>Тестируемый: {{ $ctrl.result.name }}</p>
     <p>По специальности: {{ $ctrl.specialties[$ctrl.testing.idGroup.idSpecialty] }}</p>
     <p>Отделение (обучение): {{ $ctrl.eduForms[$ctrl.testing.idGroup.idEduForm] }}</p>
     <p>
@@ -21,21 +22,29 @@
         Начало экзамена
         {{ $ctrl.testing.scheduledFor | date: 'hh:mm' }}
     </p>
-    <p>Фамилия и инициалы</p>
-    <p>экзаменаторов:
+    <div ng-transclude></div>
+    <p>Подписи членов комиссии:</p>
+    <p>Председатель комиссии:
         <span class="test-results__paper-right">
-            _________________________________________________
-        </span>
-        <br>
-        <span class="test-results__paper-right">
-            _________________________________________________
+            ____________________/_____________________________
         </span>
     </p>
-    <div ng-transclude></div>
-    <p>
-        Ответственный секретарь приемной комиссии:
+    <p class="clearfix">Члены комиссии:
         <span class="test-results__paper-right">
-             _________________________________________________
+            ____________________/_____________________________
+        </span>
+        <span class="test-results__paper-right">
+            ____________________/_____________________________
+        </span>
+        <span class="test-results__paper-right">
+            ____________________/_____________________________
+        </span>
+    </p>
+    <p>
+        С результатами тестирования ознакомлен:
+        <span class="test-results__paper-right">
+             ________________________/
+            <span class="test-results__paper-name">{{ $ctrl.name() }}</span>
         </span>
     </p>
 </div>

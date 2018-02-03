@@ -560,15 +560,9 @@ ul {
     width: 100%;
 }
 
-.test-results__table td {
-    padding: 5px 14px;
-}
-
-.test-results__table tbody td {
-    border-top: 1px solid #ddd;
-}
-
 .test-results__table-cell {
+    padding: 5px 14px;
+    border: 1px solid #ddd;
     text-align: center;
 }
 
@@ -596,6 +590,11 @@ ul {
 
 .test-results__paper-table-head {
     font-weight: bold;
+}
+
+.test-results__paper-name {
+    display: inline-block;
+    width: 300px;
 }
 
 .test-results__correct-answer {

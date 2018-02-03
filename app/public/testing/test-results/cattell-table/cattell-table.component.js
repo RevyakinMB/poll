@@ -8,7 +8,6 @@ angular
 		},
 		controller: function() {
 			this.keysGet = function(obj) {
-				console.log(obj);
 				return obj ? Object.keys(obj) : [];
 			};
 		}

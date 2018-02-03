@@ -99,7 +99,6 @@
                 {{$ctrl.testing.idQuestionSet.questions.length}}
             </span>
         </div>
-        <hr>
     </div>
 </div>
 <div ng-bind="$ctrl.message.text"
@@ -122,9 +121,9 @@
 <testee-paper class="print-only"
               ng-if="$ctrl.printMode === 'paper' && $ctrl.studentId"
               testing="$ctrl.testing"
+              result="$ctrl.results[0]"
               specialties="$ctrl.specialties"
-              edu-forms="$ctrl.eduForms"
-              passed-map="$ctrl.passedMap">
+              edu-forms="$ctrl.eduForms">
     <cattell-factor-table factors="$ctrl.factorSet.factors" result="$ctrl.results[0]">
     </cattell-factor-table>
 </testee-paper>
