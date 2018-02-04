@@ -5,14 +5,14 @@ angular
 		controller: function mainMenuController(gettextCatalog, $location, $rootScope) {
 			this.items = [{
 				name: function() {
+					return gettextCatalog.getString('Pass test');
+				},
+				path: '/greet'
+			}, {
+				name: function() {
 					return gettextCatalog.getString('Group list');
 				},
 				path: '/groups'
-			}, {
-				name: function() {
-					return gettextCatalog.getString('Greet page');
-				},
-				path: '/greet'
 			}, {
 				name: function() {
 					return gettextCatalog.getString('Question set list');
@@ -20,24 +20,14 @@ angular
 				path: '/question-sets'
 			}, {
 				name: function() {
-					return gettextCatalog.getString('Cattell factor set');
-				},
-				path: '/cattell-factor-set'
-			}, {
-				name: function() {
 					return gettextCatalog.getString('Testing list');
 				},
 				path: '/testings'
 			}, {
 				name: function() {
-					return gettextCatalog.getString('Database backup');
+					return gettextCatalog.getString('Settings');
 				},
-				path: '/backup-list'
-			}, {
-				name: function() {
-					return gettextCatalog.getString('Directories');
-				},
-				path: '/directories'
+				path: '/settings'
 			}];
 
 			this.currentPath = $location.path();

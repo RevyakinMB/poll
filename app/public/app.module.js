@@ -17,5 +17,6 @@ angular.module('pollApp', [
 	'directories',
 	'backupList',
 	'utils',
-	'greet'
+	'greet',
+	'settings'
 ]);
