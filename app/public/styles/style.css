@@ -275,6 +275,14 @@ ul {
     text-decoration: underline;
 }
 
+.group-list__import-block {
+    float: right;
+}
+
+.group-list__import-input {
+    display: none !important;
+}
+
 
 .question-set-list__new,
 .question-set-list__new:link,

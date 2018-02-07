@@ -14,6 +14,19 @@
                 ng-disabled="!$ctrl.groupSelectedCount()">
             Delete
         </button>
+
+        <div class="group-list__import-block">
+            <label class="btn btn-default">
+                <span translate>Import...</span>
+                <input type="file" class="group-list__import-input"
+                       resource-upload="group"
+                       data-resource-redirect="true">
+            </label>
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.templateDownload()" >
+                Download template
+            </button>
+        </div>
     </div>
     <div class="group-list__row">
         <span translate>Search a testee:</span>

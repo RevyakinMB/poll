@@ -4,6 +4,7 @@ module.exports = function(app) {
 	require('./testings-api')(app);
 	require('./directories-api')(app);
 	require('./db-backup-api')(app);
+	require('./import')(app);
 
 	require('./language')(app);
 

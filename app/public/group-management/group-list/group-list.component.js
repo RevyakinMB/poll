@@ -2,7 +2,12 @@ angular
 	.module('groupList')
 	.component('groupList', {
 		templateUrl: 'group-management/group-list/group-list.template.html',
-		controller: function groupListController(Group, $location, gettextCatalog, messenger) {
+		controller: function groupListController(
+			Group,
+			$location, $http, $window,
+			gettextCatalog, messenger
+		) {
+			var filenameExtract;
 			this.groups = Group.query(
 				function() {},
 				function(err) {
@@ -87,6 +92,10 @@ angular
 				return this.groups.filter(function(g) {
 					return g.checked;
 				}).length;
+			};
+
+			this.templateDownload = function() {
+				$window.open('/api/import-template?resourceType=group', '_blank');
 			};
 
 			this.sortState = {
