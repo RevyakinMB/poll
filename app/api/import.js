@@ -6,13 +6,14 @@ const multer = require('multer'),
 	HttpError = require('../error').HttpError,
 	authCheck = require('../middleware/authCheck'),
 	GroupsModel = require('../db/model/groups-schema'),
-	QuestionSetsModel = require('../db/model/question-sets-schema');
+	QuestionSetsModel = require('../db/model/question-sets-schema'),
+
+	questionSetParse = require('../lib/question-set-parser');
 
 module.exports = function(app) {
 	const templateRead = (type) => new Promise((resolve, reject) => {
 		const filename = type === 'group' ?
 			'Шаблон.группы.xlsx' :
-			// TODO: create file
 			'Шаблон.вопросника.xlsx';
 		fs.readFile(path.join(__dirname, '..', filename), (err, data) => {
 			if (err) {
@@ -20,20 +21,33 @@ module.exports = function(app) {
 			}
 			resolve(data);
 		});
-	}), resourceInsert = (type, data) => {
-		if (type === 'group') {
-			let doc = new GroupsModel();
-			doc.groupName = 'Imported group';
-			doc.students = data.slice(1).map(names => {
-				return {
-					firstName: names[1],
-					lastName: names[0],
-					patronymic: names[2]
-				};
-			});
-			return doc.save();
+	}), groupInsert = (data) => {
+		let doc, testees;
+		testees = data.slice(1).filter((names) => {
+			return names[0] && names[0].trim() && names[1] && names[1].trim();
+		});
+		if (!testees.length) {
+			return Promise.reject('No valid data to import');
 		}
-		// TODO: question-set
+		doc = new GroupsModel();
+		doc.groupName = 'Imported group';
+		doc.students = testees.map((names) => {
+			return {
+				firstName: names[1],
+				lastName: names[0],
+				patronymic: names[2] || ''
+			};
+		});
+		return doc.save();
+	}, questionSetInsert = (data) => {
+		return questionSetParse(data).then(qSet => qSet.save());
+
+	}, resourceInsert = (type, data) => {
+		if (type === 'group') {
+			return groupInsert(data);
+		} else if (type === 'questionSet') {
+			return questionSetInsert(data);
+		}
 		return Promise.resolve();
 	};
 
@@ -49,7 +63,9 @@ module.exports = function(app) {
 				.then(doc => res.send({
 					resourceId: doc ? doc._id : undefined
 				}))
-				.catch(err => next(new HttpError(400, err.message)));
+				.catch(err => next(new HttpError(400,
+					typeof err === 'string' ? err : err.message))
+			);
 		});
 		forked.send(['import file', req.file.buffer]);
 	});
@@ -59,7 +75,7 @@ module.exports = function(app) {
 			req.query.resourceType === 'questionSet'
 		) {
 			templateRead(req.query.resourceType)
-				.then(data => {
+				.then((data) => {
 					res.attachment('Шаблон.импорта.xlsx');
 					res.send(data);
 				})

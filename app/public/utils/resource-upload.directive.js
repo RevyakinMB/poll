@@ -20,6 +20,8 @@ angular
 					formData.append('file', event.target.files[0]);
 					formData.append('resourceType', resourceType);
 
+					element.val('');
+
 					$http.post('/api/import', formData, {
 						// stop angular to serialize a file
 						transformRequest: angular.identity,
@@ -30,16 +32,15 @@ angular
 					}).then(function(response) {
 						if (redirect && response.data.resourceId) {
 							switch (resourceType) {
-								case 'group': {
-									$location.path('/groups/' + response.data.resourceId);
-									break;
-								}
-								default: {
-									$location.path('/question-sets/' + response.data.resourceId);
-									break;
-								}
+							case 'group': {
+								$location.path('/groups/' + response.data.resourceId);
+								break;
 							}
-
+							default: {
+								$location.path('/question-sets/' + response.data.resourceId);
+								break;
+							}
+							}
 						}
 					}).catch(function(e) {
 						// TODO: message service

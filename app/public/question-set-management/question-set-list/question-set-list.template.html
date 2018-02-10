@@ -16,6 +16,19 @@
                 translate>
             Delete
         </button>
+
+        <div class="question-set-list__import-block">
+            <label class="btn btn-default">
+                <span translate>Import...</span>
+                <input type="file" class="question-set-list__import-input"
+                       resource-upload="questionSet"
+                       data-resource-redirect="true">
+            </label>
+            <button class="btn btn-default" translate
+                    ng-click="$ctrl.templateDownload()" >
+                Download template
+            </button>
+        </div>
     </div>
     <table class="table table-hover table-striped">
         <thead>

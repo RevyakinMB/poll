@@ -305,6 +305,14 @@ ul {
     text-decoration: underline;
 }
 
+.question-set-list__import-block {
+    float: right;
+}
+
+.question-set-list__import-input {
+    display: none !important;
+}
+
 
 .q-set-modify__row {
     margin-bottom: 5px;

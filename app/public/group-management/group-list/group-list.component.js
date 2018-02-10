@@ -7,7 +7,6 @@ angular
 			$location, $http, $window,
 			gettextCatalog, messenger
 		) {
-			var filenameExtract;
 			this.groups = Group.query(
 				function() {},
 				function(err) {

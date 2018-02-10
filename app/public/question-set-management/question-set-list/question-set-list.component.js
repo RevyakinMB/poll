@@ -2,8 +2,11 @@ angular
 	.module('questionSetList')
 	.component('questionSetList', {
 		templateUrl: 'question-set-management/question-set-list/question-set-list.template.html',
-		controller: function questionSetListController(QuestionSet, Testing,
-			$location, gettextCatalog, messenger) {
+		controller: function questionSetListController(
+			QuestionSet, Testing,
+			$location, $window,
+			gettextCatalog, messenger
+		) {
 			this.questionSets = QuestionSet.query(
 				function() {},
 				function(err) {
@@ -107,6 +110,10 @@ angular
 
 					}.bind(this));
 				}, this);
+			};
+
+			this.templateDownload = function() {
+				$window.open('/api/import-template?resourceType=questionSet', '_blank');
 			};
 		}
 	});

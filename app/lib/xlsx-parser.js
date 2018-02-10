@@ -16,7 +16,6 @@ const process = require('process'),
 		data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNameList[0]], {
 			header: 1
 		});
-		console.log(data);
 		process.send({
 			type: 'data',
 			message: data
