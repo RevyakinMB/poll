@@ -142,7 +142,7 @@ angular
 								text: q.text,
 								correctAnswers: [],
 								incorrectAnswers: []
-							}, qAnswer, i;
+							}, qAnswer, i, j;
 
 						// preparation
 						if (q.qType === 'Sequencing' || q.qType === 'Poll') {
@@ -170,11 +170,14 @@ angular
 								if (qAnswer.weight === 1) {
 									questionProcessed.correctAnswers.push(qAnswer.text);
 
-								} else if (r.answers.filter(function(id) {
-									return id === qAnswer._id;
-								}).length === 1) {
-									isCorrect = false;
-									questionProcessed.incorrectAnswers.push(qAnswer.text);
+								} else {
+									for (j = 0; j < r.answers.length; ++j) {
+										if (r.answers[j] === qAnswer._id) {
+											isCorrect = false;
+											questionProcessed.incorrectAnswers.push(qAnswer.text);
+											break;
+										}
+									}
 								}
 							}
 							if (isCorrect) {
