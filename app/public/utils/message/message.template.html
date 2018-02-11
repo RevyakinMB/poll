@@ -1,0 +1,12 @@
+<div class="message" ng-class="{
+    'message_hidden': $ctrl.hidden,
+    'bg-danger': $ctrl.error,
+    'bg-success': !$ctrl.error
+}">
+    <div class="message__close" ng-click="$ctrl.hide()">
+        <span class="glyphicon glyphicon-remove message__close-icon">
+        </span>
+    </div>
+    <div class="message__title" ng-bind="$ctrl.title"></div>
+    <div class="message__text" ng-bind="$ctrl.text"></div>
+</div>

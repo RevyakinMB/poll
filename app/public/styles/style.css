@@ -184,9 +184,42 @@ ul {
 
 
 .message {
-    padding: 15px;
-    margin: 0 -15px;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    width: 340px;
+    margin-left: -170px;
+    z-index: 100;
     transition: opacity linear 0.5s;
+}
+
+.message__close {
+    display: inline-block;
+    float: right;
+    color: rgba(0, 0, 0, 0.6);
+    transition: color 0.3s;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.message__close-icon {
+    font-size: large;
+}
+
+.message__close:hover {
+    color: black;
+}
+
+.message__text {
+    padding: 5px;
+    margin: 10px;
+}
+
+.message__title {
+    border-bottom: 2px solid rgba(0, 0, 0, 0.6);
+    padding: 2px;
+    margin: 10px;
+    font-weight: bold;
 }
 
 .message_hidden {

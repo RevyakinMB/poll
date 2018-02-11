@@ -1,22 +1,17 @@
 angular
 	.module('utils')
-	.factory('messenger', function messengerFactory($timeout) {
-		return function messenger(options, message) {
-			if (message.messageDelay) {
-				$timeout.cancel(message.messageDelay);
+	.service('messenger', function messengerFactory() {
+		this.show = function(options) {
+			if (!this.component) {
+				throw new Error('No message component found');
 			}
+			this.component.show(options);
+		};
 
-			if (!options) {
-				message.hidden = true;
-				return;
+		this.setMessageComponent = function(component) {
+			if (this.component) {
+				throw new Error('There are more then one message component');
 			}
-
-			message.text = options.message;
-			message.hidden = false;
-			message.error = options.isError;
-
-			message.messageDelay = $timeout(function() {
-				message.hidden = true;
-			}, options.isError ? 15000 : 3000);
+			this.component = component;
 		};
 	});
