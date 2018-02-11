@@ -12,22 +12,16 @@ angular
 					}.bind(this))
 					.catch(function(err) {
 						console.log(err);
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString(
 								'Wrong username or password'),
 							isError: true
-						}, this.message);
-					}.bind(this));
+						});
+					});
 			};
 
 			authorizeService.userLogout().catch(function(err) {
 				console.log(err);
 			});
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
 		}
 	});

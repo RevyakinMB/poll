@@ -80,9 +80,9 @@ angular
 				victims.forEach(function(r) {
 					if (!r._id) {
 						this.directory.splice(this.directory.indexOf(r), 1);
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Record(s) successfully removed')
-						}, this.message);
+						});
 						return;
 					}
 					delete r.checked;
@@ -97,17 +97,17 @@ angular
 							if (idx !== -1) {
 								this.directory.splice(idx, 1);
 							}
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('Record(s) successfully removed')
-							}, this.message);
+							});
 						}.bind(this),
 						function(err) {
 							console.log(err);
-							messenger({
-								message: gettextCatalog.getString('Error: a record was not deleted'),
+							messenger.show({
+								message: gettextCatalog.getString('A record was not deleted'),
 								isError: true
-							}, this.message);
-						}.bind(this)
+							});
+						}
 					);
 				}, this);
 			};
@@ -118,9 +118,9 @@ angular
 				});
 
 				if (!changed.length) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('No records changed')
-					}, this.message);
+					});
 					return;
 				}
 
@@ -129,18 +129,18 @@ angular
 						id: r._id
 					},
 						function() {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('Data successfully saved')
-							}, this.message);
-						}.bind(this),
+							});
+						},
 						function() {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('An error occurred while changes saving'),
 								isError: true
-							}, this.message);
-						}.bind(this)
+							});
+						}
 					);
-				}, this);
+				});
 			};
 
 			this.checkedCount = function() {
@@ -158,12 +158,6 @@ angular
 
 			this.stopPropagation = function($event) {
 				$event.stopPropagation();
-			};
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
 			};
 
 			Object.defineProperty(this, 'allChecked', {

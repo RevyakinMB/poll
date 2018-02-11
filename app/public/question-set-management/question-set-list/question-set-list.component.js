@@ -15,12 +15,6 @@ angular
 
 			this.useCount = {};
 
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
-
 			Testing.query(function(testings) {
 				testings.forEach(function(t) {
 					if (!this.useCount[t.idQuestionSet]) {
@@ -88,27 +82,27 @@ angular
 					function() {
 						var idx = this.questionSets.indexOf(s);
 						this.questionSets.splice(idx, 1);
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Question set(s) successfully removed')
-						}, this.message);
+						});
 
 					}.bind(this),
 					function(err) {
 						console.log(err);
 						if (err.data.error === 'A testing with specified question set exists') {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString(
-									'Error: a testing with specified question set exists'),
+									'A testing with specified question set exists'),
 								isError: true
-							}, this.message);
+							});
 							return;
 						}
-						messenger({
-							message: gettextCatalog.getString('Error: a question set was not deleted'),
+						messenger.show({
+							message: gettextCatalog.getString('A question set was not deleted'),
 							isError: true
-						}, this.message);
+						});
 
-					}.bind(this));
+					});
 				}, this);
 			};
 

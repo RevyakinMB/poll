@@ -69,10 +69,10 @@ angular
 				}, this);
 
 				if (!isValid) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('Invalid form data; fix errors to proceed'),
 						isError: true
-					}, this.message);
+					});
 					return;
 				}
 
@@ -80,31 +80,25 @@ angular
 					factorSetName: 'Cattell'
 				},
 					function success() {
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Factor set successfully saved')
-						}, this.message);
-					}.bind(this),
+						});
+					},
 					function error(err) {
 						console.warn('Error while saving question set', err);
 						if (err.data.error === 'FactorSets validation failed') {
-							messenger({
-								message: gettextCatalog.getString('Error: form validation failed'),
+							messenger.show({
+								message: gettextCatalog.getString('Form validation failed'),
 								isError: true
-							}, this.message);
+							});
 							return;
 						}
-						messenger({
-							message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
+						messenger.show({
+							message: err.data.error,
 							isError: true
-						}, this.message);
-					}.bind(this)
+						});
+					}
 				);
-			};
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
 			};
 
 			this.nonAscending = function(f) {

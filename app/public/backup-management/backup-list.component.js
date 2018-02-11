@@ -5,6 +5,7 @@ angular
 		controller: function backupListController(
 			$http, gettextCatalog, messenger, moment
 		) {
+			var messageFn, restorePostFn, backupPostFn;
 			this.backups = [];
 			$http.get('/api/backups').then(
 				function(response) {
@@ -18,12 +19,12 @@ angular
 				}.bind(this),
 				function(err) {
 					console.log(err);
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString(
-							'Error: an error occurred while backup list loading'),
+							'An error occurred while backup list loading'),
 						isError: true
-					}, this.message);
-				}.bind(this)
+					});
+				}
 			);
 
 			this.checkedCount = function() {
@@ -39,6 +40,27 @@ angular
 				$event.stopPropagation();
 			};
 
+			// helper request results messaging function
+			messageFn = function(success, failure) {
+				return [
+					function() {
+						messenger.show({
+							message: gettextCatalog.getString(success)
+						});
+					}, function(err) {
+						console.log(err);
+						messenger.show({
+							message: gettextCatalog.getString(failure),
+							isError: true
+						});
+					}
+				];
+			};
+
+			restorePostFn = messageFn(
+				'Backup successfully restored',
+				'An error occurred while backup restoration');
+
 			this.restore = function() {
 				var checked = this.backups.filter(function(b) {
 					return b.checked;
@@ -51,46 +73,15 @@ angular
 
 				$http.post('/api/backups', {
 					date: checked[0].date
-				}).then(
-					function() {
-						messenger({
-							message: gettextCatalog.getString(
-								'Backup successfully restored')
-						}, this.message);
-					}.bind(this),
-					function(err) {
-						console.log(err);
-						messenger({
-							message: gettextCatalog.getString(
-								'An error occurred while backup restoration'),
-							isError: true
-						}, this.message);
-					}.bind(this));
+				}).then(restorePostFn[0], restorePostFn[1]);
 			};
+
+			backupPostFn = messageFn(
+				'Backup successfully created',
+				'An error occurred while backup creation');
 
 			this.newBackupCreate = function() {
-				$http.post('/api/backups', {}).then(
-					function() {
-						messenger({
-							message: gettextCatalog.getString(
-								'Backup successfully created')
-						}, this.message);
-					}.bind(this),
-					function(err) {
-						console.log(err);
-						messenger({
-							message: gettextCatalog.getString(
-								'An error occurred while backup creation'),
-							isError: true
-						}, this.message);
-					}.bind(this)
-				);
-			};
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
+				$http.post('/api/backups', {}).then(backupPostFn[0], backupPostFn[1]);
 			};
 		}
 	});

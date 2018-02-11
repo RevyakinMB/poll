@@ -32,12 +32,12 @@ angular
 				}.bind(this),
 				function(err) {
 					console.log('Error while factor set loading:', err);
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString(
-							'Error: Cattell factor set was not loaded'),
+							'Cattell factor set was not loaded'),
 						isError: true
-					}, this.message);
-				}.bind(this)
+					});
+				}
 			);
 
 			this.questionAdd = function() {
@@ -137,13 +137,6 @@ angular
 				// TODO: remove on empty question
 			};
 
-			// page interaction feedback
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
-
 			this.changesSave = function() {
 				var draftsReplaceMap = {}, i,
 					isValid = this.set.questions.every(function(q) {
@@ -160,11 +153,11 @@ angular
 						return answersValid && weight;
 					});
 				if (!isValid) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString(
-							'Error: question/answer text or correct answer is missing'),
+							'Question/answer text or correct answer is missing'),
 						isError: true
-					}, this.message);
+					});
 					return;
 				}
 
@@ -185,9 +178,9 @@ angular
 				},
 				function() {
 					var draft, tempId;
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('Question set successfully saved')
-					}, this.message);
+					});
 					this.setId = this.set._id;
 
 					// replace drafts of newly created questions
@@ -202,17 +195,17 @@ angular
 				}.bind(this), function(err) {
 					console.warn('Error while saving question set', err);
 					if (err.data.error === 'Validation error') {
-						messenger({
-							message: gettextCatalog.getString('Error: form validation failed'),
+						messenger.show({
+							message: gettextCatalog.getString('Form validation failed'),
 							isError: true
 						});
 						return;
 					}
-					messenger({
-						message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
+					messenger.show({
+						message: err.data.error,
 						isError: true
-					}, this.message);
-				}.bind(this));
+					});
+				});
 			};
 
 			this._questionTypes = {};

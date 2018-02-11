@@ -27,13 +27,6 @@ angular
 			this.eduForms = EduForm.query(noop, errLog);
 			this.specialties = Specialty.query(noop, errLog);
 
-			// page interaction feedback
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
-
 			this.studentAdd = function() {
 				this.group.students.push({
 					firstName: '',
@@ -111,10 +104,11 @@ angular
 				if (!this.group.students.every(function(s) {
 					return s.firstName && s.lastName;
 				})) {
-					messenger({
-						message: gettextCatalog.getString('Error: name or surname is missing'),
+					messenger.show({
+						title: gettextCatalog.getString('Error'),
+						message: gettextCatalog.getString('Name or surname is missing'),
 						isError: true
-					}, this.message);
+					});
 					return;
 				}
 
@@ -122,31 +116,35 @@ angular
 					groupId: this.groupId ? this.groupId : ''
 				},
 				function() {
-					messenger({
+					messenger.show({
+						title: gettextCatalog.getString('Done'),
 						message: gettextCatalog.getString('Group successfully saved')
-					}, this.message);
+					});
 					this.groupId = this.group._id;
 				}.bind(this), function(err) {
 					console.warn('Error while saving group', err);
 					if (err.data.error === 'Validation error') {
-						messenger({
-							message: gettextCatalog.getString('Error: form validation failed'),
+						messenger.show({
+							title: gettextCatalog.getString('Error'),
+							message: gettextCatalog.getString('Form validation failed'),
 							isError: true
-						}, this.message);
+						});
 						return;
 					}
 					if (err.data.error === 'Duplicate key error') {
-						messenger({
-							message: gettextCatalog.getString('Error: group number have to be unique'),
+						messenger.show({
+							title: gettextCatalog.getString('Error'),
+							message: gettextCatalog.getString('Group number have to be unique'),
 							isError: true
-						}, this.message);
+						});
 						return;
 					}
-					messenger({
-						message: gettextCatalog.getString('Error:') + ' ' + err.data.error,
+					messenger.show({
+						title: gettextCatalog.getString('Error'),
+						message: err.data.error,
 						isError: true
-					}, this.message);
-				}.bind(this));
+					});
+				});
 			};
 
 			this.hasError = function() {

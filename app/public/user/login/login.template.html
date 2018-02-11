@@ -21,12 +21,3 @@
         Log in
     </button>
 </div>
-
-<div ng-bind="$ctrl.message.text"
-     class="message message_hidden"
-     ng-class="{
-            'message_hidden': $ctrl.message.hidden,
-            'bg-danger': $ctrl.message.error,
-            'bg-success': !$ctrl.message.error
-         }">
-</div>

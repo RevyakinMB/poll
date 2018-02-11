@@ -27,7 +27,7 @@ angular
 				}, function() {
 					this.session.student = { _id: tempId };
 					this.session.attempt = testingAttemptRetrieve(
-						this.testing, tempId, this.message);
+						this.testing, tempId);
 					testingProceed(this);
 				}.bind(this), function(err) {
 					console.log(err);
@@ -35,12 +35,12 @@ angular
 			}.bind(this);
 
 			onTestingLoadError = function(err) {
-				messenger({
+				messenger.show({
 					message: gettextCatalog.getString('Error while testing loading'),
 					isError: true
-				}, this.message);
+				});
 				console.log('error while testing loading:', err.message);
-			}.bind(this);
+			};
 
 			this.testing = Testing.get(
 				{
@@ -51,12 +51,6 @@ angular
 			);
 
 			this.testingId = $routeParams.testingId;
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
 
 			this.session = {};
 			// .student: Object
@@ -69,16 +63,16 @@ angular
 				return v1.value.localeCompare(v2.value);
 			};
 
-			testingAttemptRetrieve = function(testing, idStudent, _message) {
+			testingAttemptRetrieve = function(testing, idStudent) {
 				var attempt = testing.attempts.filter(function(a) {
 					return a.idStudent === idStudent;
 				}, this);
 
 				if (attempt.length !== 1) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('Internal server error'),
 						isError: true
-					}, _message);
+					});
 					throw new Error('Server error: no or too much attempts');
 				}
 
@@ -128,44 +122,43 @@ angular
 			};
 
 			this.studentSelect = function(s) {
-				messenger(undefined, this.message);
+				messenger.show();
 				this.testing.$save({
 					idStudent: s._id,
 					testingId: $routeParams.testingId,
 					restartConfirmed: this.session.restartConfirmed
 				}, function() {
 					this.session.attempt = testingAttemptRetrieve(
-						this.testing, s._id, this.message);
+						this.testing, s._id);
 					this.session.student = s;
 
 					testingProceed(this);
 				}.bind(this), function(err) {
 					if (err.data.error === 'Session exists error') {
 						// TODO: disable page controls for a moment
-						messenger({
+						messenger.show({
 							message: s.lastName + ' ' + s.firstName + ' ' + s.patronymic + ' ' +
 								gettextCatalog.getString('started testing earlier. ' +
 									'Are you sure you want to proceed? ' +
 									'Please click on a name again or call examiner.'),
 							isError: true
-						}, this.message);
+						});
 
 						this.session.restartConfirmed = true;
 					} else if (err.data.error === 'Session changed error') {
 						this.session = {};
 
 					} else if (err.data.error === 'Test passed already error') {
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Selected user have passed test already'),
 							isError: true
-						}, this.message);
+						});
 
 					} else {
-						messenger({
-							// message: gettextCatalog.getString('Error'),
+						messenger.show({
 							message: err.data.error,
 							isError: true
-						}, this.message);
+						});
 						console.log('error while testing processing:', err);
 					}
 				}.bind(this));
@@ -202,7 +195,7 @@ angular
 			answerPost = function(that) {
 				var q = that.session.currentQuestion,
 					answers = [];
-				messenger(undefined, that.message);
+				messenger.show();
 
 				if (q.qType === 'Alternative' ||
 					q.qType === 'Cattell' ||
@@ -229,10 +222,10 @@ angular
 				}
 
 				if (!answers.length) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('No answer selected'),
 						isError: true
-					}, that.message);
+					});
 					return;
 				}
 
@@ -246,23 +239,23 @@ angular
 					that.session.answerSelected = undefined;
 					that.session.currentQuestion = that.session.questionList.shift();
 					that.session.attempt = testingAttemptRetrieve(
-						that.testing, that.session.student._id, that.message);
+						that.testing, that.session.student._id);
 
 					that.session.timeElapsed = timeElapsedCalc(that.session.attempt);
 				}, function(err) {
 					if (err.data.error === 'Session changed error') {
 						that.session = {};
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString(
-								'Error: session changed. Please, call examiner'),
+								'Session changed. Please, call examiner'),
 							isError: true
-						}, that.message);
+						});
 						return;
 					}
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('An error occurred while saving answer'),
 						isError: true
-					}, that.message);
+					});
 				});
 			};
 		}

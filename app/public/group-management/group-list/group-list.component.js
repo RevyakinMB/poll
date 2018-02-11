@@ -42,27 +42,27 @@ angular
 					function() {
 						var idx = this.groups.indexOf(v);
 						this.groups.splice(idx, 1);
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Group(s) successfully removed')
-						}, this.message);
+						});
 
 					}.bind(this),
 					function(err) {
 						console.log(err);
 						if (err.data.error === 'A testing with specified group exists') {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString(
-									'Error: a testing with specified group exists'),
+									'A testing with specified group exists'),
 								isError: true
-							}, this.message);
+							});
 							return;
 						}
-						messenger({
-							message: gettextCatalog.getString('Error: a group was not deleted'),
+						messenger.show({
+							message: gettextCatalog.getString('A group was not deleted'),
 							isError: true
-						}, this.message);
+						});
 
-					}.bind(this));
+					});
 				}, this);
 			};
 
@@ -158,12 +158,6 @@ angular
 			this.groupOpen = function($event, id) {
 				$location.path('/groups/' + id);
 				$event.stopPropagation();
-			};
-
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
 			};
 		}
 	});

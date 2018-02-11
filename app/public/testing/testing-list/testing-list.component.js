@@ -19,12 +19,12 @@ angular
 					}, this);
 				}.bind(this),
 				function(err) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('An error occurred while testings loading'),
 						isError: true
-					}, this.message);
+					});
 					console.log('Testings query error:', err);
-				}.bind(this)
+				}
 			);
 
 			// helper maps
@@ -159,9 +159,9 @@ angular
 					if (!t._id) {
 						this.testingsScheduled.splice(
 							this.testingsScheduled.indexOf(t), 1);
-						messenger({
+						messenger.show({
 							message: gettextCatalog.getString('Testing(s) successfully removed')
-						}, this.message);
+						});
 						return;
 					}
 					delete t.selected;
@@ -174,17 +174,17 @@ angular
 							if (idx !== -1) {
 								this.testingsScheduled.splice(idx, 1);
 							}
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('Testing(s) successfully removed')
-							}, this.message);
+							});
 						}.bind(this),
 						function(err) {
 							console.log(err);
-							messenger({
-								message: gettextCatalog.getString('Error: a testing was not deleted'),
+							messenger.show({
+								message: gettextCatalog.getString('A testing was not deleted'),
 								isError: true
-							}, this.message);
-						}.bind(this)
+							});
+						}
 					);
 				}, this);
 			};
@@ -202,12 +202,6 @@ angular
 				}, 0);
 			};
 
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
-
 			this.changesSave = function() {
 				var changedTestings = this.testingsScheduled.filter(function(t) {
 						return t.changed;
@@ -216,7 +210,7 @@ angular
 					isValid,
 					yesterday = new Date();
 
-				messenger(undefined, this.message);
+				messenger.show();
 
 				yesterday.setDate(yesterday.getDate() - 1);
 
@@ -227,10 +221,10 @@ angular
 				isValid = invalidTestings.length === 0;
 
 				if (!isValid) {
-					messenger({
-						message: gettextCatalog.getString('Error: a testing is invalid'),
+					messenger.show({
+						message: gettextCatalog.getString('A testing is invalid'),
 						isError: true
-					}, this.message);
+					});
 					invalidTestings.forEach(function(t) {
 						t.invalid = true;
 						if (t.invalidTimeout) {
@@ -244,9 +238,9 @@ angular
 				}
 
 				if (!changedTestings.length) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('No testings changed')
-					}, this.message);
+					});
 					return;
 				}
 
@@ -255,18 +249,18 @@ angular
 						testingId: t._id
 					},
 						function() {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('Testing(s) successfully saved')
-							}, this.message);
-						}.bind(this),
+							});
+						},
 						function() {
-							messenger({
+							messenger.show({
 								message: gettextCatalog.getString('An error occurred while testings saving'),
 								isError: true
-							}, this.message);
-						}.bind(this)
+							});
+						}
 					);
-				}, this);
+				});
 			};
 		}
 	});

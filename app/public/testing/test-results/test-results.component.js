@@ -17,11 +17,6 @@ angular
 			this.eduForms = {};
 			this.specialties = {};
 			this.printMode = 'full';
-			this.message = {
-				text: '',
-				error: false,
-				hidden: true
-			};
 			// used in template
 			this.studentId = $routeParams.studentId;
 			this.authorized = authorizeService.isLoggedIn();
@@ -84,18 +79,18 @@ angular
 			}.bind(this), function(err) {
 				console.log('Error:', err);
 				if (err.status === 404) {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('Testing not found'),
 						isError: true
-					}, this.message);
+					});
 				} else {
-					messenger({
+					messenger.show({
 						message: gettextCatalog.getString('Error while testing loading'),
 						isError: true
-					}, this.message);
+					});
 				}
 
-			}.bind(this));
+			});
 
 			// helper calculation functions
 			collectionsPopulate = function(testing) {
