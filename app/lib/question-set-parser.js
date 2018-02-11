@@ -17,15 +17,16 @@ module.exports = function(data) {
 			}), question,
 				questionCreate,
 				questionCheckAndSave;
-			if (!data) {
-				return reject('No valid data to import');
+			if (!data || !data.length) {
+				reject('No valid data to import');
+				return;
 			}
 			questionCreate = (line, index) => {
 				let q, questionType, questionText;
 				// check question type
 				questionType = qType[line[TYPE]];
 				if (!questionType) {
-					reject('Wrong question type: "' + line[TYPE] + '"; line: ' + index);
+					reject('Wrong question type; line: ' + index);
 					return false;
 				}
 				// check question text
@@ -42,7 +43,7 @@ module.exports = function(data) {
 				if (questionType === 'Cattell') {
 					let factor = factors[line[FACTOR]];
 					if (!factor) {
-						reject('Unknown factor index: "' + line[FACTOR] + '"; line: ' + index);
+						reject('Unknown factor index; line: ' + index);
 						return false;
 					}
 					q.idFactor = factor;

@@ -1,6 +1,6 @@
 angular
 	.module('utils')
-	.directive('resourceUpload', function($http, $location) {
+	.directive('resourceUpload', function($http, $location, messenger, gettextCatalog) {
 		var resourceTypes = ['group', 'questionSet'];
 		return {
 			restrict: 'A',
@@ -43,7 +43,60 @@ angular
 							}
 						}
 					}).catch(function(e) {
-						// TODO: message service
+						var msg;
+						if (e.data.error === 'Bad Request') {
+							msg = gettextCatalog.getString('Unknown file format');
+
+						} else if (e.data.error === 'No valid data to import') {
+							msg = gettextCatalog.getString('No valid data to import');
+
+						} else if (e.data.error.indexOf('There is incorrect answer weight; line:') !== -1) {
+							msg = gettextCatalog.getString('There is incorrect answer weight; line:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('Please specify at least two answers to question:') !== -1) {
+							msg = gettextCatalog.getString('Please specify at least two answers to question:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('There is a question with empty answer\'s text:') !== -1) {
+							msg = gettextCatalog.getString('There is a question with empty answer\'s text:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('Incorrect answer weights:') !== -1) {
+							msg = gettextCatalog.getString('Incorrect answer weights:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('There\'s more then one correct answer:') !== -1) {
+							msg = gettextCatalog.getString('There\'s more then one correct answer:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('There\'s ambiguous answer sequence:') !== -1) {
+							msg = gettextCatalog.getString('There\'s ambiguous answer sequence:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('There is answer to unknown question; line:') !== -1) {
+							msg = gettextCatalog.getString('There is answer to unknown question; line:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('Unknown factor index; line:') !== -1) {
+							msg = gettextCatalog.getString('Unknown factor index; line:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('Wrong question type; line:') !== -1) {
+							msg = gettextCatalog.getString('Wrong question type; line:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else if (e.data.error.indexOf('Empty question text; line:') !== -1) {
+							msg = gettextCatalog.getString('Empty question text; line:') + ' ' +
+								e.data.error.substr(e.data.error.lastIndexOf(':') + 2);
+
+						} else {
+							msg = e.data.error;
+						}
+						messenger.show({
+							message: msg,
+							isError: true
+						});
 						console.log(e);
 					});
 				});
