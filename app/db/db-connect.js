@@ -1,10 +1,10 @@
 var mongoose = require('mongoose'),
 	log = require('../lib/log'),
+	config = require('../config'),
 	db;
 
 mongoose.Promise = global.Promise;
-// TODO: move connection string to app config.json
-mongoose.connect('mongodb://localhost/studentsTesting');
+mongoose.connect(config.get('mongoConnection'));
 
 db = mongoose.connection;
 

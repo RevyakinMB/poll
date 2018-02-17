@@ -6,3 +6,4 @@ app/public/bower_components/
 app/public/po/*.mo
 app/public/app.js
 logs/
+app/config/config.json

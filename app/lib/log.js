@@ -2,29 +2,27 @@ const winston = require('winston'),
 	morgan = require('morgan'),
 	fs = require('fs'),
 	path = require('path'),
-	logsDir = path.join(__dirname, '..', '..', 'logs');
+	logsDir = path.join(__dirname, '..', '..', 'logs'),
+	config = require('../config');
 
-let logger, timestampFn, dateFormat;
+let logger, timestampFn, numExpand;
 
 if (!fs.existsSync(logsDir)) {
 	fs.mkdirSync(logsDir);
 }
 
-dateFormat = function(v) {
-	if (v < 10) {
-		v = '0' + v;
-	}
-	return v;
+numExpand = function(number) {
+	return (number / 10 < 1 ? '0' : '') + number;
 };
 
 timestampFn = function() {
 	const d = new Date();
 	return d.getFullYear() + '-' +
-		dateFormat(d.getMonth() + 1) + '-' +
-		dateFormat(d.getDate()) + ' ' +
-		dateFormat(d.getHours()) + ':' +
-		dateFormat(d.getMinutes()) + ':' +
-		dateFormat(d.getSeconds());
+		numExpand(d.getMonth() + 1) + '-' +
+		numExpand(d.getDate()) + ' ' +
+		numExpand(d.getHours()) + ':' +
+		numExpand(d.getMinutes()) + ':' +
+		numExpand(d.getSeconds());
 };
 
 logger = new winston.Logger({
@@ -36,8 +34,7 @@ logger = new winston.Logger({
 		}),
 		new winston.transports.File({
 			level: 'debug',
-			// TODO: move to config.js
-			filename: path.join(logsDir, 'debug.log'),
+			filename: path.join(logsDir, config.get('logFilename')),
 			timestamp: timestampFn
 		})
 	]

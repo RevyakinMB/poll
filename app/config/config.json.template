@@ -1,0 +1,7 @@
+{
+  "port" : 8080,
+  "cookieSecret": "SECReTT0KEN",
+  "mongoConnection" : "mongodb://localhost/studentsTesting",
+  "dumpDir": "dump",
+  "logFilename": "debug.log"
+}

@@ -13,6 +13,7 @@ const express = require('express'),
 
 	HttpError = require('./error').HttpError,
 	log = require('./lib/log'),
+	config = require('./config'),
 
 	DAY = 24 * 60 * 60 * 1000;
 
@@ -23,8 +24,7 @@ require('./db/db-connect');
 app.use(bodyParser.json());
 
 app.use(session({
-	// TODO: replace into config.js
-	secret: 'sEcreTT0kEn',
+	secret: config.get('cookieSecret'),
 	key: 'sid',
 	cookie: {
 		path: '/',
@@ -80,9 +80,8 @@ app.use(function(err, req, res, next) {
 	});
 });
 
-server = app.listen(8080, function() {
-	// TODO: port to app config
-	log.debug('Server is listening on port 8080');
+server = app.listen(config.get('port'), function() {
+	log.debug('Server is listening on port ' + config.get('port'));
 });
 
 process.on('SIGINT', function() {

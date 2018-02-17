@@ -1,6 +1,8 @@
 const execute = require('../lib/promise-executer'),
 	spawn = require('child_process').spawn,
 	log = require('../lib/log'),
+	config = require('../config'),
+	path = require('path'),
 
 	mkdirProcess = function(dumpPath) {
 		return new Promise(function(resolve, reject) {
@@ -43,9 +45,9 @@ const execute = require('../lib/promise-executer'),
 
 	dbBackup = function() {
 		const now = new Date(),
-			dumpPath = [
-				// TODO: move dump path to config
-				'dump/testing-',
+			dir = config.get('dumpDir') || 'dump',
+			dumpPath = path.join(dir, [
+				'testing-',
 				now.getFullYear(),
 				'-',
 				numExpand(now.getMonth() + 1),
@@ -57,7 +59,7 @@ const execute = require('../lib/promise-executer'),
 				numExpand(now.getMinutes()),
 				'.',
 				numExpand(now.getSeconds())
-			].join('');
+			].join(''));
 
 		log.debug('Creating new dump at:', dumpPath);
 
