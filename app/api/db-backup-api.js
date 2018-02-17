@@ -2,26 +2,27 @@ const spawn = require('child_process').spawn,
 	glob = require('glob'),
 
 	dbBackup = require('../lib/db-backup-create'),
-	authCheck = require('../middleware/authCheck');
+	authCheck = require('../middleware/authCheck'),
+	log = require('../lib/log');
 
 module.exports = function(app) {
 	const dbRestore = function(req, res, next) {
 		const args = ['dump/testing-' + req.body.date],
 			mongorestore = spawn('mongorestore', args);
 
-		console.log('Restoring', args[0], 'dump...');
+		log.debug('Restoring', args[0], 'dump...');
 
 		mongorestore.stdout.on('data', function(data) {
-			console.log(data.toString('utf8'));
+			log.debug(data.toString('utf8'));
 		});
 
 		mongorestore.stderr.on('data', function(data) {
-			console.error('stderr:', data.toString('utf8'));
+			log.error('stderr:', data.toString('utf8'));
 		});
 
 		mongorestore.on('exit', function(code) {
 			if (code) {
-				console.log('`mongorestore` exit code: ' + code);
+				log.error('`mongorestore` exit code: ' + code);
 				next(500);
 				return;
 			}
@@ -56,12 +57,12 @@ module.exports = function(app) {
 			});
 
 			du.stderr.on('data', function (data) {
-				console.error('stderr: ' + data);
+				log.error('stderr: ' + data);
 			});
 
 			du.on('exit', function (code) {
 				if (code) {
-					console.log('`du` exit code: ' + code);
+					log.error('`du` exit code: ' + code);
 					next(500);
 					return;
 				}

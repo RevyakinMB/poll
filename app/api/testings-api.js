@@ -4,7 +4,8 @@ const TestingsModel = require('../db/model/testings-schema'),
 
 	execute = require('../lib/promise-executer'),
 	HttpError = require('../error').HttpError,
-	authCheck = require('../middleware/authCheck');
+	authCheck = require('../middleware/authCheck'),
+	log = require('../lib/log');
 
 module.exports = function(app) {
 	const testPassingProcess = function(doc, query, next) {
@@ -30,7 +31,7 @@ module.exports = function(app) {
 
 		attempt = attempts[0];
 		if (!attempt.session) {
-			console.error('Error: empty student session in db');
+			log.error('Error: empty student session in db');
 			next(500);
 			return true;
 		}
@@ -86,7 +87,7 @@ module.exports = function(app) {
 					}
 					doc = yield q.exec();
 					if (!doc) {
-						console.log('Warning: document', req.params.id, 'not found');
+						log.warn('Warning: document', req.params.id, 'not found');
 					}
 				}
 

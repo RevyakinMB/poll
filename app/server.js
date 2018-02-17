@@ -4,7 +4,6 @@
 
 const express = require('express'),
 	app = express(),
-	logger = require('morgan'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	path = require('path'),
@@ -12,29 +11,30 @@ const express = require('express'),
 
 	MongoStore = require('connect-mongo')(session),
 
-	HttpError = require('./error').HttpError;
+	HttpError = require('./error').HttpError,
+	log = require('./lib/log'),
+
+	DAY = 24 * 60 * 60 * 1000;
 
 let server;
-
+require('./lib/http-log')(app);
 require('./db/db-connect');
 
 app.use(bodyParser.json());
 
 app.use(session({
+	// TODO: replace into config.js
 	secret: 'sEcreTT0kEn',
 	key: 'sid',
 	cookie: {
 		path: '/',
 		httpOnly: true,
-		maxAge: 24 * 60 * 60 * 1000
+		maxAge: DAY
 	},
 	resave: true,
 	saveUninitialized: true,
 	store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
-
-// log requests to console
-app.use(logger('dev'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -50,7 +50,7 @@ app.use(function(err, req, res, next) {
 	if (typeof err === 'number') {
 		err = new HttpError(err);
 	}
-	console.error(err);
+	log.error(err);
 
 	if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
 		err = new HttpError(400, 'Request body is invalid');
@@ -82,13 +82,13 @@ app.use(function(err, req, res, next) {
 
 server = app.listen(8080, function() {
 	// TODO: port to app config
-	console.log('Server is listening on port 8080');
+	log.debug('Server is listening on port 8080');
 });
 
 process.on('SIGINT', function() {
-	console.log('Kill signal received, shutting down...');
+	log.debug('Kill signal received, shutting down...');
 	server.close(function() {
-		console.log('Done');
+		log.debug('Done');
 		process.exit();
 	});
 });

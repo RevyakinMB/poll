@@ -1,11 +1,12 @@
 const process = require('process'),
 	xlsx = require('js-xlsx/xlsx'),
+	log = require('../lib/log'),
 	fileImport = (buffer) => {
 		let workbook, sheetNameList, data;
 		try {
 			workbook = xlsx.read(buffer.data, { type: 'buffer' });
 		} catch (e) {
-			console.log(e);
+			log.error(e);
 			process.send({
 				type: 'error',
 				message: e.message

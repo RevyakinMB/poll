@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+	log = require('../lib/log'),
 	db;
 
 mongoose.Promise = global.Promise;
@@ -8,12 +9,11 @@ mongoose.connect('mongodb://localhost/studentsTesting');
 db = mongoose.connection;
 
 db.on('error', function(err) {
-	// TODO: smarter application logging (winston, etc)
-	console.log('connection error:', err.message);
+	log.error('connection error:', err.message);
 });
 
 db.once('open', function() {
-	console.log('Connected to DB');
+	log.debug('Connected to DB');
 });
 
 module.exports = db;

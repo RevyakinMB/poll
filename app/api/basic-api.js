@@ -5,7 +5,8 @@ const GroupsModel = require('../db/model/groups-schema'),
 
 	execute = require('../lib/promise-executer'),
 	HttpError = require('../error').HttpError,
-	authCheck = require('../middleware/authCheck');
+	authCheck = require('../middleware/authCheck'),
+	log = require('../lib/log');
 
 let authCheckOrNot;
 
@@ -38,7 +39,7 @@ module.exports = function(app) {
 				if (req.params[param]) {
 					doc = yield Model.findOne(searchBy).exec();
 					if (!doc) {
-						console.log('Warning: document', req.params[param], 'not found');
+						log.warn('Warning: document', req.params[param], 'not found');
 					}
 				}
 

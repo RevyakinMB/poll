@@ -3,6 +3,7 @@
 const execute = require('../lib/promise-executer'),
 	mongoose = require('mongoose'),
 	dbBackup = require('../lib/db-backup-create'),
+	log = require('../lib/log'),
 
 	connectionOpen = function() {
 		return new Promise(function(resolve, reject) {
@@ -65,7 +66,7 @@ execute(function* () {
 
 	} catch (err) {
 		if (err) {
-			console.error(err);
+			log.error(err);
 		}
 	}
 	mongoose.connection.close();

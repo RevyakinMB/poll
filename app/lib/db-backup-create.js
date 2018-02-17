@@ -1,5 +1,6 @@
 const execute = require('../lib/promise-executer'),
 	spawn = require('child_process').spawn,
+	log = require('../lib/log'),
 
 	mkdirProcess = function(dumpPath) {
 		return new Promise(function(resolve, reject) {
@@ -20,11 +21,11 @@ const execute = require('../lib/promise-executer'),
 				mongodump = spawn('mongodump', dumpArgs);
 
 			mongodump.stdout.on('data', function(data) {
-				console.log(data.toString('utf8'));
+				log.debug(data.toString('utf8'));
 			});
 
 			mongodump.stderr.on('data', function(data) {
-				console.log('stderr:', data.toString('utf8'));
+				log.error('stderr:', data.toString('utf8'));
 			});
 
 			mongodump.on('exit', function(code) {
@@ -58,7 +59,7 @@ const execute = require('../lib/promise-executer'),
 				numExpand(now.getSeconds())
 			].join('');
 
-		console.log('Creating new dump at:', dumpPath);
+		log.debug('Creating new dump at:', dumpPath);
 
 		return new Promise(function(resolve, reject) {
 			execute(function* () {
@@ -68,7 +69,7 @@ const execute = require('../lib/promise-executer'),
 
 					resolve();
 				} catch (err) {
-					console.log(err);
+					log.error(err);
 					reject(err);
 				}
 			}());
