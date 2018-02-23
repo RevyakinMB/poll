@@ -75,27 +75,26 @@
 
 <div ng-if="$ctrl.session.currentQuestion">
     <div ng-repeat="a in $ctrl.session.currentQuestion.answers"
-         class="test-passing__row test-passing__answer">
-        <div class="checkbox-inline"
-             ng-if="$ctrl.session.currentQuestion.qType === 'Multiple'">
-            <label>
+         class="test-passing__answer-block">
+        <div ng-if="$ctrl.session.currentQuestion.qType === 'Multiple'">
+            <label class="test-passing__answer">
                 <input type="checkbox" ng-model="a.weight"
                        ng-true-value="1" ng-false-value="0">
                 {{a.text}}
             </label>
         </div>
-        <div class="radio-inline"
-             ng-if="
+        <div ng-if="
                 $ctrl.session.currentQuestion.qType === 'Alternative' ||
                 $ctrl.session.currentQuestion.qType === 'Poll' ||
                 $ctrl.session.currentQuestion.qType === 'Cattell'">
-            <label>
+            <label class="test-passing__answer">
                 <input type="radio" ng-model="$ctrl.session.answerSelected"
                        name="answer" ng-value="{{$index}}">
                 {{a.text}}
             </label>
         </div>
-        <div ng-if="$ctrl.session.currentQuestion.qType === 'Sequencing'">
+        <div class="test-passing__answer"
+             ng-if="$ctrl.session.currentQuestion.qType === 'Sequencing'">
             <span class="glyphicon glyphicon-arrow-up test-passing__position-btn-up"
                   ng-click="$ctrl.answerMove(a, 'up')">
             </span>
@@ -107,9 +106,8 @@
     </div>
 </div>
 
-<div ng-if="$ctrl.session.currentQuestion"
-     class="test-passing__row">
-    <button class="btn btn-default" ng-click="$ctrl.next()">
+<div ng-if="$ctrl.session.currentQuestion" class="test-passing__proceed">
+    <button class="btn btn-default" ng-click="$ctrl.next()" translate>
         Proceed
     </button>
 </div>

@@ -496,6 +496,10 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
+#: testing/test-passing/test-passing.template.html:112
+msgid "Proceed"
+msgstr ""
+
 #: greet/greet.template.html:34
 #: testing/test-passing/test-passing.template.html:62
 msgid "Progress:"

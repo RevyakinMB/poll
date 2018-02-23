@@ -506,6 +506,10 @@ msgstr "Практический тест"
 msgid "Print"
 msgstr "Печать"
 
+#: testing/test-passing/test-passing.template.html:112
+msgid "Proceed"
+msgstr "Продолжить"
+
 #: greet/greet.template.html:34
 #: testing/test-passing/test-passing.template.html:62
 msgid "Progress:"

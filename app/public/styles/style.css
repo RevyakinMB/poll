@@ -593,14 +593,28 @@ ul {
     font-size: 24px;
 }
 
-.test-passing__answer {
-    padding: 10px;
+.test-passing__answer-block {
     margin-left: 20px;
+}
+
+.test-passing__answer {
+    display: block;
+    padding: 15px;
+    margin: 0;
     font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.test-passing__answer:hover {
+    background-color: #F7F8FA;
 }
 
 .test-passing__done-link {
     font-size: 16px;
+}
+
+.test-passing__proceed {
+    margin: 10px 0;
 }
 
 
