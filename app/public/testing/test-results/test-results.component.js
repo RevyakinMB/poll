@@ -7,8 +7,7 @@ angular
 			$timeout, $window,
 			gettextCatalog, messenger,
 			Testing, FactorSet,
-			EduForm, Specialty,
-			authorizeService
+			EduForm, Specialty
 		) {
 			var collectionsPopulate, resultsCalculate;
 
@@ -19,7 +18,6 @@ angular
 			this.printMode = 'full';
 			// used in template
 			this.studentId = $routeParams.studentId;
-			this.authorized = authorizeService.isLoggedIn();
 
 			this.reportPrint = function(mode) {
 				this.printMode = mode;
@@ -35,23 +33,21 @@ angular
 			};
 
 			// data requests
-			if (this.authorized) {
-				EduForm.query(function(forms) {
-					forms.forEach(function(f) {
-						this.eduForms[f._id] = f.name;
-					}, this);
-				}.bind(this), function(err) {
-					console.log(err);
-				});
+			EduForm.query(function(forms) {
+				forms.forEach(function(f) {
+					this.eduForms[f._id] = f.name;
+				}, this);
+			}.bind(this), function(err) {
+				console.log(err);
+			});
 
-				Specialty.query(function(specialties) {
-					specialties.forEach(function(s) {
-						this.specialties[s._id] = s.name;
-					}, this);
-				}.bind(this), function(err) {
-					console.log(err);
-				});
-			}
+			Specialty.query(function(specialties) {
+				specialties.forEach(function(s) {
+					this.specialties[s._id] = s.name;
+				}, this);
+			}.bind(this), function(err) {
+				console.log(err);
+			});
 
 			this.factorSet = FactorSet.get({ factorSetName: 'Cattell' });
 			this.testing = Testing.get({

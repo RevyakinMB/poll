@@ -11,14 +11,14 @@ module.exports = function(app) {
 		path: '/api/specialties/:id?',
 		model: SpecialtiesModel
 	}].forEach((opt) => {
-		app.get(opt.path, authCheck, function(req, res, next) {
+		app.get(opt.path, function(req, res, next) {
 			opt.model.find().exec().then(
 				ls => res.send(ls),
 				err => next(err)
 			);
 		});
 
-		app.post(opt.path, authCheck, function(req, res, next) {
+		app.post(opt.path, function(req, res, next) {
 			const promise = Promise.resolve();
 			if (req.query.action === 'delete') {
 				next();
