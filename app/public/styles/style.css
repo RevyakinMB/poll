@@ -184,7 +184,7 @@ ul {
 
 
 .message {
-    position: absolute;
+    position: fixed;
     top: 35%;
     left: 50%;
     width: 340px;

@@ -210,7 +210,7 @@ angular
 					isValid,
 					yesterday = new Date();
 
-				messenger.show();
+				messenger.hide();
 
 				yesterday.setDate(yesterday.getDate() - 1);
 

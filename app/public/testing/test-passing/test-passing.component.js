@@ -122,7 +122,7 @@ angular
 			};
 
 			this.studentSelect = function(s) {
-				messenger.show();
+				messenger.hide();
 				this.testing.$save({
 					idStudent: s._id,
 					testingId: $routeParams.testingId,
@@ -195,7 +195,7 @@ angular
 			answerPost = function(that) {
 				var q = that.session.currentQuestion,
 					answers = [];
-				messenger.show();
+				messenger.hide();
 
 				if (q.qType === 'Alternative' ||
 					q.qType === 'Cattell' ||

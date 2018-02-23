@@ -32,12 +32,10 @@ angular
 				this.hidden = false;
 				this.error = options.isError;
 
-				if (!options.isError) {
-					this.messageDelay = $timeout(function() {
-						me.hidden = true;
-						$timeout(me.hide, 500);
-					}, 3000);
-				}
+				this.messageDelay = $timeout(function() {
+					me.hidden = true;
+					$timeout(me.hide, 500);
+				}, options.isError ? 5000 : 3000);
 			};
 		}
 	});
