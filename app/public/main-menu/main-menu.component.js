@@ -10,17 +10,17 @@ angular
 				path: '/greet'
 			}, {
 				name: function() {
-					return gettextCatalog.getString('Group list');
+					return gettextCatalog.getString('Groups');
 				},
 				path: '/groups'
 			}, {
 				name: function() {
-					return gettextCatalog.getString('Question set list');
+					return gettextCatalog.getString('Question sets');
 				},
 				path: '/question-sets'
 			}, {
 				name: function() {
-					return gettextCatalog.getString('Testing list');
+					return gettextCatalog.getString('Testings');
 				},
 				path: '/testings'
 			}, {

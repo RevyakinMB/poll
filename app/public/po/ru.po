@@ -17,7 +17,7 @@ msgstr ""
 #: group-management/group-list/group-list.template.html:44
 #: question-set-management/question-set-list/question-set-list.template.html:41
 #: question-set-management/question-set-modify/question-set-modify.template.html:34
-#: testing/test-results/test-results.template.html:52
+#: testing/test-results/test-results.template.html:51
 msgid "#"
 msgstr "№"
 
@@ -158,7 +158,7 @@ msgstr "Закрыть"
 msgid "Correct answer is required."
 msgstr "Верный ответ обязателен."
 
-#: testing/test-results/test-results.template.html:85
+#: testing/test-results/test-results.template.html:84
 msgid "Correct answers:"
 msgstr "Верные ответы:"
 
@@ -253,11 +253,11 @@ msgid "Error"
 msgstr "Ошибка"
 
 #: testing/test-passing/test-passing.component.js:39
-#: testing/test-results/test-results.component.js:88
+#: testing/test-results/test-results.component.js:84
 msgid "Error while testing loading"
 msgstr "Произошла ошибка во время загрузки тестирования"
 
-#: testing/test-results/test-results.template.html:22
+#: testing/test-results/test-results.template.html:21
 msgid "Examination paper"
 msgstr "Экзаменационная ведомость"
 
@@ -321,10 +321,6 @@ msgstr "Группа №{{ $ctrl.groupsMap[t.idGroup].index + ',' }}"
 msgid "Group #{{testing.idGroup.index}},"
 msgstr "Группа №{{testing.idGroup.index}},"
 
-#: main-menu/main-menu.component.js:13
-msgid "Group list"
-msgstr "Список групп"
-
 #: group-management/group-list/group-list.template.html:47
 #: testing/testing-list/testing-list.template.html:158
 #: testing/testing-list/testing-list.template.html:38
@@ -358,6 +354,10 @@ msgstr "Группа успешно сохранена"
 #: group-management/group-list/group-list.component.js:46
 msgid "Group(s) successfully removed"
 msgstr "Группа(ы) успешно удалена(ы)"
+
+#: main-menu/main-menu.component.js:13
+msgid "Groups"
+msgstr "Группы"
 
 #: 404.html:4
 msgid "Home"
@@ -438,7 +438,7 @@ msgstr "Наименование"
 msgid "Name or surname is missing"
 msgstr "Имя или фамилия отсутствует"
 
-#: testing/test-results/test-results.template.html:44
+#: testing/test-results/test-results.template.html:43
 msgid "Name:"
 msgstr "Имя:"
 
@@ -506,7 +506,7 @@ msgstr "Практический тест"
 msgid "Print"
 msgstr "Печать"
 
-#: testing/test-passing/test-passing.template.html:112
+#: testing/test-passing/test-passing.template.html:110
 msgid "Proceed"
 msgstr "Продолжить"
 
@@ -520,10 +520,6 @@ msgstr "Прогресс:"
 #: testing/testing-list/testing-list.template.html:51
 msgid "Question set"
 msgstr "Набор вопросов"
-
-#: main-menu/main-menu.component.js:18
-msgid "Question set list"
-msgstr "Список наборов вопросов"
 
 #: question-set-management/question-set-list/question-set-list.template.html:44
 #: question-set-management/question-set-modify/question-set-modify.template.html:9
@@ -541,6 +537,10 @@ msgstr "Набор вопросов успешно сохранен"
 #: question-set-management/question-set-list/question-set-list.component.js:86
 msgid "Question set(s) successfully removed"
 msgstr "Набор(ы) вопросов успешно удален(ы)"
+
+#: main-menu/main-menu.component.js:18
+msgid "Question sets"
+msgstr "Вопросники"
 
 #: question-set-management/question-set-modify/question-modify.template.html:14
 #: question-set-management/question-set-modify/question-set-modify.template.html:40
@@ -582,7 +582,7 @@ msgid "Restore"
 msgstr "Восстановить"
 
 #: greet/greet.template.html:27
-#: testing/test-passing/test-passing.template.html:122
+#: testing/test-passing/test-passing.template.html:120
 #: testing/testing-list/testing-list.template.html:186
 msgid "Results"
 msgstr "Результаты"
@@ -626,7 +626,7 @@ msgstr "Запланированные тестирования:"
 msgid "Search a testee:"
 msgstr "Найти тестируемого:"
 
-#: testing/test-results/test-results.template.html:36
+#: testing/test-results/test-results.template.html:35
 msgid "Search by testee's name:"
 msgstr "Поиск по имени тестируемого:"
 
@@ -695,11 +695,11 @@ msgstr "Значения, соответствующие стенам должн
 msgid "Sum"
 msgstr "Сумма"
 
-#: testing/test-passing/test-passing.template.html:118
+#: testing/test-passing/test-passing.template.html:116
 msgid "Test passed!"
 msgstr "Тест завершен!"
 
-#: testing/test-results/test-results.template.html:94
+#: testing/test-results/test-results.template.html:93
 msgid "Test passing is in progress:"
 msgstr "Находится в процессе тестирования:"
 
@@ -715,13 +715,9 @@ msgstr "Количество тестируемых"
 msgid "Testees total:"
 msgstr "Количество тестируемых:"
 
-#: testing/test-results/test-results.template.html:27
+#: testing/test-results/test-results.template.html:26
 msgid "Testing date:"
 msgstr "Дата тестирования:"
-
-#: main-menu/main-menu.component.js:23
-msgid "Testing list"
-msgstr "Список тестирований"
 
 #: greet/greet.template.html:3
 msgid "Testing list:"
@@ -732,7 +728,7 @@ msgstr "Список тестирований:"
 msgid "Testing name:"
 msgstr "Наименование тестирования:"
 
-#: testing/test-results/test-results.component.js:83
+#: testing/test-results/test-results.component.js:79
 msgid "Testing not found"
 msgstr "Тестирование не найдено"
 
@@ -744,6 +740,10 @@ msgstr "Тестирование(я) успешно удалено(ы)"
 #: testing/testing-list/testing-list.component.js:253
 msgid "Testing(s) successfully saved"
 msgstr "Тестирование(я) успешно сохранено(ы)"
+
+#: main-menu/main-menu.component.js:23
+msgid "Testings"
+msgstr "Тестирования"
 
 #: utils/resource-upload.directive.js:62
 msgid "There is a question with empty answer's text:"
@@ -822,3 +822,9 @@ msgid ""
 msgstr ""
 "начал тестирование раньше. Вы уверены, что хотите продолжить? Пожалуйста, "
 "нажмите на имя снова или позовите экзаменатора."
+
+#~ msgid "Group list"
+#~ msgstr "Список групп"
+
+#~ msgid "Question set list"
+#~ msgstr "Список наборов вопросов"

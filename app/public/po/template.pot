@@ -8,7 +8,7 @@ msgstr ""
 #: group-management/group-list/group-list.template.html:44
 #: question-set-management/question-set-list/question-set-list.template.html:41
 #: question-set-management/question-set-modify/question-set-modify.template.html:34
-#: testing/test-results/test-results.template.html:52
+#: testing/test-results/test-results.template.html:51
 msgid "#"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgstr ""
 msgid "Correct answer is required."
 msgstr ""
 
-#: testing/test-results/test-results.template.html:85
+#: testing/test-results/test-results.template.html:84
 msgid "Correct answers:"
 msgstr ""
 
@@ -243,11 +243,11 @@ msgid "Error"
 msgstr ""
 
 #: testing/test-passing/test-passing.component.js:39
-#: testing/test-results/test-results.component.js:88
+#: testing/test-results/test-results.component.js:84
 msgid "Error while testing loading"
 msgstr ""
 
-#: testing/test-results/test-results.template.html:22
+#: testing/test-results/test-results.template.html:21
 msgid "Examination paper"
 msgstr ""
 
@@ -311,10 +311,6 @@ msgstr ""
 msgid "Group #{{testing.idGroup.index}},"
 msgstr ""
 
-#: main-menu/main-menu.component.js:13
-msgid "Group list"
-msgstr ""
-
 #: group-management/group-list/group-list.template.html:47
 #: testing/testing-list/testing-list.template.html:158
 #: testing/testing-list/testing-list.template.html:38
@@ -347,6 +343,10 @@ msgstr ""
 
 #: group-management/group-list/group-list.component.js:46
 msgid "Group(s) successfully removed"
+msgstr ""
+
+#: main-menu/main-menu.component.js:13
+msgid "Groups"
 msgstr ""
 
 #: 404.html:4
@@ -428,7 +428,7 @@ msgstr ""
 msgid "Name or surname is missing"
 msgstr ""
 
-#: testing/test-results/test-results.template.html:44
+#: testing/test-results/test-results.template.html:43
 msgid "Name:"
 msgstr ""
 
@@ -496,7 +496,7 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: testing/test-passing/test-passing.template.html:112
+#: testing/test-passing/test-passing.template.html:110
 msgid "Proceed"
 msgstr ""
 
@@ -509,10 +509,6 @@ msgstr ""
 #: testing/testing-list/testing-list.template.html:170
 #: testing/testing-list/testing-list.template.html:51
 msgid "Question set"
-msgstr ""
-
-#: main-menu/main-menu.component.js:18
-msgid "Question set list"
 msgstr ""
 
 #: question-set-management/question-set-list/question-set-list.template.html:44
@@ -530,6 +526,10 @@ msgstr ""
 
 #: question-set-management/question-set-list/question-set-list.component.js:86
 msgid "Question set(s) successfully removed"
+msgstr ""
+
+#: main-menu/main-menu.component.js:18
+msgid "Question sets"
 msgstr ""
 
 #: question-set-management/question-set-modify/question-modify.template.html:14
@@ -572,7 +572,7 @@ msgid "Restore"
 msgstr ""
 
 #: greet/greet.template.html:27
-#: testing/test-passing/test-passing.template.html:122
+#: testing/test-passing/test-passing.template.html:120
 #: testing/testing-list/testing-list.template.html:186
 msgid "Results"
 msgstr ""
@@ -616,7 +616,7 @@ msgstr ""
 msgid "Search a testee:"
 msgstr ""
 
-#: testing/test-results/test-results.template.html:36
+#: testing/test-results/test-results.template.html:35
 msgid "Search by testee's name:"
 msgstr ""
 
@@ -685,11 +685,11 @@ msgstr ""
 msgid "Sum"
 msgstr ""
 
-#: testing/test-passing/test-passing.template.html:118
+#: testing/test-passing/test-passing.template.html:116
 msgid "Test passed!"
 msgstr ""
 
-#: testing/test-results/test-results.template.html:94
+#: testing/test-results/test-results.template.html:93
 msgid "Test passing is in progress:"
 msgstr ""
 
@@ -705,12 +705,8 @@ msgstr ""
 msgid "Testees total:"
 msgstr ""
 
-#: testing/test-results/test-results.template.html:27
+#: testing/test-results/test-results.template.html:26
 msgid "Testing date:"
-msgstr ""
-
-#: main-menu/main-menu.component.js:23
-msgid "Testing list"
 msgstr ""
 
 #: greet/greet.template.html:3
@@ -722,7 +718,7 @@ msgstr ""
 msgid "Testing name:"
 msgstr ""
 
-#: testing/test-results/test-results.component.js:83
+#: testing/test-results/test-results.component.js:79
 msgid "Testing not found"
 msgstr ""
 
@@ -733,6 +729,10 @@ msgstr ""
 
 #: testing/testing-list/testing-list.component.js:253
 msgid "Testing(s) successfully saved"
+msgstr ""
+
+#: main-menu/main-menu.component.js:23
+msgid "Testings"
 msgstr ""
 
 #: utils/resource-upload.directive.js:62
