@@ -4,6 +4,7 @@ const execute = require('../lib/promise-executer'),
 	mongoose = require('mongoose'),
 	dbBackup = require('../lib/db-backup-create'),
 	log = require('../lib/log'),
+	config = require('./config'),
 
 	connectionOpen = function() {
 		return new Promise(function(resolve, reject) {
@@ -52,7 +53,7 @@ const execute = require('../lib/promise-executer'),
 	};
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/studentsTesting');
+mongoose.connect(config.get('mongoConnection'));
 
 execute(function* () {
 	try {
