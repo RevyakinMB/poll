@@ -1,9 +1,7 @@
 <div class="question-set-list">
     <div>
-        <button class="btn btn-default">
-            <a class="question-set-list__new"
-               ng-href="/question-sets/new" translate>Create new</a>
-        </button>
+        <a class="question-set-list__new btn btn-default"
+           ng-href="/question-sets/new" translate>Create new</a>
         <button class="btn btn-default"
                 ng-click="$ctrl.edit()"
                 ng-disabled="$ctrl.checkedCount() !== 1"
