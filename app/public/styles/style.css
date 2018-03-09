@@ -291,6 +291,15 @@ ul {
     cursor: pointer;
 }
 
+.group-list__number-thead {
+    cursor: pointer;
+    width: 50px;
+}
+
+.group-list__sort-order {
+    vertical-align: middle;
+}
+
 .group-list__search-input {
     width: 250px;
 }

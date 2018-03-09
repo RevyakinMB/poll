@@ -103,15 +103,24 @@ angular
 			};
 
 			this.sort = function(sortBy) {
-				if (sortBy !== 'name') {
+				if (sortBy !== 'name' && sortBy !== 'number') {
 					return;
 				}
+				this.sortState.column = sortBy;
 				this.sortState.order =
 					this.sortState.order === 'inc' ? 'dec' : 'inc';
 
 				this.groups.sort(function(a, b) {
-					var order = this.sortState.order === 'inc' ? 1 : -1;
-					return order * a.groupName.localeCompare(b.groupName);
+					var order = this.sortState.order === 'inc' ? 1 : -1,
+						field, a0, b0;
+					if (sortBy === 'name') {
+						field = 'groupName';
+					} else {
+						field = 'index';
+					}
+					a0 = (a[field] || '') + '';
+					b0 = (b[field] || '') + '';
+					return order * a0.localeCompare(b0);
 				}.bind(this));
 			};
 

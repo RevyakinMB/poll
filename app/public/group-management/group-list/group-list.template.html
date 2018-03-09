@@ -41,18 +41,29 @@
                         <input type="checkbox" ng-model="$ctrl.allChecked">&nbsp;
                     </div>
                 </td>
-                <td translate>#</td>
-                <td>
-                    <span class="group-list__name-thead">
-                        <span ng-click="$ctrl.sort('name')" translate>
-                            Group name
-                        </span>
-                        <span class="glyphicon"
-                              ng-class="{
+                <td class="group-list__number-thead" ng-click="$ctrl.sort('number')">
+                    <span translate>
+                        #
+                    </span>
+                    <span class="glyphicon group-list__sort-order"
+                          ng-if="$ctrl.sortState.column === 'number'"
+                          ng-class="{
                                 'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
                                 'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
-                              }"></span>
-                        </span>
+                              }">
+                    </span>
+                </td>
+                <td class="group-list__name-thead" ng-click="$ctrl.sort('name')">
+                    <span translate>
+                        Group name
+                    </span>
+                    <span class="glyphicon group-list__sort-order"
+                          ng-if="$ctrl.sortState.column === 'name'"
+                          ng-class="{
+                            'glyphicon-triangle-bottom': $ctrl.sortState.order === 'inc',
+                            'glyphicon-triangle-top': $ctrl.sortState.order === 'dec'
+                          }">
+                    </span>
                 </td>
                 <td translate>
                     Testees count
