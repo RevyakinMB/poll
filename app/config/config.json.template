@@ -3,5 +3,6 @@
   "cookieSecret": "SECReTT0KEN",
   "mongoConnection" : "mongodb://localhost/studentsTesting",
   "dumpDir": "dump",
-  "logFilename": "debug.log"
+  "logFilename": "debug.log",
+  "wsPort": 8081
 }

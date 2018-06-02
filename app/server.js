@@ -14,6 +14,7 @@ const express = require('express'),
 	HttpError = require('./error').HttpError,
 	log = require('./lib/log'),
 	config = require('./config'),
+	ws = require('./ws'),
 
 	DAY = 24 * 60 * 60 * 1000;
 
