@@ -14,17 +14,16 @@ const express = require('express'),
 	HttpError = require('./error').HttpError,
 	log = require('./lib/log'),
 	config = require('./config'),
-	ws = require('./ws'),
 
 	DAY = 24 * 60 * 60 * 1000;
 
-let server;
+let server, sessionParser, ws;
 require('./lib/http-log')(app);
 require('./db/db-connect');
 
 app.use(bodyParser.json());
 
-app.use(session({
+sessionParser = session({
 	secret: config.get('cookieSecret'),
 	key: 'sid',
 	cookie: {
@@ -35,7 +34,10 @@ app.use(session({
 	resave: true,
 	saveUninitialized: true,
 	store: new MongoStore({ mongooseConnection: mongoose.connection })
-}));
+});
+app.use(sessionParser);
+
+ws = require('./ws')(sessionParser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -86,6 +88,13 @@ server = app.listen(config.get('port'), function() {
 });
 
 process.on('SIGINT', function() {
+	const timer = setTimeout(function() {
+		log.debug('No response from server, exiting immediately');
+		process.exit();
+	}, 4000);
+	// TODO: locate a reason of server exit hangup
+	timer.unref();
+
 	log.debug('Kill signal received, shutting down...');
 	server.close(function() {
 		log.debug('Done');

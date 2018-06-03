@@ -67,13 +67,18 @@ angular.module('greet')
 				};
 
 				this.socket.onclose = function(event) {
-					if (event.isClean) {
-						console.log('Connection closed');
-					} else {
-						console.log('Connection broken');
+					console.log('Connection closed');
+					delete this.socket;
+					if (event.code === 1008 && event.reason === 'Unauthorized') {
+						$scope.$apply(function() {
+							messenger.show({
+								message: 'You are not authorized yet',
+								isError: true
+							});
+						});
 					}
 					console.log(event.code, event.reason);
-				};
+				}.bind(this);
 
 				this.socket.onmessage = function(event) {
 					console.log(event);
