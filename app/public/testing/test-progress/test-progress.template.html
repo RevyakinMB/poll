@@ -1,0 +1,46 @@
+<div>
+    <div>
+        <label translate> Testing name: </label>
+        <span> {{ $ctrl.testing.idQuestionSet.name }} </span>
+    </div>
+    <div>
+        <label translate> Testing date: </label>
+        <span> {{ $ctrl.testing.attempts[0].startedAt | date }} </span>
+    </div>
+    <div>
+        <label translate>
+            Testees number:
+        </label>
+        <span> {{ $ctrl.testing.idGroup.students.length }} </span>
+    </div>
+    <div>
+        <label translate> Questions count: </label>
+        <span> {{ $ctrl.testing.idQuestionSet.questions.length }} </span>
+    </div>
+    <div>
+        <label translate> Started: </label>
+        <span> {{ $ctrl.startedLabel() }} </span>
+    </div>
+    <div>
+        <label translate> Absent: </label>
+        <span> {{ $ctrl.absentLabel() }} </span>
+    </div>
+    <table class="table table-hover table-striped">
+        <thead>
+        <tr>
+            <td translate>Name</td>
+            <td translate>Progress</td>
+            <td translate>Question number</td>
+            <td translate>Current question elapsed time</td>
+            <td translate>Remove attempt</td>
+        </tr>
+        </thead>
+        <tr ng-repeat="a in $ctrl.testing.attempts ">
+            <td> {{ $ctrl.students[a.idStudent] }} </td>
+            <td> {{ $ctrl.progress(a) }} </td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+</div>
