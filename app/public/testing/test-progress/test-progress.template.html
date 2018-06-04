@@ -25,22 +25,26 @@
         <label translate> Absent: </label>
         <span> {{ $ctrl.absentLabel() }} </span>
     </div>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
         <thead>
         <tr>
             <td translate>Name</td>
             <td translate>Progress</td>
-            <td translate>Question number</td>
-            <td translate>Current question elapsed time</td>
+            <td translate>Current question #</td>
+            <td translate>Elapsed time</td>
             <td translate>Remove attempt</td>
         </tr>
         </thead>
         <tr ng-repeat="a in $ctrl.testing.attempts ">
             <td> {{ $ctrl.students[a.idStudent] }} </td>
             <td> {{ $ctrl.progress(a) }} </td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td> {{ $ctrl.currentQuestionNumber(a) }} </td>
+            <td> {{ $ctrl.secondsToTimeSpent(a) }} </td>
+            <td>
+                <button class="btn btn-default" translate>
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+            </td>
         </tr>
     </table>
 </div>

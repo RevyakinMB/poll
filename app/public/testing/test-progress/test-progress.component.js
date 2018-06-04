@@ -54,9 +54,24 @@ angular
 			};
 
 			this.progress = function(attempt) {
-				console.log(attempt.results, this.testing.idQuestionSet.questions.length);
-				return Math.floor(attempt.results.length /
-					this.testing.idQuestionSet.questions.length * 100) + '%';
+				return Math.floor((attempt.results.length /
+					this.testing.idQuestionSet.questions.length) * 100) + '%';
+			};
+
+			this.currentQuestionNumber = function(attempt) {
+				if (!this.testing.idQuestionSet || (attempt.results.length >=
+					this.testing.idQuestionSet.questions.length)
+				) {
+					return '\u2014';
+				}
+				return attempt.results.length;
+			};
+
+			this.secondsToTimeSpent = function() { // attempt
+				// TODO: start timer after webSocket message for the testee
+				// update attempt.currentQuestionTimeSpend counters each second
+				return '\u2014';
+				// return 10 + ' ' + gettextCatalog.getString('sec');
 			};
 
 		},
