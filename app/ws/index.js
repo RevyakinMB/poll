@@ -3,6 +3,7 @@ const wsServerCreate = function(sessionParser) {
 		config = require('../config'),
 		authCheck = require('../middleware/authCheck'),
 		wss = new WebSocket.Server({ port: config.get('wsPort') });
+	let clients = [];
 
 	wss.on('connection', function(ws, req) {
 		sessionParser(req, {}, function() {
@@ -10,19 +11,26 @@ const wsServerCreate = function(sessionParser) {
 				ws.close(1008, 'Unauthorized');
 				return;
 			}
+			clients.push(ws);
+
 			ws.on('message', function(msg) {
 				console.log('incoming message:', msg);
 			});
 
 			ws.on('close', function() {
-				console.log('DISCONNECTED');
+				console.log('WS client disconnected');
+				clients = clients.filter(ws => ws.readyState !== ws.CLOSED);
 			});
-
-			ws.send('Hello from WebSocket server');
 		});
 	});
 
-	return wss;
+	return {
+		webSocketServerInstance: function() {
+			return wss;
+		},
+
+
+	};
 };
 
 module.exports = wsServerCreate;

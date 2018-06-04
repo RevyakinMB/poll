@@ -96,7 +96,11 @@ process.on('SIGINT', function() {
 	timer.unref();
 
 	log.debug('Kill signal received, shutting down...');
-	server.close(function() {
+
+	Promise.all([
+		new Promise(resolve => ws.webSocketServerInstance().close(resolve)),
+		new Promise(resolve => server.close(resolve))
+	]).then(() => {
 		log.debug('Done');
 		process.exit();
 	});
