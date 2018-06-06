@@ -2,7 +2,9 @@ angular
 	.module('testProgress')
 	.component('testProgress', {
 		controller: function testProgressController(
-			Testing, messenger, gettextCatalog,
+			Testing, messenger, websocket,
+			gettextCatalog,
+			$location, $scope,
 			$routeParams
 		) {
 			this.students = {};
@@ -74,6 +76,31 @@ angular
 				// return 10 + ' ' + gettextCatalog.getString('sec');
 			};
 
+			this.onProgressMessage = function(message) {
+				$scope.$apply(function() {
+					messenger.show({
+						message: message,
+						title: 'Message from server'
+					});
+				});
+			};
+
+			this.onSocketOpen = function() {
+				console.log('opened');
+			};
+
+			this.onSocketClose = function(code, reason, delay) {
+				console.log('closed', code, reason, delay);
+			};
+
+			this.socket = websocket({
+				host: $location.host(),
+				port: 8081,
+				reconnect: true,
+				onMessage: this.onProgressMessage.bind(this),
+				onOpen: this.onSocketOpen,
+				onDisconnect: this.onSocketClose
+			});
 		},
 		templateUrl: 'testing/test-progress/test-progress.template.html'
 	});

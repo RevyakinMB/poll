@@ -1,7 +1,7 @@
-module.exports = function(app) {
+module.exports = function(app, ws) {
 	require('./login')(app);
 	require('./basic-api')(app);
-	require('./testings-api')(app);
+	require('./testings-api')(app, ws);
 	require('./directories-api')(app);
 	require('./db-backup-api')(app);
 	require('./import')(app);

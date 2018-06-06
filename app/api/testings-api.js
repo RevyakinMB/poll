@@ -7,7 +7,7 @@ const TestingsModel = require('../db/model/testings-schema'),
 	authCheck = require('../middleware/authCheck'),
 	log = require('../lib/log');
 
-module.exports = function(app) {
+module.exports = function(app, ws) {
 	const testPassingProcess = function(doc, query, next) {
 		let attempt, attempts;
 		if (!query.idStudent) {
@@ -77,7 +77,7 @@ module.exports = function(app) {
 		}
 		execute(function* () {
 			try {
-				let doc;
+				let doc, currentStudentAttempt;
 
 				if (req.params.id) {
 					let q = TestingsModel.findById(req.params.id);
@@ -106,6 +106,22 @@ module.exports = function(app) {
 					});
 
 				doc = yield doc.save();
+
+				try {
+					currentStudentAttempt = doc.attempts
+						.filter(a => a.idStudent.toString() === req.query.idStudent);
+					if (currentStudentAttempt.length) {
+						currentStudentAttempt = currentStudentAttempt[0];
+						ws.messageSend({
+							idStudent: req.query.idStudent,
+							nextQuestionNumber: currentStudentAttempt.results.length
+						});
+					}
+				} catch (err) {
+					// do not want to break test passing process even while code testing
+					log.error(err);
+				}
+
 				res.send(doc);
 			} catch (err) {
 				next(err);

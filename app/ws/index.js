@@ -3,7 +3,8 @@ const wsServerCreate = function(sessionParser) {
 		config = require('../config'),
 		authCheck = require('../middleware/authCheck'),
 		wss = new WebSocket.Server({ port: config.get('wsPort') });
-	let clients = [];
+	let clients = [],
+		messageSend;
 
 	wss.on('connection', function(ws, req) {
 		sessionParser(req, {}, function() {
@@ -24,12 +25,15 @@ const wsServerCreate = function(sessionParser) {
 		});
 	});
 
+	messageSend = function(msg) {
+		clients.forEach(c => c.send(JSON.stringify(msg)));
+	};
+
 	return {
 		webSocketServerInstance: function() {
 			return wss;
 		},
-
-
+		messageSend: messageSend
 	};
 };
 

@@ -41,7 +41,7 @@ ws = require('./ws')(sessionParser);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-require('./api')(app);
+require('./api')(app, ws);
 
 app.all('/*', function(req, res) {
 	res.sendFile('index.html', {
