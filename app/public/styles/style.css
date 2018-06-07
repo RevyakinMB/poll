@@ -718,3 +718,11 @@ ul {
 .dir__checkbox-cell {
     width: 40px;
 }
+
+.test-progress__row {
+    transition: background 0.5s;
+}
+
+.test-progress__row-update {
+    background-color: #f9f9f9;
+}

@@ -4,7 +4,7 @@ angular
 		controller: function testProgressController(
 			Testing, messenger, websocket,
 			gettextCatalog,
-			$location, $scope,
+			$location, $scope, $timeout, $interval,
 			$routeParams
 		) {
 			this.students = {};
@@ -66,23 +66,93 @@ angular
 				) {
 					return '\u2014';
 				}
-				return attempt.results.length;
+				return attempt.results.length + 1;
 			};
 
-			this.secondsToTimeSpent = function() { // attempt
-				// TODO: start timer after webSocket message for the testee
-				// update attempt.currentQuestionTimeSpend counters each second
-				return '\u2014';
-				// return 10 + ' ' + gettextCatalog.getString('sec');
+			this.secondsToTimeSpent = function(attempt) {
+				var sec, min;
+				if (attempt.timeSpent === undefined) {
+					return '\u2014';
+				}
+				sec = attempt.timeSpent % 60;
+				min = Math.floor(attempt.timeSpent / 60);
+				if (min > 59) {
+					return gettextCatalog.getString('more then hour');
+				}
+				if (sec < 10) {
+					sec = '0' + sec;
+				}
+				return min + ':' + sec;
+			};
+
+			this.timerStart = function() {
+				if (this.timeSpentTimer) {
+					return;
+				}
+				if (!this.testing.attempts) {
+					return;
+				}
+				this.timeSpentTimer = $interval(function() {
+					this.testing.attempts.forEach(function(a) {
+						if (a.timeSpent !== undefined) {
+							a.timeSpent += 1;
+						}
+					});
+				}.bind(this), 1000);
+			};
+
+			// update model with dummy data to force view update
+			this.testingProgressUpdate = function(msg) {
+				var attempt;
+				console.log(msg);
+				if (!msg.idStudent ||
+					msg.nextQuestionNumber === undefined ||
+					msg.nextQuestionNumber > 9999
+				) {
+					console.log('Broken message from server');
+					return;
+				}
+				attempt = this.testing.attempts.filter(function(a) {
+					return a.idStudent === msg.idStudent;
+				});
+				if (!attempt.length) {
+					this.testing.attempts.push({
+						idStudent: msg.idStudent,
+						results: [],
+						timeSpent: 0
+					});
+					return;
+				}
+				attempt = attempt[0];
+				while (attempt.results.length < msg.nextQuestionNumber) {
+					attempt.results.push({});
+				}
+				// time spent counter
+				attempt.timeSpent = 0;
+				this.timerStart();
+
+				// animation triggering
+				attempt.updated = true;
+				if (attempt.updateTimeout) {
+					$timeout.cancel(attempt.updateTimeout);
+				}
+				attempt.updateTimeout = $timeout(function() {
+					delete attempt.updated;
+				}, 500);
 			};
 
 			this.onProgressMessage = function(message) {
+				var msg;
+				try {
+					msg = JSON.parse(message);
+				} catch (err) {
+					console.log(err);
+					return;
+				}
+
 				$scope.$apply(function() {
-					messenger.show({
-						message: message,
-						title: 'Message from server'
-					});
-				});
+					this.testingProgressUpdate(msg);
+				}.bind(this));
 			};
 
 			this.onSocketOpen = function() {

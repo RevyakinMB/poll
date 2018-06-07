@@ -35,7 +35,11 @@
             <td translate>Remove attempt</td>
         </tr>
         </thead>
-        <tr ng-repeat="a in $ctrl.testing.attempts ">
+        <tr ng-repeat="a in $ctrl.testing.attempts"
+            class="test-progress__row"
+            ng-class="{
+                'test-progress__row-update': a.updated
+            }">
             <td> {{ $ctrl.students[a.idStudent] }} </td>
             <td> {{ $ctrl.progress(a) }} </td>
             <td> {{ $ctrl.currentQuestionNumber(a) }} </td>
