@@ -85,6 +85,12 @@ angular
 				return min + ':' + sec;
 			};
 
+			this.disconnectedLabel = function() {
+				return gettextCatalog.getString('No connection to server. Reconnect in') +
+					' ' + (this.reconnectIn || 0) +
+					' ' + gettextCatalog.getString('seconds...');
+			};
+
 			this.timerStart = function() {
 				if (this.timeSpentTimer) {
 					return;
@@ -157,10 +163,35 @@ angular
 
 			this.onSocketOpen = function() {
 				console.log('opened');
+				if (this.reconnectionDelayTimer) {
+					$interval.cancel(this.reconnectionDelayTimer);
+				}
+				delete this.disconnected;
 			};
 
 			this.onSocketClose = function(code, reason, delay) {
 				console.log('closed', code, reason, delay);
+				if (code === 1008 && reason === 'Unauthorized') {
+					$scope.$apply(function() {
+						messenger({
+							message: gettextCatalog.getString('You are unauthorized'),
+							isError: true
+						});
+					});
+					return;
+				}
+				if (!delay) {
+					return;
+				}
+				this.disconnected = true;
+				this.reconnectIn = delay;
+				if (this.reconnectionDelayTimer) {
+					$interval.cancel(this.reconnectionDelayTimer);
+				}
+				// TODO: more friendly message (delay) on immediate reconnection failure
+				this.reconnectionDelayTimer = $interval(function() {
+					this.reconnectIn -= 1;
+				}.bind(this), 1000);
 			};
 
 			this.socket = websocket({
@@ -168,9 +199,13 @@ angular
 				port: 8081,
 				reconnect: true,
 				onMessage: this.onProgressMessage.bind(this),
-				onOpen: this.onSocketOpen,
-				onDisconnect: this.onSocketClose
+				onOpen: this.onSocketOpen.bind(this),
+				onDisconnect: this.onSocketClose.bind(this)
 			});
+
+			this.reconnectNow = function() {
+				this.socket.forceConnect();
+			};
 		},
 		templateUrl: 'testing/test-progress/test-progress.template.html'
 	});

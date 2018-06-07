@@ -1,4 +1,13 @@
 <div>
+    <div ng-if="$ctrl.disconnected" class="test-progress__disconnected-row">
+        <span class="glyphicon glyphicon-pause"></span>
+        <span> {{ $ctrl.disconnectedLabel() }} </span>
+        <span class="test-progress__reconnect"
+              ng-click="$ctrl.reconnectNow()"
+              translate>
+            Reconnect now
+        </span>
+    </div>
     <div>
         <label translate> Testing name: </label>
         <span> {{ $ctrl.testing.idQuestionSet.name }} </span>
@@ -38,7 +47,7 @@
         <tr ng-repeat="a in $ctrl.testing.attempts"
             class="test-progress__row"
             ng-class="{
-                'test-progress__row-update': a.updated
+                'test-progress__row_update': a.updated
             }">
             <td> {{ $ctrl.students[a.idStudent] }} </td>
             <td> {{ $ctrl.progress(a) }} </td>

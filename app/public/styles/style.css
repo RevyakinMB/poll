@@ -723,6 +723,15 @@ ul {
     transition: background 0.5s;
 }
 
-.test-progress__row-update {
+.test-progress__row_update {
     background-color: #f9f9f9;
+}
+
+.test-progress__reconnect {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.test-progress__disconnected-row {
+    text-align: center;
 }

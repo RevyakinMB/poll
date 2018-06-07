@@ -39,23 +39,28 @@ angular
 				};
 				socket.onopen = function() {
 					clearTimeout(reconnectTimer);
-					reconnectDelay = 1;
+					reconnectDelay = 2;
 					if (config.onOpen) {
 						config.onOpen();
 					}
 				};
 				socket.onclose = function(event) {
 					var onDisconnect = config.onDisconnect || function noop() {};
-					onDisconnect(event.code, event.reason, reconnectDelay);
 					if (!config.reconnect) {
+						onDisconnect(event.code, event.reason);
 						return;
 					}
 					if (event.code === 1008 && event.reason === 'Unauthorized') {
+						onDisconnect(event.code, event.reason);
 						// no reconnect if user is unauthorized
 						return;
 					}
+					onDisconnect(event.code, event.reason, reconnectDelay);
 					reconnectTimer = setTimeout(socketCreate, reconnectDelay * 1000);
-					reconnectDelay += 2;
+					if (reconnectDelay < 60) {
+						// TODO: fibonacci
+						reconnectDelay += 2;
+					}
 				};
 			};
 			socketCreate();
