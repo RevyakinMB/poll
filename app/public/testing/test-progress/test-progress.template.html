@@ -54,7 +54,10 @@
             <td> {{ $ctrl.currentQuestionNumber(a) }} </td>
             <td> {{ $ctrl.secondsToTimeSpent(a) }} </td>
             <td>
-                <button class="btn btn-default" translate>
+                <button class="btn btn-default"
+                        ng-click="$ctrl.attemptRemove(a)"
+                        ng-disable="a.deleting"
+                        translate>
                     <span class="glyphicon glyphicon-remove"></span>
                 </button>
             </td>

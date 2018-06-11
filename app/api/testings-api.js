@@ -1,4 +1,5 @@
 const TestingsModel = require('../db/model/testings-schema'),
+	DeletedAttemptsModel = require('../db/model/deleted-testing-attempts-schema'),
 
 	crypto = require('crypto'),
 
@@ -72,7 +73,7 @@ module.exports = function(app, ws) {
 	// testing queries
 	app.post('/api/testings/:id?', function(req, res, next) {
 		if (req.query.action === 'delete') {
-			next('route');
+			next();
 			return;
 		}
 		execute(function* () {
@@ -107,19 +108,14 @@ module.exports = function(app, ws) {
 
 				doc = yield doc.save();
 
-				try {
-					currentStudentAttempt = doc.attempts
-						.filter(a => a.idStudent.toString() === req.query.idStudent);
-					if (currentStudentAttempt.length) {
-						currentStudentAttempt = currentStudentAttempt[0];
-						ws.messageSend({
-							idStudent: req.query.idStudent,
-							nextQuestionNumber: currentStudentAttempt.results.length
-						});
-					}
-				} catch (err) {
-					// do not want to break test passing process even while code testing
-					log.error(err);
+				currentStudentAttempt = doc.attempts
+					.filter(a => a.idStudent.toString() === req.query.idStudent);
+				if (currentStudentAttempt.length) {
+					currentStudentAttempt = currentStudentAttempt[0];
+					ws.messageSend({
+						idStudent: req.query.idStudent,
+						nextQuestionNumber: currentStudentAttempt.results.length
+					});
 				}
 
 				res.send(doc);
@@ -129,10 +125,61 @@ module.exports = function(app, ws) {
 		}());
 	});
 
+	// delete a whole testing
 	app.post('/api/testings/:id', function(req, res, next) {
-		TestingsModel.remove({
-			_id: req.params.id
-		}).exec()
+		if (req.query.idStudent) {
+			next();
+			return;
+		}
+		TestingsModel
+			.findById(req.params.id)
+			.exec()
+			.then((t) => {
+				if (t && t.attempts.length) {
+					throw new HttpError(400, 'Testing started already');
+				}
+				return TestingsModel.remove({ _id: req.params.id }).exec();
+			})
+			.then(() => res.send())
+			.catch(err => next(err));
+	});
+
+	// delete (replace to separate document) just a testing attempt
+	app.post('/api/testings/:id', function(req, res, next) {
+		let testing;
+		Promise.all([
+			TestingsModel.findById(req.params.id).exec(),
+			DeletedAttemptsModel.find({
+				idStudent: req.query.idStudent
+			}).exec()
+		]).then(([t, deletedAttempts]) => {
+			let doc, found = false;
+			if (!t) {
+				throw new HttpError(404, 'Testing not found');
+			}
+			testing = t;
+			doc = deletedAttempts.length ?
+				deletedAttempts[0] :
+				new DeletedAttemptsModel({
+					idTesting: req.params.id,
+					attempts: []
+				});
+			for (let i = 0; i < t.attempts.length; ++i) {
+				let a = t.attempts[i];
+				console.log(typeof a.idStudent, typeof req.query.idStudent);
+				if (a.idStudent.toString() === req.query.idStudent) {
+					doc.attempts.push(a);
+					t.attempts.splice(i, 1);
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				throw new HttpError(404, 'Attempt not found');
+			}
+			return doc.save();
+		})
+			.then(() => testing.save())
 			.then(() => res.send())
 			.catch(err => next(err));
 	});

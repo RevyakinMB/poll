@@ -8,6 +8,7 @@ angular
 			$routeParams
 		) {
 			this.students = {};
+			// TODO: test and fix module for a `Poll` type testing
 			this.testing = Testing.get({
 				testingId: $routeParams.testingId
 			}, function(testing) {
@@ -33,6 +34,28 @@ angular
 					});
 				}
 			});
+
+			this.attemptRemove = function(attempt) {
+				attempt.deleting = true;
+				this.testing.$delete({
+					testingId: this.testing._id,
+					idStudent: attempt.idStudent
+				}, function() {
+					this.testing.attempts = this.testing.attempts.filter(function(a) {
+						return a.idStudent !== attempt.idStudent;
+					});
+					messenger.show({
+						message: gettextCatalog.getString('Attempt successfully deleted')
+					});
+				}.bind(this), function(err) {
+					console.log(err);
+					delete attempt.deleting;
+					messenger.show({
+						message: gettextCatalog.getString('Error while testing attempt deleting'),
+						isError: true
+					});
+				});
+			};
 
 			// view helper funcs
 			this.startedLabel = function() {
