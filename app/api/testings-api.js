@@ -166,7 +166,6 @@ module.exports = function(app, ws) {
 				});
 			for (let i = 0; i < t.attempts.length; ++i) {
 				let a = t.attempts[i];
-				console.log(typeof a.idStudent, typeof req.query.idStudent);
 				if (a.idStudent.toString() === req.query.idStudent) {
 					doc.attempts.push(a);
 					t.attempts.splice(i, 1);

@@ -12,6 +12,9 @@ angular
 			this.testing = Testing.get({
 				testingId: $routeParams.testingId
 			}, function(testing) {
+				if (!testing.idGroup) {
+					return;
+				}
 				testing.idGroup.students.forEach(function(student) {
 					this.students[student._id] =
 						student.lastName + ' ' +
@@ -114,6 +117,10 @@ angular
 					' ' + gettextCatalog.getString('seconds...');
 			};
 
+			this.studentName = function(id, index) {
+				return this.students[id] || (index + 1);
+			};
+
 			this.timerStart = function() {
 				if (this.timeSpentTimer) {
 					return;
@@ -122,11 +129,17 @@ angular
 					return;
 				}
 				this.timeSpentTimer = $interval(function() {
+					var stopTimer = true;
 					this.testing.attempts.forEach(function(a) {
 						if (a.timeSpent !== undefined) {
+							stopTimer = false;
 							a.timeSpent += 1;
 						}
 					});
+					if (stopTimer) {
+						$interval.cancel(this.timeSpentTimer);
+						delete this.timeSpentTimer;
+					}
 				}.bind(this), 1000);
 			};
 
@@ -141,6 +154,7 @@ angular
 					console.log('Broken message from server');
 					return;
 				}
+				this.timerStart();
 				attempt = this.testing.attempts.filter(function(a) {
 					return a.idStudent === msg.idStudent;
 				});
@@ -157,8 +171,11 @@ angular
 					attempt.results.push({});
 				}
 				// time spent counter
-				attempt.timeSpent = 0;
-				this.timerStart();
+				if (attempt.results.length >= this.testing.idQuestionSet.questions.length) {
+					delete attempt.timeSpent;
+				} else {
+					attempt.timeSpent = 0;
+				}
 
 				// animation triggering
 				attempt.updated = true;

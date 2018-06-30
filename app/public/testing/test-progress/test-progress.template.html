@@ -20,19 +20,21 @@
         <label translate>
             Testees number:
         </label>
-        <span> {{ $ctrl.testing.idGroup.students.length }} </span>
+        <span> {{ $ctrl.testing.attempts.length }} </span>
     </div>
     <div>
         <label translate> Questions count: </label>
         <span> {{ $ctrl.testing.idQuestionSet.questions.length }} </span>
     </div>
-    <div>
-        <label translate> Started: </label>
-        <span> {{ $ctrl.startedLabel() }} </span>
-    </div>
-    <div>
-        <label translate> Absent: </label>
-        <span> {{ $ctrl.absentLabel() }} </span>
+    <div ng-if="$ctrl.testing.idGroup">
+        <div>
+            <label translate> Started: </label>
+            <span> {{ $ctrl.startedLabel() }} </span>
+        </div>
+        <div>
+            <label translate> Absent: </label>
+            <span> {{ $ctrl.absentLabel() }} </span>
+        </div>
     </div>
     <table class="table table-hover">
         <thead>
@@ -49,7 +51,9 @@
             ng-class="{
                 'test-progress__row_update': a.updated
             }">
-            <td> {{ $ctrl.students[a.idStudent] }} </td>
+            <td>
+                {{ $ctrl.studentName(a.idStudent, $index) }}
+            </td>
             <td> {{ $ctrl.progress(a) }} </td>
             <td> {{ $ctrl.currentQuestionNumber(a) }} </td>
             <td> {{ $ctrl.secondsToTimeSpent(a) }} </td>
