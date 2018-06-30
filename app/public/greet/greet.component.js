@@ -34,10 +34,6 @@ angular.module('greet')
 				});
 			};
 
-			this.isInProgress = function(t) {
-				return t.idGroup && t.attempts.length && !this.isPassed(t);
-			};
-
 			this.progress = function(t) {
 				return Math.floor(
 					(t.attempts.filter(function(a) {

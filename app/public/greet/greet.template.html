@@ -30,8 +30,7 @@
                    translate>
                     Results
                 </a>
-                <!--TODO: replace link outside 'isInProgress' condition-->
-                <span ng-if="$ctrl.isInProgress(testing)">
+                <span ng-if="!$ctrl.isPassed(testing)">
                     <a ng-href="/test-progress/{{testing._id}}"
                        class="home__testing-link"
                        translate>
